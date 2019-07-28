@@ -1,0 +1,341 @@
+@charset "gb2312";
+/* 用户中心css文件
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+.user_top {
+    max-width: 1920px;
+    min-width: 1240px;
+    background: url(../images/header-0.jpg) no-repeat center;
+    background-size: cover;
+}
+
+.user_top_content {
+    width: 1140px;
+    margin: auto;
+    height: 200px;
+}
+
+.user_top_left {
+    float: left;
+    position: relative;
+    width: 140px;
+}
+
+.user_top_left > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 20px;
+    float: left;
+    margin-left: 20px;
+}
+
+.honor {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    background-color: #f0ad4e;
+    border-radius: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFF
+}
+
+.user_top_btn {
+    width: 50px;
+    text-align: center;
+    height: 24px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 24px;
+    border-radius: 4px;
+    color: #fff;
+    margin-top: 10px;
+}
+
+.user_top_center {
+    float: left;
+    position: relative;
+    width: 600px;
+}
+
+.user_name {
+    float: left;
+    width: 240px;
+}
+
+.user_money {
+    float: right;
+    width: 240px;
+}
+
+.user_name > p {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.user_title {
+    font-weight: 700;
+    margin-top: 20px !important;
+    font-size: 16px !important
+}
+
+.jindu_bg {
+    height: 20px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    margin-top: 10px;
+    margin-left: 20px;
+    position: relative;
+}
+
+.jindu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    background: #096;
+    line-height: 20px;
+    text-align: center;
+    color: #FFF
+}
+
+.user_name a {
+    color: #62a8ea;
+}
+
+.list-inline {
+    width: 100%;
+    float: left;
+}
+
+.list-inline > li {
+    width: 120px;
+    float: left;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.badge {
+    font-weight: 700;
+    padding: 3px 7px;
+    line-height: 32px;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 16px
+}
+
+.list-inline > li p {
+    margin-top: 10px;
+}
+
+.user_top_right {
+    float: right;
+    position: relative;
+    width: 350px;
+}
+
+.user_top_right > ul {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.user_top_right > ul > li {
+    float: left;
+}
+
+.user_top_right p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.user_top_right a {
+    color: #62a8ea;
+}
+
+.crumbs {
+    height: 40px;
+    line-height: 40px;
+    color: #999;
+    width: 1140px;
+    margin: auto;
+    font-size: 1.4rem;
+}
+
+.user_bottom {
+    border-radius: 4px;
+    background-color: #fff;
+    width: 1140px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    height: 890px;
+    overflow: hidden;
+}
+
+.user_bottom_left {
+    width: 200px;
+    border-right: 1px solid #CCC;
+    float: left;
+    height: 890px;
+}
+
+.user_bottom_left > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.user_bottom_left p {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.user_bottom_left > ul {
+    width: 80%;
+    margin: 30px auto;
+}
+
+.user_bottom_left > ul > li {
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.user_bottom_left > ul > li > a {
+    color: #62a8ea;
+    display: block
+}
+
+.user_bottom_left > ul > li > a:hover {
+    border-radius: 4px;
+    background: #62a8ea;
+    color: #fff;
+}
+
+.active {
+    border-radius: 4px;
+    background: #62a8ea;
+    color: #FFF !important
+}
+
+.xian {
+    width: 100%;
+    height: 30px;
+}
+
+form {
+    width: 620px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.form_title {
+    width: 360px;
+    margin: 10px auto;
+    height: 50px;
+    border-bottom: 1px solid #FFF;
+    line-height: 50px;
+}
+
+.form_common {
+    width: 620px;
+    margin: 20px auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.form_common > label {
+    width: 100px;
+    float: left;
+    text-align: right;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+}
+
+.form_common > center > img {
+    margin-left: -380px;
+}
+
+.form_common > input[type='text'], .form_common > input[type='email'], .form_common > input[type='password'], .form_common > div > input[type='submit'], .form_common > select {
+    width: 260px;
+    float: left;
+    height: 32px;
+    outline: none;
+    line-height: 32px;
+    border-radius: 2px;
+    border: 1px solid #acacac;
+    background: #fcfcfc;
+    text-indent: 10px;
+    margin-left: 30px;
+}
+
+.form_common > input[type='text']:hover, .form_common > input[type='email']:hover, .form_common > input[type='password']:hover, .form_common > div > input:hover, .form_common > select:hover {
+    border-color: #66afe9;
+    background: #FCFCFC;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+}
+
+.form_common > div {
+    width: 260px;
+    float: right;
+    height: 32px;
+}
+
+.form_common > div > input[type='checkbox'] {
+    float: left;
+    margin-top: 2px;
+    margin-top: 11px;
+}
+
+.form_common > div > span {
+    float: left;
+    margin-top: 8px;
+    margin-left: 6px;
+}
+
+.form_common > div a {
+    color: #FFF
+}
+
+.form_common > div a:hover {
+    text-decoration: underline
+}
+
+.form_common > img {
+    height: 20px;
+    position: absolute;
+    top: 6px;
+    right: 0px;
+}
+
+.form_common > div > input[type='submit'] {
+    width: 150px;
+    background: #46b8da;
+    color: #FFF
+}
+
+.shop7z_user_info {
+    margin-left: 30px;
+    font-weight: bold;
+    margin-top: 6px;
+}

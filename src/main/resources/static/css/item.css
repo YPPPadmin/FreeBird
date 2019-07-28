@@ -1,0 +1,450 @@
+@charset "gb2312"; /* 商品详细介绍页css文件
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+body,html {
+    background: #FFF
+}
+
+.crumbs {
+    height: 40px;
+    line-height: 40px;
+    color: #999;
+    width: 1240px;
+    margin: auto;
+    font-size: 1.4rem
+}
+
+.selector {
+    border: 1px solid #efefef;
+    background: #FFF;
+    padding: 15px 0;
+    overflow: hidden;
+    width: 1240px;
+    margin: auto;
+    font-size: 1.4rem;
+    margin-bottom: 50px
+}
+
+.selector>ul {
+    width: 1200px;
+    margin: auto;
+    overflow: hidden
+}
+
+.selector>ul>li {
+    float: left;
+    width: 100px;
+    height: 50px;
+    line-height: 50px
+}
+
+.selector>ul>li>a:hover {
+    color: #0CF
+}
+
+.price {
+    font-size: 14px
+}
+
+.goods {
+    width: 1240px;
+    margin: auto;
+    overflow: hidden
+}
+
+.goods_pic {
+    width: 495px;
+    float: left;
+    position: relative;
+    cursor: pointer
+}
+
+.goods_pic>div {
+    width: 375px;
+    margin-left: 60px;
+    margin-top: 20px
+}
+
+.goods_pic>div>img {
+    width: 100%
+}
+
+.goods_pic>ul {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px
+}
+
+.goods_pic>ul>li {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    float: left;
+    margin-left: 10px;
+    border: 1px solid transparent
+}
+
+.goods_pic>ul>li>img {
+    width: 100%
+}
+
+.goods_pic_active {
+    border-color: #dcdcdc!important
+}
+
+.goods_info {
+    width: 745px;
+    float: left;
+    overflow: hidden
+}
+
+.goods_info>h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 400;
+    color: #000
+}
+
+.goods_info .mod-info {
+    font-size: 16px;
+    color: #999
+}
+
+.goods_price {
+    width: 100%;
+    height: 50px;
+    background: #f4f5f6;
+    margin-top: 20px;
+    color: #666
+}
+
+.goods_price>span {
+    line-height: 50px;
+    margin-left: 10px
+}
+
+.goods_price small {
+    color: #e02b41;
+    font-size: 24px
+}
+
+.goods_price .vm-money {
+    color: #e02b41;
+    font-size: 24px
+}
+
+.goods_price .vs-money {
+    color: #666686;
+    font-size: 20px
+}
+
+.goods_button,.goods_number,.goods_select {
+    font-size: 1.4rem;
+    width: 100%;
+    height: 50px;
+    margin-top: 2px;
+    color: #666
+}
+
+.goods_number>p,.goods_select>p {
+    line-height: 50px;
+    margin-left: 10px;
+    float: left
+}
+
+.goods_select_item {
+    overflow: hidden;
+    height: 50px;
+    float: left
+}
+
+.goods_select_item li {
+    height: 36px;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    margin-top: 6px;
+    margin-left: 10px;
+    text-align: center;
+    padding: 0 10px;
+    line-height: 36px;
+    border-radius: 4px;
+    float: left
+}
+
+.goods_select_active {
+    border-color: #00c3f5!important
+}
+
+.goods .xian {
+    width: 100%;
+    height: 1px;
+    background: #dcdcdc;
+    margin-top: 20px
+}
+
+.number {
+    width: 87px;
+    overflow: hidden
+}
+
+.number input {
+    width: 53px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+    border: 1px solid #dcdcdc;
+    outline: 0;
+    float: left
+}
+
+.number input[type=number]::-webkit-inner-spin-button,.number input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none!important;
+    margin: 0
+}
+
+.guigecss {
+    height: 36px;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    margin-top: 6px;
+    outline: 0;
+    margin-left: 10px;
+    text-align: center;
+    padding: 0 10px;
+    line-height: 36px;
+    border-radius: 4px;
+    float: left;
+    cursor: pointer
+}
+
+.col{
+    background-color: red;
+}
+
+.number input[type=number] {
+    -moz-appearance: textfield
+}
+
+.number a {
+    width: 20px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    color: #666;
+    display: block;
+    margin-left: 4px
+}
+
+.number div {
+    float: left
+}
+
+.number .vm-minus {
+    margin-top: 4px
+}
+
+.goods_button>input[name=Submit0]:hover {
+    opacity: .8
+}
+
+.goods_button>input[name=Submit1]:hover {
+    opacity: .8
+}
+
+.goods_button a:nth-child(1) {
+    margin-left: 0
+}
+
+.goods_button>span a {
+    color: #898989;
+    font-size: 14px;
+    padding-left: 15px
+}
+
+.fixed_container {
+    width: 100%;
+    height: 60px;
+    background: rgba(255,255,255,.9)
+}
+
+.fixed_container_nomal {
+    position: relative
+}
+
+.fixed_container_active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    border-bottom: 1px solid #dcdcdc
+}
+
+.fixed_container>ul {
+    font-weight: 400;
+    text-align: center;
+    width: 1240px;
+    height: 60px;
+    position: relative;
+    margin: auto;
+    border-bottom: 1px solid #dcdcdc
+}
+
+.fixed_container>ul>li {
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    line-height: 60px;
+    font-size: 16px;
+    transition: color .3s;
+    width: 140px;
+    float: left
+}
+
+.current {
+    color: #00c3f5!important;
+    border-bottom: 2px solid #00c3f5!important
+}
+
+.art {
+    width: 1240px;
+    margin: 20px auto;
+    position: relative
+}
+
+.art>div {
+    width: 100%;
+    display: none
+}
+
+.art_active {
+    display: block!important
+}
+
+.art img {
+    max-width: 1240px
+}
+
+.probox {
+    position: relative
+}
+
+.showbox {
+    display: none;
+    position: absolute;
+    left: 430px;
+    top: 20px;
+    width: 375px!important;
+    height: 375px!important;
+    overflow: hidden;
+    background: #FFF;
+    border: 1px solid #aaa
+}
+
+.showbox img {
+    position: absolute;
+    height: 1000px!important;
+    width: 1000px!important
+}
+
+.hoverbox {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #09f;
+    border: 1px solid #09f;
+    height: 100px;
+    width: 100px;
+    cursor: move;
+    z-index: 10
+}
+
+/*.carsubmit {*/
+    /*outline: 0*/
+/*}*/
+
+.Shop7z_comment {
+    border: 1px solid #e7e7e7;
+    background: #fafafa;
+    width: 1240px;
+    height: 550px;
+    margin: 20px auto;
+    position: relative
+}
+
+.Shop7z_comment .title {
+    margin: 20px;
+    font-size: 1.6rem;
+    color: #000;
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 5px
+}
+
+.Shop7z_comment .title_desc {
+    margin-left: 20px;
+    font-size: 1.6rem;
+    color: red;
+    font-weight: 700;
+    padding-bottom: 10px
+}
+
+.Shop7z_comment textarea {
+    width: 500px;
+    height: 100px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #acacac
+}
+
+.Shop7z_comment input {
+    border: 1px solid #acacac;
+    width: 500px;
+    height: 35px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding-left: 10px
+}
+
+.Shop7z_comment input[type=submit] {
+    width: 80px;
+    height: 35px;
+    margin-left: 20px;
+    margin-bottom: 10px
+}
+
+.Shop7z_comment input:hover,.Shop7z_comment textarea:hover {
+    border-color: #66afe9;
+    background: #FCFCFC;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
+
+.Shop7z_comment_desc {
+    border: 1px solid #e7e7e7;
+    background: #fafafa;
+    width: 1240px;
+    height: auto;
+    margin: 20px auto
+}
+
+.Shop7z_comment_desc .title {
+    margin: 20px;
+    font-size: 1.6rem;
+    color: #000;
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 5px
+}
+
+.Shop7z_comment_desc .title span {
+    color: #00C3F5;
+    font-weight: 700
+}

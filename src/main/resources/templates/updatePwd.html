@@ -1,0 +1,343 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>修改密码</title>
+    <link href="css/userinfo.css" rel="stylesheet" type="text/css"/>
+    <link href="css/orderlist.css" rel="stylesheet" type="text/css"/>
+    <link href="css/page.css" rel="stylesheet" type="text/css"/>
+    <link href="css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer.js"></script>
+</head>
+<body>
+<div class="nav">
+    <input type="hidden" th:value="${userinfoLogins}" id="userinfo"/>
+    <!--<a href="index.html"></a>-->
+    <div class="nav_content">
+        <div class="user">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <div class="car">
+                    <a th:href="@{/login}"><img src="../images/car.png"></a>
+                    <span>0</span>
+                </div>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <div class="car">
+                    <a th:href="@{'/findShopList?userId='+${session.userinfoLogins.id}}"><img
+                            src="../images/car.png"></a>
+                    <span th:text="${session.num}"></span>
+                </div>
+            </th:if>
+
+            <div class="userlogo">
+                <img src="../images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a class="order" href="javaScripi:void(0)">我的订单</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a href="userinfo.html">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a href="userinfo.html">我的资料</a>
+                            <a th:href="@{/order}" href="order.html">我的订单</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a href="cart.html">我的购物车</a>
+                            <a href="#">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="name" style="position: relative;top: -22px;left: -15px;">
+                    <input type="image" src="../images/search.png"
+                           style="width:20px;height:20px;position: relative;top: -22px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="../images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购信息广场</a>
+            </li>
+            <li><a th:href="@{/goToUserCenter}">用户中心</a>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--==========================================================================================-->
+
+<div class="crumbs">
+    <a href="index.html">网站首页</a> &nbsp;&gt;&nbsp;
+    <span class="crumbs-level" id="crumbsLevel"><a href="userinfo.html">用户信息</a></span>
+</div>
+<div class="user_bottom" style="height:555px;">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer.js"></script>
+    <div class="user_bottom_left">
+        <img th:src="@{/images/qq/{Avatar}(Avatar=${user.Avatar})}">
+        <p th:text="${user.UserName}"></p>
+        <ul>
+            <li><a th:href="@{/goToUserCenter}">个人资料</a></li>
+            <li><a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">购物车</a></li>
+            <li><a th:href="@{/order}">我的订单</a></li>
+            <li><a th:href="@{/findWantGoodsUser}">我的求购商品</a></li>
+            <li><a th:href="@{/pubGoods}">发布商品</a></li>
+            <li><a th:href="@{/goToUpdatePwd}" class="active">修改密码</a></li>
+            <li><a th:href="@{/login2}">退出登录</a></li>
+        </ul>
+        <div class="xian"></div>
+    </div>
+    <form id=theForm name="theForm" th:action="@{/updatePwd1}"
+          method="post">
+        <div class="form_common">
+            <label>用户名</label>
+            <input type="text" name="username" th:value="${session.user.UserName}" readonly placeholder="用户名">
+        </div>
+        <div class="form_common">
+            <label>旧密码</label>
+            <input type="hidden" th:value="${pwd}" id="pwd">
+            <input type="password" name="oldpassword" placeholder="旧密码">
+            <span id="pwd1" style="color: red;font-size: 15px"></span>
+        </div>
+        <div class="form_common">
+            <label>新密码</label>
+            <input type="password" name="newpassword" placeholder="输入新密码">
+            <span id="pwd2" style="color: red;font-size: 15px"></span>
+        </div>
+        <div class="form_common">
+            <label>确认新密码</label>
+            <input type="password" name="newpassword2" placeholder="确认新密码">
+            <span id="pwd3" style="color: red;font-size: 15px"></span>
+        </div>
+        　 <input type="hidden" value="1" name="num"/>
+
+        <div class="form_common" style="margin-top:-20px;">
+            <div>
+                <input type="submit" style="margin-left:-210px;cursor:pointer;" value="修改密码">
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("input[type='submit']").click(function () {
+                var oldPwd = $("input[name='oldpassword']").val();
+                var newPwd = $("input[name='newpassword']").val();
+                var newPwd2 = $("input[name='newpassword2']").val();
+                if (oldPwd == null || oldPwd == "") {
+                    $("#pwd1").text("请输入您的原密码！");
+                    return false;
+                } else if (newPwd == null || newPwd == "") {
+                    $("#pwd2").text("请输入您的新密码！");
+                    return false;
+                } else if (newPwd2 == null || newPwd2 == "") {
+                    $("#pwd3").text("请输入您的确认密码！");
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            $("input[type='submit']").click(function () {
+                var oldPwd = $("input[name='oldpassword']").val();
+                var oldPwd2 = $("#pwd").val();
+                if (oldPwd == "" || oldPwd == null) {
+                    $("#pwd1").text("请输入您的原密码!");
+                    return false;
+                } else if (oldPwd != oldPwd2) {
+                    $("input[name='oldpassword']").val("");
+                    $("#pwd1").text("您的原密码输入错误!");
+                    return false;
+                } else {
+                    $("#pwd1").text("");
+                    return true;
+                }
+            });
+
+            $("input[type='submit']").click(function () {
+                var reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+                var oldPwd = $("input[name='newpassword']").val();
+                if (oldPwd == "" || oldPwd == null) {
+                    $("#pwd2").text("请输入您的新密码！");
+                    return false;
+                } else if (oldPwd.length < 6) {
+                    $("#pwd2").text("密码长度不能小于6位！");
+                    return false;
+                } else if (!reg.test(oldPwd)) {
+                    $("#pwd2").text("新密码安全性太低,需要包含字母!");
+                    return false;
+                } else {
+                    $("#pwd2").text("");
+                    return true;
+                }
+            });
+
+            $("input[type='submit']").click(function () {
+                var oldPwd = $("input[name='newpassword']").val();
+                var oldPwd2 = $("input[name='newpassword2']").val();
+                if (oldPwd == "" || oldPwd == null) {
+                    $("#pwd3").text("请输入您的确认密码！");
+                    return false;
+                } else if (oldPwd != oldPwd2) {
+                    $("input[name='newpassword2']").val("")
+                    $("#pwd3").text("您的新密码和确认密码不一致！");
+                    return false;
+                } else {
+                    $("#pwd3").text("");
+                    return true;
+                }
+            });
+
+        })
+        ;
+    </script>
+</div>
+<div class="xian">
+</div>
+<!--=======================================================================-->
+<div class="footer">
+    <div class="footer_content">
+        <ul class="footer_item">
+            <li>联系方式：</li>
+            <li class="tit">15979675043</li>
+            <li class="tit">1730548276@qq.com</li>
+        </ul>
+
+        <ul class="footer_item">
+            <li>购物指南</li>
+
+            <li><a href="#">选择配送方式</a></li>
+
+            <li><a href="#">付款收货</a></li>
+
+            <li><a href="#">挑选商品</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>送货说明</li>
+
+            <li><a href="#">购物流程</a></li>
+
+            <li><a href="#">订购方式</a></li>
+
+            <li><a href="#">注意事项</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>支付方式</li>
+
+            <li><a href="javascript:void(0)">货到付款区域</a></li>
+
+            <li><a href="javascript:void(0)">支付方式说明</a></li>
+
+            <li><a href="javascript:void(0)">货到付款</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>服务政策</li>
+
+            <li><a href="javascript:void(0)">售后服务</a></li>
+
+            <li><a href="javascript:void(0)">退换货原则</a></li>
+
+            <li><a href="javascript:void(0)">其他服务协议</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>关于我们</li>
+
+            <li><a href="javascript:void(0)">关于我们</a></li>
+
+            <li><a href="javascript:void(0)">如何联系我们</a></li>
+
+            <li><a href="javascript:void(0)">合作加盟</a></li>
+        </ul>
+    </div>
+</div>
+<div class="Shop7z_kefu">
+    <div id="service">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="weixin_area">
+                    <img src="images/l02.png" width="47" height="49" class="shows"/>
+                    <img src="images/a.png" width="57" height="49" class="hides"/>
+                    <img src="images/qd.png" width="145" class="weixin"
+                         style="display:none;margin:-100px 57px 0 0"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" target="_blank">
+                    <div class="hides" style="width:161px;display:none;" id="qq">
+                        <div class="hides" id="p1">
+                            <img src="images/ll04.png"/>
+                        </div>
+                        <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">1599428958</span>
+                        </div>
+                    </div>
+                    <img src="images/l04.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <div class="hides" style="width:161px;display:none;">
+                        <div class="hides" id="p1">
+                            <img src="images/ll05.png"/>
+                        </div>
+                        <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">12345678991</span>
+                        </div>
+                    </div>
+                    <img src="images/l05.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a id="top_btn">
+                    <div class="hides" style="width:161px;display:none">
+                        <img src="images/ll06.png" width="161" height="49"/>
+                    </div>
+                    <img src="images/l06.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script language="javascript">
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+    //    window.location.hash="no-back";
+    //    window.location.hash="Again-No-back-button";
+    //    window.onhashchange=function(){window.location.hash="no-back";}
+</script>
+</body>
+</html>
+
+
+

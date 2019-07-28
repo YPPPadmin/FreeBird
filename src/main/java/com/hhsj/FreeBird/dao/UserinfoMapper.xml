@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.UserinfoMapper">
+
+    <!--登录功能-->
+    <select id="findUserinfoLogin" parameterType="com.hhsj.FreeBird.pojo.UserinfoCutom"
+            resultType="com.hhsj.FreeBird.pojo.UserinfoCutom">
+        SELECT * FROM userinfo u,userpwd p WHERE u.`Id`=p.`uId` AND  u.qq=#{qq} AND p.`Password` =#{password}
+    </select>
+    <!--用户注册功能-->
+    <insert id="insertUserInfoAdd" parameterType="com.hhsj.FreeBird.pojo.Userinfo">
+        INSERT INTO userinfo (`Modify`,UserName,Phone,RealName,Class1,Sno,Dormitory,Gender,CreatTime,Avatar,QQ,`status`,`dateTime`)
+        VALUES(#{modify},#{userName},#{phone},#{realName},#{class1},#{sno},#{dormitory},#{gender},#{creatTime},#{avatar},#{qq},#{status},#{dateTime})
+    </insert>
+    <!--用户注册密码功能（因为用户表和密码是分成两张表需要在写一个功能注册密码）-->
+    <insert id="insertUserInfoPwd" parameterType="com.hhsj.FreeBird.pojo.Userpwd">
+      INSERT INTO userpwd(`Modify`,`Password`,uid)VALUES(#{modify},#{password},#{uid})
+    </insert>
+    <!--用于查询用户注册完的uid-->
+    <select id="findUserinfoUid" parameterType="string" resultType="com.hhsj.FreeBird.pojo.Userinfo">
+        SELECT * FROM userinfo WHERE qq=#{qq}
+    </select>
+    <select id="findUserInfoPhone" resultType="int" parameterType="com.hhsj.FreeBird.pojo.Userinfo">
+        SELECT COUNT(0) FROM userinfo WHERE phone= #{phone}
+    </select>
+    <!--判断用户输入的QQ邮箱是否注册过-->
+    <select id="findUserInfoqq" parameterType="string" resultType="int">
+        SELECT COUNT(0) FROM userinfo WHERE qq=#{qq}
+    </select>
+    <!--以下是显示用户主页信息-->
+    <select id="findUserInfoId" resultType="com.hhsj.FreeBird.pojo.Userinfo" parameterType="int">
+	 SELECT * FROM userinfo WHERE id = #{id}
+    </select>
+
+    <select id="findGoodsInfoId" resultType="com.hhsj.FreeBird.pojo.GoodsInfoCustom"
+            parameterType="com.hhsj.FreeBird.pojo.GoodsInfoCustom">
+        SELECT i.*,t.name AS typeName FROM goodsinfo i,goodstype t WHERE i.Type = t.id AND i.uid=#{uid} AND i.Display =0
+        <if test="csjg == 30 or csjg == 60 or csjg == 90 or csjg == 120 or csjg == 200 or csjg == 300 or csjg == 500 or csjg == 1000 or csjg == 2000">
+            AND tradingValue >= #{tradingValue} AND tradingValue &lt;= #{csjg} ORDER BY tradingValue ASC
+        </if>
+        <if test="tradingValue == 1">
+            ORDER BY `tradingValue` ASC
+        </if>
+        <if test="tradingValue == 2">
+            ORDER BY `tradingValue` DESC
+        </if>
+        <if test="tradingValue == 3">
+            ORDER BY `modify` DESC
+        </if>
+    </select>
+    <!--查询商品评论的条数-->
+    <select id="findGoodsMessageGid" resultType="int" parameterType="int">
+        SELECT COUNT(0) FROM goodsmessage WHERE gid=#{gid}
+    </select>
+    <!--判断用户是否被禁用-->
+    <select id="findUserInfoDateTime" parameterType="com.hhsj.FreeBird.pojo.UserinfoCutom"
+            resultType="com.hhsj.FreeBird.pojo.UserinfoCutom">
+      SELECT * FROM userinfo WHERE  id=#{id}  AND dateTime >= #{dateTime2}
+    </select>
+    <!--更新头像-->
+    <update id="updateTou" parameterType="com.hhsj.FreeBird.pojo.Userinfo">
+        UPDATE userinfo SET userinfo.Avatar=#{avatar} where userinfo.Id=#{id}
+    </update>
+</mapper>

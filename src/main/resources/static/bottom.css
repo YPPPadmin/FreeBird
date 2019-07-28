@@ -1,0 +1,221 @@
+@charset "gb2312"; /* 网站底部通用css文件
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+.footer {
+    max-width: 1920px;
+    min-width: 1240px;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 50px
+}
+
+.footer_content {
+    width: 1240px;
+    margin: auto;
+    overflow: hidden
+}
+
+.footer_item {
+    width: 200px;
+    float: left;
+    margin-top: 30px;
+    margin-bottom: 20px
+}
+
+.footer_item>li {
+    text-align: center;
+    width: 200px;
+    height: 28px;
+    text-align: left
+}
+
+.footer_item>li:nth-child(1) {
+    font-size: 16px
+}
+
+.footer_item>li a {
+    line-height: 27px;
+    font-size: 13px;
+    color: #666
+}
+
+.footer_item>li>a:hover {
+    color: #000
+}
+
+.footer_item .tit {
+    font-size: 16px
+}
+
+.copyright {
+    width: 1240px;
+    margin: auto;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 30px
+}
+
+li,ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: 0 0
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+ul {
+    list-style: none
+}
+
+img {
+    border: 0;
+    cursor: pointer
+}
+
+.Shop7z_kefu {
+    margin: 30px auto 0 auto
+}
+
+#service {
+    height: 290px;
+    position: fixed;
+    top: 250px;
+    right: 0;
+    z-index: 100
+}
+
+#service li {
+    height: 60px
+}
+
+#service li img {
+    float: right
+}
+
+#service li a {
+    height: 49px;
+    float: right;
+    display: block;
+    min-width: 47px;
+    max-width: 161px
+}
+
+#service li a .shows {
+    display: block
+}
+
+#service li a .hides {
+    margin-right: -143px;
+    cursor: pointer;
+    cursor: hand
+}
+
+#service li a.weixin_area .hides {
+    display: none;
+    position: absolute;
+    right: 143px
+}
+
+#service li a.weixin_area .weixin {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 48px
+}
+
+#p2 {
+    width: 112px;
+    background-color: #A7D2A9;
+    height: 47px;
+    margin-left: 47px;
+    border: 1px solid #8BC48D;
+    text-align: center;
+    line-height: 47px
+}
+
+#p3 {
+    width: 112px;
+    background-color: #EC9890;
+    height: 47px;
+    margin-left: 47px;
+    border: 1px solid #E6776C;
+    text-align: center;
+    line-height: 47px
+}
+
+#p1 {
+    width: 47px;
+    height: 49px;
+    float: left
+}
+
+a:hover {
+    text-decoration: none
+}
+
+.ft-copyright {
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid #eeeff2;
+    margin-bottom: 15px;
+    overflow: hidden;
+    font-size: 14px
+}
+
+.ft-copyright a {
+    color: #525558
+}
+
+.ft-safety {
+    overflow: hidden;
+    width: 548px;
+    margin: 24px auto
+}
+
+.footer-info {
+    text-align: center;
+    line-height: 22px
+}
+
+.footer-info p {
+    line-height: 200%
+}
+
+.ft-safety li {
+    display: block;
+    float: left;
+    height: 44px;
+    width: 125px;
+    margin: 0 6px
+}
+
+.ft-safety li a {
+    display: block;
+    width: 125px;
+    height: 44px
+}
+
+.ft-safety .safety-1 a {
+    background: url(images/footer_03.png) no-repeat right center
+}
+
+.ft-safety .safety-2 a {
+    background: url(images/footer_05.png) no-repeat right center
+}
+
+.ft-safety .safety-3 a {
+    background: url(images/footer_07.png) no-repeat right center
+}
+
+.ft-safety .safety-4 a {
+    background: url(images/footer_09.png) no-repeat right center
+}

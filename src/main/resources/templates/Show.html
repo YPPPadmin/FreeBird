@@ -1,0 +1,769 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title th:text="${goodInfo.name}+'商品详情'">标题</title>
+    <link href="../css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/item.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../js/layer.js" type="text/javascript"></script>
+</head>
+<body>
+<!--导航开始-->
+<div class="nav">
+    <input type="hidden" th:value="${userinfoLogins}" id="userinfo"/>
+    <!--<a href="index.html"></a>-->
+    <div class="nav_content">
+        <div class="user">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <div class="car">
+                    <a th:href="@{/login}"><img src="../images/car.png"></a>
+                    <span>0</span>
+                </div>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <div class="car">
+                    <a th:href="@{'/findShopList?userId='+${session.userinfoLogins.id}}">
+                        <img
+                                src="../images/car.png"></a>
+                    <span th:text="${session.num}"></span>
+                </div>
+            </th:if>
+
+            <div class="userlogo">
+                <img src="../images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a class="order" href="javaScripi:void(0)">我的订单</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a href="userinfo.html">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a href="userinfo.html">我的资料</a>
+                            <a th:href="@{/order}" href="order.html">我的订单</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a th:href="@{/Publishgoods}" href="Publishgoods.html">我发布的商品</a>
+                            <a href="cart.html">我的购物车</a>
+                            <a href="#">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="name">
+                    <input type="image" src="../images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="../images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购信息广场</a>
+            </li>
+            <li>
+                <a th:href="@{/pubGoods}">发布商品</a>
+            </li>
+            <li><a th:href="@{/goToUserCenter}">用户中心</a>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<br>
+<!--商品内容开始-->
+<div class="goods">
+    <div class="goods_pic">
+        <div class="probox">
+            <img th:src="${goodInfo.image}">
+            <div class="hoverbox"></div>
+        </div>
+        <div class="showbox">
+            <img th:src="${goodInfo.image}" alt="">
+        </div>
+        <ul>
+            <li><img th:src="${goodInfo.image}"></li>
+            <li th:if="${goodInfo.image1!=null}">
+                <img th:src=" ${goodInfo.image1}">
+            </li>
+            <li th:if="${goodInfo.image2!=null}">
+                <img th:src="${goodInfo.image2}">
+            </li>
+            <li th:if="${goodInfo.image3!=null}">
+                <img th:src="${goodInfo.image3}">
+            </li>
+        </ul>
+    </div>
+    <div class="goods_info">
+        <h1 th:text="${goodInfo.name}">千幻魔镜6代耳机版VR 智能3D眼镜</h1>
+        <p class="mod-info " th:text="${goodInfo.remark}">可调节耳机 可拆吸附式面板 支持近视用户观看</p>
+        <div class="goods_price">
+                <span class="price">出售价格：<small>￥</small> <span id="g_price2" class="vm-money"
+                                                                th:text="${goodInfo.tradingValue}">160.00</span></span>
+            <span class="price">真实价格：</span><span class="vs-money" th:text="${goodInfo.truePrice}"><s>￥170</s></span>
+        </div>
+        <div class="goods_select">
+            <p>商品分类： <a href="#" th:text="${goodInfo.typeName}">游戏设备</a>
+            <p>成 色：<span th:text="${goodInfo.level}"> 5</span>成新</p></p>
+
+        </div>
+        <div class="goods_select">
+            <p>发布时间：<span th:text="${#dates.format(goodInfo.modify,'yyyy-MM-dd')}"> 2018/8/2</span>
+            <p>浏览次数:<span th:text="${goodInfo.view}">53</span>次</p></p>
+        </div>
+        <div class="goods_select">
+            <p>商品数量：<span th:text="${goodInfo.count}">53</span></p></p>
+        </div>
+        <form name="formshow" id="formshow" action="order.asp" method="post" onSubmit="return Juge()">
+            <INPUT type="hidden" name="pkid" value="4939">
+            <INPUT type="hidden" name="gid" value=""><INPUT type="hidden" name="gidget" value="">
+            <INPUT type="hidden" name="lkgm" id="lkgm" value="">
+
+            <div class="goods_select">
+                <p>卖家信息:</p>
+                <!--<p th:src="${goodInfo.avatar}" style="width: 40px;height:40px;"></p>-->
+                <p title="点击用户头像查看商家详细信息"><a th:href="@{/UserIndex(id=${goodInfo.uid})}" class="userIndex"
+                                             target="_blank"><img
+                        th:src="@{/images/qq/{Avatar}(Avatar=${goodInfo.avatar})}"
+                        style="width: 40px;height:40px;"/></a>
+                </p>
+                <br>
+                &nbsp;&nbsp;&nbsp;<a style="" th:href="@{/UserIndex(id=${goodInfo.uid})}"
+                                     target="_blank"
+                                     th:text="''+${goodInfo.userName}">名字</a>
+                <input th:value="${goodInfo.uid}" id="id" type="hidden"/><br>
+            </div>
+            <br>
+            <div class="xian"></div>
+            <div class="goods_button">
+                <!--立即购买-->
+                <th:if th:if="${goodInfo.uid !=session.userinfoLogins.id}">
+                    <input type="image" name="Submit0" value="Submit" src="../images/0lkgm.png"
+                           style="vertical-align:middle;"
+                           class="carsubmit" onClick="showAdd()">&nbsp;
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <input type="hidden" class="uid" id="uid" th:value="${session.userinfoLogins.id}">
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <input type="hidden" class="uid" value="">
+                </th:if>
+                <th:if th:if="${goodInfo.uid!=session.userinfoLogins.id}">
+                    <input type="image" name="Submit1" id="submit12" value="Submit" src="../images/0gwc.png"
+                           style="vertical-align:middle;"
+                           class="carsubmit" onClick="document.all.lkgm.value = '0'">
+                </th:if>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="fixed_container fixed_container_nomal">
+    <ul>
+        <li id="comment">商品评论(<span th:text="${count}">0</span>)</li>
+        <li id="comment_7z">发布评论</li>
+    </ul>
+</div>
+
+<div id="7z_comment">
+    <div class="Shop7z_comment_desc" style="padding:10px;font-size:1.5rem;"
+         th:each="goodsmessage : ${goodsmessage}">
+        <div class="comment-item ng-scope">
+            <div class="comment-main-content">
+                <a th:href="@{/UserIndex(id=${goodsmessage.uid})}" target="_blank"><img class="name ng-binding"
+                                                                                        th:src="@{/images/qq/{Avatar}(Avatar=${goodsmessage.avatar})}"
+                                                                                        style="width: 40px;height:40px;"
+                /></a>
+                <a th:href="@{/UserIndex(id=${goodsmessage.uid})}" target="_blank"><em class="name ng-binding"
+                                                                                       th:text="${goodsmessage.userName}"
+                                                                                       style="font-size:20px"></em></a>
+                <em class="name ng-binding ng-hide">:</em>
+                <em class="ng-binding" th:text="${goodsmessage.Content}"></em>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="Shop7z_comment" style="display: none">
+        <div class="title_desc" name="content">评论内容</div>
+        <form name="Form2" method="post" onsubmit="return Juge()">
+            <input id="gid" name="gid" th:value="${goodInfo.id}" type="hidden"/>
+            <input type="hidden" name="productid" value="4939">
+          <textarea class="textarea" placeholder="请写下您的问题、建议，我们会第一时间给您回复"
+                    name="content" id="content"></textarea>
+            <br>
+            <th:if th:if="${session.userinfoLogins==null}">
+                <input type="submit" title="亲！您需要登入之后才能评论哦！" value="提交评论" disabled="disabled">
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <th:if th:if="${goodInfo.uid==session.userinfoLogins.id}">
+                    <input type="submit" value="提交评论">
+                </th:if>
+                <th:if th:if="${goodInfo.uid!=session.userinfoLogins.id}">
+                    <input type="submit" value="提交评论" id="submit">
+                </th:if>
+            </th:if>
+        </form>
+    </div>
+</div>
+</div>
+
+
+<div class="footer">
+    <div class="footer_content">
+        <ul class="footer_item">
+            <li>联系方式：</li>
+            <li class="tit">0311- 85315152</li>
+            <li class="tit">shop7z@126.com</li>
+        </ul>
+
+        <ul class="footer_item">
+            <li>购物指南</li>
+
+            <li><a href="news.asp?id=295">选择配送方式</a></li>
+
+            <li><a href="news.asp?id=296">付款收货</a></li>
+
+            <li><a href="news.asp?id=301">挑选商品</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>送货说明</li>
+
+            <li><a href="news.asp?id=293">购物流程</a></li>
+
+            <li><a href="news.asp?id=303">订购方式</a></li>
+
+            <li><a href="news.asp?id=308">注意事项</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>支付方式</li>
+
+            <li><a href="news.asp?id=285">货到付款区域</a></li>
+
+            <li><a href="news.asp?id=290">支付方式说明</a></li>
+
+            <li><a href="news.asp?id=291">货到付款</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>服务政策</li>
+
+            <li><a href="news.asp?id=297">售后服务</a></li>
+
+            <li><a href="news.asp?id=299">退换货原则</a></li>
+
+            <li><a href="news.asp?id=283">其他服务协议</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>关于我们</li>
+
+            <li><a href="news.asp?id=282">关于我们</a></li>
+
+            <li><a href="news.asp?id=289">如何联系我们</a></li>
+
+            <li><a href="news.asp?id=315">合作加盟</a></li>
+
+        </ul>
+
+    </div>
+</div>
+<div class="ft-copyright">
+    <ul class="ft-safety">
+        <li id="kx_verify" class="safety-1"><a href="#"></a></li>
+        <li class="safety-2">
+            <a href="#"></a>
+        </li>
+        <li class="safety-3">
+            <a href="#"></a>
+        </li>
+        <li class="safety-4">
+            <a href="#"></a>
+        </li>
+    </ul>
+    <div class="footer-info">
+        <p>北京市公安局XXX分局备案编号20183829382872|京ICP证备12345678号|营业执照号：112408016963882|食品流通许可证号：SP1101081510233233 </p>
+        <p>京海食药监械经营许20150358号 | 京海食药监械经营备20150220号</p>
+        <p>公司名称：北京某某网络科技有限公司|公司地址：司地址：北京市海淀区上地东路东广场西临区|联系方式：010-87654321</p>
+        <p><a href="http://www.shop7z.com/Images/CopyRightShop7z_zjb.Jpg" target="_blank">软件著作权证书登记号:2018SR956050
+            软著登字第3285145号</a></p>
+        <p>Copyright 2004-2019,版权所有Shop7z.COM</p>
+    </div>
+</div>
+
+<div class="Shop7z_kefu">
+    <div id="service">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="weixin_area">
+                    <img src="../images/l02.png" width="47" height="49" class="shows"/>
+                    <img src="../images/a.png" width="57" height="49" class="hides"/>
+                    <img src="../images/weixin.png" width="145" class="weixin"
+                         style="display:none;margin:-100px 57px 0 0"/>
+                </a>
+            </li>
+            <li>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=275084681&site=qq&menu=yes" target="_blank">
+                    <div class="hides" style="width:161px;display:none;" id="qq">
+                        <div class="hides" id="p1">
+                            <img src="../images/ll04.png">
+                        </div>
+                        <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">275084681</span>
+                        </div>
+                    </div>
+                    <img src="../images/l04.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <div class="hides" style="width:161px;display:none;">
+                        <div class="hides" id="p1">
+                            <img src="../images/ll05.png">
+                        </div>
+                        <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">13102887321</span>
+                        </div>
+                    </div>
+                    <img src="../images/l05.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a id="top_btn">
+                    <div class="hides" style="width:161px;display:none">
+                        <img src="../images/ll06.png" width="161" height="49"/>
+                    </div>
+                    <img src="../images/l06.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="../css/user.js"></script>
+<div style="display:none;">
+    <script src="http://s22.cnzz.com/stat.php?id=4125111&web_id=4125111&show=pic" language="JavaScript"></script>
+</div>
+<!--<script type="application/javascript">-->
+<!--$("#submit").submit(function () {-->
+<!--alert(111)-->
+<!--if ($("#content").val() == "") {-->
+<!--layer.msg('请填写评论内容', {icon: 2});-->
+<!--return false;-->
+<!--}-->
+<!--})-->
+<!--</script>-->
+<script>
+    //放大镜
+    function Zoom(imgbox, hoverbox, l, t, x, y, h_w, h_h, showbox) {
+        var moveX = x - l - (h_w / 4);
+        var moveY = y - t - (h_h / 4);
+        if (moveX < 0) {
+            moveX = 0
+        }
+        if (moveY < 0) {
+            moveY = 0
+        }
+        if (moveX > imgbox.width() - h_w) {
+            moveX = imgbox.width() - h_w
+        }
+        if (moveY > imgbox.height() - h_h) {
+            moveY = imgbox.height() - h_h
+        }
+        var zoomX = showbox.width() / imgbox.width()
+        var zoomY = showbox.height() / imgbox.height()
+        showbox.css({
+            left: -(moveX * zoomX),
+            top: -(moveY * zoomY)
+        })
+        hoverbox.css({
+            left: moveX,
+            top: moveY
+        })
+    }
+
+    function Zoomhover(imgbox, hoverbox, showbox) {
+        var l = imgbox.offset().left;
+        var t = imgbox.offset().top;
+        var w = hoverbox.width();
+        var h = hoverbox.height();
+        var time;
+        $(".probox img,.hoverbox").mouseover(function (e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            $(".hoverbox,.showbox").css("display", "block");
+            hoverbox.css("opacity", "0.3")
+            time = setTimeout(function () {
+                Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+            }, 1)
+        }).mousemove(function (e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            time = setTimeout(function () {
+                Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+            }, 1)
+        }).mouseout(function () {
+            showbox.parent().css("display", "none");
+            hoverbox.css("display", "none");
+        })
+    }
+    $(function () {
+        Zoomhover($(".probox img"), $(".hoverbox"), $(".showbox img"));
+    });
+
+
+    //图片切换
+    $('.goods_pic>ul>li').click(function () {
+        var img = $(this).find("img").attr("src");
+        $('.goods_pic>ul>li').removeClass("goods_pic_active");
+        $(this).addClass("goods_pic_active");
+        $(this).parent().siblings("div").find("img").attr("src", img)
+    });
+
+
+    //点击递增
+    $('.vm-plus').click(function () {
+        $('.number input').val(parseInt($('.number input').val()) + 1);
+    });
+    //点击递减
+    $('.vm-minus').click(function () {
+        if (parseInt($('.number input').val()) > 1) {
+            $('.number input').val(parseInt($('.number input').val()) - 1);
+        }
+    });
+
+    //选项卡切换
+    $('.fixed_container>ul>li').click(function () {
+        $('.fixed_container>ul>li').removeClass("current");
+        $(this).addClass("current");
+        $('.art>div').removeClass('art_active');
+        $('.art>div').eq($(this).index()).addClass('art_active');
+    })
+
+    $(window).on('scroll', function () {
+        // 判断显示还是隐藏按钮
+        if ($(this).scrollTop() >= 680) {
+            $('.fixed_container').addClass('fixed_container_active');
+            $('.fixed_container').removeClass('fixed_container_nomal');
+        } else {
+            $('.fixed_container').addClass('fixed_container_nomal');
+            $('.fixed_container').removeClass('fixed_container_active');
+        }
+    })
+
+</script>
+<SCRIPT LANGUAGE="JavaScript">
+    var previousTr = "";
+    function colorchoose(eleName) {
+        if (previousTr != "" && document.getElementById(previousTr) != null) {
+            document.getElementById(previousTr).style = "border:1px solid #D6D6D6";
+        }
+        document.getElementById(eleName).style = "border:1px solid #D30000; background:#fff url(../images/selected.png) bottom right no-repeat;";
+        previousTr = eleName;
+        document.all.color.value = document.getElementById(eleName).value;
+    }
+
+    var previousTr2 = "";
+    function psizechoose(eleName) {
+        if (previousTr2 != "" && document.getElementById(previousTr2) != null) {
+            document.getElementById(previousTr2).style = "border:1px solid #D6D6D6";
+        }
+        document.getElementById(eleName).style = "border:1px solid #D30000; background:#fff url(../images/selected.png) bottom right no-repeat;";
+        previousTr2 = eleName;
+        document.all.psize.value = document.getElementById(eleName).value + "码";
+    }
+
+
+    var previousTr3 = "";
+    function guigechoose(eleName, gidvalue, price) {
+        if (previousTr3 != "" && document.getElementById(previousTr3) != null) {
+            document.getElementById(previousTr3).style = "border:1px solid #D6D6D6";
+        }
+        document.getElementById(eleName).style = "border:1px solid #D30000; background:#fff url(../images/selected.png) bottom right no-repeat;";
+        previousTr3 = eleName;
+        document.all.gid.value = gidvalue;
+        document.all.gidget.value = "1";
+        document.getElementById("g_price2").innerText = price + ".00";
+
+
+    }
+
+</SCRIPT>
+<script type="application/javascript">
+    /* $("#id").click(function () {
+     var id2 = $("#id2").val();
+     window.location.href = "/UserIndex?id=" + id2;
+     });*/
+    function Juge() {
+        var content = $("#content").val();
+        var gid = $("#gid").val();
+        if (content == null || content == "") {
+            $("#content").attr("placeholder", "亲!评论内容不能为空哦!");
+            return false;
+        } else {
+            $.ajax({
+                type: "GET",//请求类型
+                url: "/addComments",//请求的url
+                data: {
+                    content: content, gid: gid
+                },//请求参数
+                dataType: "json",//ajax接口（请求url）返回的数据类型·
+                success: function (date) {//data：返回数据（json对象）
+                    if (date == 1) {
+                        alert("发布评论成功！");
+                        window.location.href = "/goodInfo/" + gid;
+                    } else if (date != 1) {
+                        var da = date;
+                        da = new Date(da);
+                        var year = da.getFullYear() + '年';
+                        var month = da.getMonth() + 1 + '月';
+                        var date1 = da.getDate() + '日';
+                        alert("由于你在平台有一些违规操作管理员已将您的账号禁止操作一些功能(评论商品、发布商品、发布求购商品)," + year + month + date1 + "后解封");
+                    }
+                    else if (date == 0) {
+                        alert("发布评论失败！");
+                    }
+                },
+                error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                    alert("出现异常请联系管理员!");
+                }
+            });
+        }
+
+    }
+    //-->
+</script>
+<script type="application/javascript">
+    $(function () {
+        $("#comment_7z").click(function () {
+            $("#7z_comment").css("display", "none");
+            $(".Shop7z_comment").css("display", "block");
+        })
+        $("#comment").click(function () {
+            $(".Shop7z_comment").css("display", "none")
+            $("#7z_comment").css("display", "block")
+        })
+    })
+</script>
+<script type="application/javascript">
+    $("#submit12").click(function () {
+        var uid = $(".uid").val();
+        var gid = $("#gid").val();
+        if (uid == null || uid == "") {
+            alert("您需要先登录才能加入购物车哦！");
+            window.location.href = "/login";
+        } else {
+            $.ajax({
+                type: "GET",//请求类型
+                url: "/addShoppingCar",//请求的url
+                data: {
+                    uid: uid, gid: gid
+                },//请求参数
+                dataType: "json",//ajax接口（请求url）返回的数据类型·
+                success: function (date) {//data：返回数据（json对象）
+                    if (date == 1) {
+                        alert("发布求购商品信息成功，跳转至求购信息广场！");
+                        window.location.href = "/findShopList?userId=" + uid;
+                    } else {
+                        alert("发布求购商品信息失败!");
+                    }
+                },
+                error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                    alert("出现异常请联系管理员!");
+                }
+            });
+        }
+    })
+</script>
+<style type="text/css">
+    html {
+        height: 100%;
+        width: 100%;
+    }
+
+    .mask, .mask-mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+    }
+
+    .mask-mask {
+        z-index: 10000 !important;
+    }
+
+    .mask-content {
+        position: relative;
+        z-index: 10001 !important;
+    }
+
+    #addProvider {
+        display: none;
+    }
+
+    #addProvider-content {
+        width: 500px;
+        margin: 0 auto;
+        background-color: #fff;
+        transform: translateY(18%);
+    }
+
+    #addProvider-content > form {
+        padding: 15px 14px 20px 14px;
+    }
+
+    #addProvider-content > form > * {
+        position: relative;
+        margin: 18px 0;
+        text-align: center;
+    }
+
+    #addProvider-content > form label {
+        font-size: 16px;
+        width: 5em;
+        display: inline-block;
+        text-align: left;
+        color: #525252;
+    }
+
+    #addProvider-content > form .input {
+        font-size: 14px;
+        padding: 4px;
+        border: 1px solid #878787;
+        border-radius: 2px;
+        width: 280px;
+        outline: none;
+    }
+
+    #addProvider-content > form .input:focus {
+        border-color: #82acff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 0 3px 1px;
+    }
+
+    #addProvider-content > form textarea {
+        height: 90px;
+        resize: none;
+    }
+
+    #addProvider-title {
+        margin: 0 0 36px 0 !important;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #addProvider-title > h1 {
+        font-size: 30px;
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: 12px;
+        color: #313131;
+    }
+
+    #addProvider-close {
+        border: none;
+        position: absolute;
+        right: -14px;
+        top: -15px;
+        font-size: 36px;
+        font-weight: 400;
+        line-height: 3rem;
+        padding: 0 4px;
+        background-color: transparent;
+        color: #414141;
+        cursor: pointer;
+    }
+
+    #addProvider-submit {
+        border: none;
+        padding: 6px 24px;
+        background-color: #1b7fbd;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
+</style>
+
+<div id="addProvider" class="mask">
+    <div id="addProvider-content" class="mask-content">
+        <form th:action="@{/selectType}" method="get">
+            <div id="addProvider-title">
+                <h1>确认订单</h1>
+                <input id="addProvider-close" type="button" value="×"/>
+            </div>
+            <div>
+                <label>商品名称</label>
+                <input type="text" readonly class="input" th:value="${goodInfo.name}" name="count" id="count"/>
+            </div>
+            <div>
+                <label style="position: relative; top: -70px;">商品详情</label>
+                <textarea maxlength="150" readonly class="input" th:text="${goodInfo.remark}" name="remark"
+                          id="remark"></textarea>
+            </div>
+            <div>
+                <label>支付方式</label>
+                <select name="typeofzhifu" class="input typeofzhifu">
+                    <option value="1">线下</option>
+                    <option value="2">在线</option>
+                </select>
+            </div>
+            <!--<script type="text/javascript">-->
+            <!--$(function(){-->
+            <!--$(".typeofzhifu").click(function(){-->
+            <!--alert("暂不支持在线支付功能。");-->
+            <!--})-->
+            <!--})-->
+            <!--</script>-->
+            <div>
+                <label>商品价格</label>
+                <input readonly type="number" th:value="${goodInfo.tradingValue}" name="price" id="price"/>
+            </div>
+
+            <div>
+                <input type="hidden" th:value="${goodInfo.id}" name="goodinfoid">
+                <input id="addProvider-submit" type="submit" value="确认购买"/>
+            </div>
+        </form>
+    </div>
+    <div class="mask-mask"></div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#addProvider-close").click(closeAdd);
+
+        showAdd = function () {
+            $("#addProvider-content").slideDown(300);
+            $("#addProvider").fadeIn(200);
+        }
+
+        function closeAdd() {
+            $("#addProvider").slideUp(200);
+            $("#addProvider-content").fadeOut(300);
+        }
+    })
+</script>
+</body>
+</html>

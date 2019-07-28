@@ -1,0 +1,376 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>我的订单详情</title>
+    <link href="css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="css/order.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer.js"></script>
+    <script type="text/javascript">
+       $(function(){
+           $(".tj").click(function(){
+               window.location.href="order";
+           })
+           var type=$("#type").val();
+           if(type==1){
+               $("#type").val("闲置数码");
+           }
+           if(type==2){
+               $("#type").val("游戏代练");
+           }
+           if(type==3){
+               $("#type").val("电器日用");
+           }
+           if(type==4){
+               $("#type").val("图书教材");
+           }
+           if(type==5){
+               $("#type").val("美妆衣物");
+           }
+           if(type==6){
+               $("#type").val("运动棋牌");
+           }
+           var state=$("#state").val();
+           if(state==0){
+               $("#state").val("未发货");
+           }
+           if(state==1){
+               $("#state").val("已发货");
+           }
+           if(state==2){
+               $("#state").val("未付款");
+           }
+           if(state==3){
+               $("#state").val("已付款");
+           }
+           if(state==4){
+               $("#state").val("已签收");
+           }
+       })
+    </script>
+</head>
+<body>
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+            <div class="car">
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <div class="car">
+                        <a th:href="@{/login}"><img src="images/car.png"></a>
+                        <span>0</span>
+                    </div>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <div class="car">
+                        <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
+                                src="images/car.png"></a>
+                        <span th:text="${session.num}"></span>
+                    </div>
+                </th:if>
+            </div>
+            <div class="userlogo">
+                <img src="images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a th:href="@{/login}">我的订单</a>
+                        <a href="#">帮助与反馈</a>
+                        <a href="#">联系我们</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a th:href="@{/goToUserCenter}">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a th:href="@{/goToUserCenter}">我的资料</a>
+                            <a th:href="@{/order}">我的订单</a>
+                            <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">我的购物车</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a th:href="@{/login2}">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="myword">
+                    <input type="image" src="images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购商品</a>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goToUserCenter}">用户中心</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">用户中心</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--==========================================================================================-->
+<script src="js/jquery.min.js"></script>
+<script src="js/layer.js"></script>
+<div class="main">
+    <div class="main_content">
+            <p class="main_content_title"><a th:href="order" href="cart.html"><span
+                    style="color:#FD3120;">我的订单</span></a> -- 订单详情信息</p>
+        <div style="width:100%;height:2px; background:#fff url(images/cart_line.png)  repeat-x;"></div>
+        <p class="main_content_title">订单详情</p>
+        <div class="main_content_address">
+            <div class="form_common">
+            <input type="hidden" name="customid" value="849">
+            <label>收货人姓名</label>
+            <input th:value="${buiedgoods.realName}" type="text" readonly="readonly" name="rName" placeholder="收货人姓名"/>
+            </div>
+            <div class="form_common">
+            <label>收货寝室号</label>
+            <div id="addr1">
+            <input type="text" name="address"th:value="${buiedgoods.dormitory}"readonly="readonly" placeholder="填写收货寝室号"/>
+            </div>
+            <INPUT size=38 name="address2" id="addr2" readonly="readonly" style="display:none;" placeholder="填写收货寝室号">
+            </div>
+            <div class="form_common">
+            <label>联系电话</label>
+            <input type="text" name="phone" readonly="readonly" th:value="${buiedgoods.phone}" placeholder="收货人联系电话"/>
+            </div>
+            <div class="form_common">
+                <label>商品类型</label>
+                <input type="text" name="phone" id="type" readonly="readonly" th:value="${buiedgoods.type}" placeholder="商品名称"/>
+            </div>
+            <div class="form_common">
+                <label>商品名称</label>
+                <input type="text" name="phone" readonly="readonly" th:value="${buiedgoods.name}" placeholder="商品名称"/>
+            </div>
+            <div class="form_common">
+                <label>商品成色</label>
+                <input type="text" name="phone" readonly="readonly" th:value="${buiedgoods.level}+'成新'" placeholder="商品成色"/>
+            </div>
+            <div class="form_common">
+                <label>商品描述</label>
+                <input type="text" name="phone" readonly="readonly" th:value="${buiedgoods.remark}" placeholder="商品详细描述"/>
+            </div>
+            <div class="form_common">
+                <label>商品状态</label>
+                <input type="text" id="state" name="phone" readonly="readonly" th:value="${buiedgoods.state}"  placeholder="商品状态"/>
+            </div>
+            <div align="center" >
+              <input type="submit" class="tj" style="width: 200px;height: 35px;background-color: #00CCFF;font-size: 15px;" value="返回我的订单">
+            </div>
+        <!--=======================================================================-->
+        <div class="footer">
+            <div class="footer_content">
+                <ul class="footer_item">
+                    <li>联系方式：</li>
+                    <li class="tit">15979675043</li>
+                    <li class="tit">1730548276@qq.com</li>
+                </ul>
+
+                <ul class="footer_item">
+                    <li>购物指南</li>
+
+                    <li><a href="#">选择配送方式</a></li>
+
+                    <li><a href="#">付款收货</a></li>
+
+                    <li><a href="#">挑选商品</a></li>
+
+                </ul>
+
+                <ul class="footer_item">
+                    <li>送货说明</li>
+
+                    <li><a href="#">购物流程</a></li>
+
+                    <li><a href="#">订购方式</a></li>
+
+                    <li><a href="#">注意事项</a></li>
+
+                </ul>
+
+                <ul class="footer_item">
+                    <li>支付方式</li>
+
+                    <li><a href="javascript:void(0)">货到付款区域</a></li>
+
+                    <li><a href="javascript:void(0)">支付方式说明</a></li>
+
+                    <li><a href="javascript:void(0)">货到付款</a></li>
+
+                </ul>
+
+                <ul class="footer_item">
+                    <li>服务政策</li>
+
+                    <li><a href="javascript:void(0)">售后服务</a></li>
+
+                    <li><a href="javascript:void(0)">退换货原则</a></li>
+
+                    <li><a href="javascript:void(0)">其他服务协议</a></li>
+
+                </ul>
+
+                <ul class="footer_item">
+                    <li>关于我们</li>
+
+                    <li><a href="javascript:void(0)">关于我们</a></li>
+
+                    <li><a href="javascript:void(0)">如何联系我们</a></li>
+
+                    <li><a href="javascript:void(0)">合作加盟</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="Shop7z_kefu">
+            <div id="service">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" class="weixin_area">
+                            <img src="images/l02.png" width="47" height="49" class="shows"/>
+                            <img src="images/a.png" width="57" height="49" class="hides"/>
+                            <img src="images/qd.png" width="145" class="weixin"
+                                 style="display:none;margin:-100px 57px 0 0"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" target="_blank">
+                            <div class="hides" style="width:161px;display:none;" id="qq">
+                                <div class="hides" id="p1">
+                                    <img src="images/ll04.png"/>
+                                </div>
+                                <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">1599428958</span>
+                                </div>
+                            </div>
+                            <img src="images/l04.png" width="47" height="49" class="shows"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <div class="hides" style="width:161px;display:none;">
+                                <div class="hides" id="p1">
+                                    <img src="images/ll05.png"/>
+                                </div>
+                                <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">12345678991</span>
+                                </div>
+                            </div>
+                            <img src="images/l05.png" width="47" height="49" class="shows"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="top_btn">
+                            <div class="hides" style="width:161px;display:none">
+                                <img src="images/ll06.png" width="161" height="49"/>
+                            </div>
+                            <img src="images/l06.png" width="47" height="49" class="shows"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script src="css/user.js"></script>
+
+        <SCRIPT language=JavaScript>
+            function changeaddr(addrname) {
+                if (addrname == "addr1") {
+
+                    document.all("address1").value = "";
+                }
+
+            }
+
+            function mytotal(mon) {
+                theForm.sendmoney.value = mon;
+
+                if (parseFloat(theForm.freetotal.value) > 0)  //正确设置了购满金额
+                {
+                    if (parseFloat(theForm.freetotal.value) > parseFloat(theForm.allmoney.value)) {
+                        theForm.total.value = Math.round((parseFloat(theForm.allmoney.value) + parseFloat(theForm.sendmoney.value)) * 100) / 100;
+                    }
+                    else {
+                        theForm.total.value = Math.round(parseFloat(theForm.allmoney.value) * 100) / 100;
+                        theForm.sendmoney.value = "0";
+                        theForm.freedisc.value = "（购满" + theForm.freetotal.value + "元免运费）";
+                    }
+                }
+                else {
+                    theForm.total.value = Math.round((parseFloat(theForm.allmoney.value) + parseFloat(theForm.sendmoney.value)) * 100) / 100;
+                }
+
+                theForm.total.value = Math.round((parseFloat(theForm.total.value) - parseFloat(theForm.youhjmoney.value)) * 100) / 100;
+
+            }
+
+            function check() {
+                layer.msg('对不起不能提交订单，您还没有选购任何商品!', {icon: 2});
+                return (false);
+            }
+
+            function Juge() {
+                if (theForm.truename.value == "") {
+                    layer.msg('请填写收货人姓名', {icon: 2});
+                    theForm.truename.focus();
+                    return (false);
+                }
+
+                if (theForm.mobile.value == "") {
+                    layer.msg('请填写移动电话', {icon: 2});
+                    theForm.mobile.focus();
+                    return (false);
+                }
+
+                if (theForm.address1.value == "") {
+                    layer.msg('请填写收货地址', {icon: 2});
+                    theForm.address1.focus();
+                    return (false);
+                }
+
+                var intSelFlag = 0;
+
+                if (typeof(theForm.sendtype.length) == "undefined") {
+                    theForm.sendtype.checked = true;
+                }
+                else {
+
+                    for (i = 0; i < theForm.sendtype.length; i++) {
+                        if (theForm.sendtype[i].checked)  //特别这里有[i]
+                        {
+                            intSelFlag = 1; //选择了一个
+                            break;
+                        }
+                    }
+                    if (intSelFlag == 0) {
+                        layer.msg('请选择一种配送方式', {icon: 2});
+                        return (false);
+                    }
+                }
+            }
+
+        </script>
+</body>
+</html>
+

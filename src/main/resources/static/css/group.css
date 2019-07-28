@@ -1,0 +1,138 @@
+@charset "gb2312";
+/* 商品组合套餐页css文件
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+.crumbs {
+    height: 40px;
+    line-height: 40px;
+    color: #999;
+    width: 1240px;
+    margin: auto;
+    font-size: 1.4rem
+}
+
+.common {
+    width: 1240px;
+    margin: auto;
+    overflow: hidden
+}
+
+.common > h3 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    font-style: normal
+}
+
+.goods {
+    width: 100%;
+    margin-top: 8px
+}
+
+.goods > li {
+    width: 200px;
+    float: left;
+    background: #FFF;
+    margin-bottom: 8px;
+    text-align: center;
+    height: 320px;
+    transition: all .3s linear 0s;
+    -moz-transition: all .3s linear 0s;
+    -webkit-transition: all .3s linear 0s;
+    -o-transition: all .3s linear 0s
+}
+
+.add {
+    color: #F30;
+    font-size: 36px;
+    float: left;
+    text-align: center;
+    width: 60px;
+    height: 320px;
+    line-height: 320px
+}
+
+.goods > li:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2)
+}
+
+.goods > li > center {
+    width: 100%;
+    height: 200px;
+    overflow: hidden
+}
+
+.goods > li > center > a > img {
+    width: 160px;
+    margin-top: 30px
+}
+
+.goods_name {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+    margin-top: 20px
+}
+
+.goods_desc {
+    color: #999;
+    font-size: 1.2rem
+}
+
+.goods_price {
+    position: relative;
+    display: inline-block;
+    color: #c00;
+    font-size: 1.6rem;
+    padding-left: 14px;
+    margin-top: 4px
+}
+
+.goods_price i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 14px
+}
+
+.goods_price em {
+    font-size: 16px
+}
+
+.goods_active {
+    border: 1px solid #aaa !important
+}
+
+.xian {
+    width: 100%;
+    height: 50px;
+    float: left
+}
+
+.money {
+    color: #F30
+}
+
+.group > form > p {
+    margin-top: 40px;
+    font-size: 16px;
+    color: #444
+}
+
+.group > form > input[type=submit] {
+    cursor: pointer;
+    background: #F30;
+    outline: 0;
+    border: 1px solid #f30;
+    width: 120px;
+    height: 35px;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 40px
+}
+
+.group > form > input[type=submit]:hover {
+    opacity: .7
+}

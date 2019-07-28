@@ -1,0 +1,281 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>当当网系统</title>
+    <link href="../css/top.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="../css/item.css" rel="stylesheet" type="text/css"/>-->
+    <link href="../css/bottom.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="../css/detail.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../js/_layout.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script type="text/javascript" src="../js/index.bundle.js"></script>
+    <script src="../js/jquery.min.js" type="application/javascript"></script>
+    <script>
+        function showLogin() {
+            if ($("#signup-show").css("display") == 'block') {
+                $("#signup-show").css("display", "none");
+            }
+            if ($("#login-show").css("display") == 'none') {
+                $("#login-show").css("display", "block");
+            } else {
+                $("#login-show").css("display", "none");
+            }
+        }
+        function showSignup() {
+            if ($("#login-show").css("display") == 'block') {
+                $("#login-show").css("display", "none");
+            }
+            if ($("#signup-show").css("display") == 'none') {
+                $("#signup-show").css("display", "block");
+            } else {
+                $("#signup-show").css("display", "none");
+            }
+        }
+        function ChangeName() {
+            if ($("#changeName").css("display") == 'none') {
+                $("#changeName").css("display", "block");
+            } else {
+                $("#changeName").css("display", "none");
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function addFocus() {
+            var userId = $("#userId").val();
+            var goodId = $("#goodId").val();
+            window.location.href = '/addShop?userId=' + userId + "&goodId=" + goodId;
+        }
+    </script>
+</head>
+<body ng-view="ng-view">
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+            <div class="car">
+                <a href="cart.html"><img src="../images/car.png"></a>
+                <span>0</span>
+            </div>
+            <div class="userlogo">
+                <img src="../images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <a href="Regedit.html">立刻注册</a>
+                    <a href="Login.html">立刻登录</a>
+                    <a href="order.html">我的订单</a>
+                    <a href="#">帮助与反馈</a>
+                    <a href="#">联系我们</a>
+                    <div style="display: none">
+                        <a href="userinfo.html">尊敬的 <b>user</b></a>
+                        <a href="userinfo.html">我的资料</a>
+                        <a href="order.html">我的订单</a>
+                        <a href="cart.html">我的购物车</a>
+                        <a href="#">退出登陆</a>
+                    </div>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" action="#">
+                    <input placeholder="魅族M5手机" required="true" name="name" type="text" id="myword">
+                    <input type="image" src="../images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;">
+                </form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="../images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a href='List.html'>热卖商品</a>
+            </li>
+            <li>
+                <a href='List.html'>促销商品</a>
+            </li>
+            <li><a href="userinfo.html">用户中心</a>
+            </li>
+            <li><a href="Browser.html">我的足迹</a></li>
+        </ul>
+    </div>
+</div>
+<!--显示商品详情-->
+<div ng-controller="detailBoxController" class="detail-box stark-components z-depth-1 row ng-scope">
+    <div class="col s12 path">
+        <span th:text="${goodInfo.typeName}">美妆衣物</span>
+        <em>></em>
+        <span th:text="${goodInfo.name}">JAVA</span>
+    </div>
+    <div class="col s6">
+        <div class="slider" style="height: 440px;">
+            <ul class="slides" style="height: 400px;">
+                <img th:src="${goodInfo.image}"/>
+            </ul>
+            <ul class="indicators" style="display:none;">
+                <li class="indicator-item"></li>
+                <li class="indicator-item"></li>
+                <li class="indicator-item"></li>
+                <li class="indicator-item"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col s6">
+        <h1 class="item-name" th:text="${goodInfo.name}">JAVA</h1>
+        <h2 class="publisher-info-title">售价：<span
+                th:text="${goodInfo.tradingValue}">10</span></h2>
+        <h2 class="publisher-info-title">原价：<span
+                style="text-decoration:line-through;"
+                th:text="${goodInfo.truePrice}">10</span></h2>
+        <div class="item-public-info">
+            <p class="bargain">可讲价</p>
+            <p>
+                <i class="iconfont"></i>
+                <em class="item-location">东华大学</em>
+            </p>
+        </div>
+        <div class="publisher-info-title">
+            <em>卖家信息</em>
+            <hr>
+        </div>
+        <th:if th:if="${session.userinfoLogins==null}">
+            <div class="item-contact">
+                <p class="not-login">
+                    <a th:href="@{/login}">登录</a>
+                    <em>或</em>
+                    <a th:href="@{/Regedit}">注册</a>
+                    <em>后查看联系信息</em>
+                </p>
+            </div>
+        </th:if>
+        <th:if th:if="${session.userinfoLogins!=null}">
+            <input type="hidden" th:value="${session.userinfoLogins.id}" id="userId"/>
+            <input type="hidden" th:value="${goodInfo.id}" id="goodId"/>
+            <div class="item-contact">
+                <div>
+                    <div class="base-blue z-depth-1 attr">
+                        <i class="iconfont"></i>
+                    </div>
+                    <div class="value" th:text="${goodInfo.userName}"></div>
+                </div>
+                <div>
+                    <div class="base-blue z-depth-1 attr">
+                        <i class="iconfont"></i>
+                    </div>
+                    <div class="value" th:text="${goodInfo.phone}"></div>
+                </div>
+                <div>
+                    <div class="base-blue z-depth-1 attr">
+                        <i class="iconfont"></i>
+                    </div>
+                    <th:if th:if="${goodInfo.qq!=null}">
+                        <div class="value" th:text="${goodInfo.qq}">11111</div>
+                    </th:if>
+                    <th:if th:if="${goodInfo.qq==null}">
+                        <div class="value">该同学没留下QQ</div>
+                    </th:if>
+                </div>
+                <input type="button" value="加入购物车" class="blue lighten-1 waves-effect waves-light btn"
+                       id="btn_cart" onclick="addFocus()"/>
+            </div>
+    </div>
+    </th:if>
+    <h1 class="item-pub-time">发布于:<span id="time"
+                                        th:text="${#dates.format(goodInfo.modify,'yyyy-MM-dd')}">2019-01-01</span>
+    </h1>
+</div>
+</div>
+<div class="detail-box stark-components z-depth-1 row">
+    <h1 class="title">商品描述</h1>
+    <hr class="hr1"/>
+    <hr class="hr2"/>
+    <p class="section">描述：<span th:text="${goodInfo.remark}"></span></p>
+    <p class="section"></p>
+    <p class="section">
+        联系我的时候，请说明是在“青鸟校园二手市场”上看见的哦~
+    </p>
+</div>
+<div class="row detail-area">
+    <div class="clo s12">
+        <div ng-controller="commentController" class="comment stark-components z-depth-1 ng-scope">
+            <h1 class="title">评论</h1>
+            <hr class="hr1"/>
+            <hr class="hr2"/>
+            <div class="comment-collection" th:each="goodsmessage : ${goodsmessage}">
+                <div class="comment-item ng-scope">
+                    <div class="comment-main-content">
+                        <em class="name ng-binding" th:text="${goodsmessage.userName}"></em>
+                        <em class="ng-hide">回复</em>
+                        <em class="name ng-binding ng-hide">@:</em>
+                        <em class="ng-binding" th:text="${goodsmessage.Content}"></em>
+                    </div>
+                    <div class="comment-function">
+                        <em class="time ng-biinding" th:text="${#dates.format(goodsmessage.Modify,'yyyy-MM-dd')}"></em>
+
+                        <!--  <a class="reply-or-delete">删除</a>
+                        <a class="reply-or-delete">回复</a> -->
+                    </div>
+                </div>
+            </div>
+            <form id="addCommentForm" class="form-horizontal">
+                <div class="comment-add row">
+                    <div class="input-field col s12">
+                        <i class="iconfont prefix"></i>
+                        <input id="gid" name="gid" th:value="${goodInfo.id}" type="hidden"/>
+                        <th:if th:if="${session.userinfoLogins!=null}">
+                            <input id="uid" name="uid" th:value="${session.userinfoLogins.id}" type="hidden"/>
+                        </th:if>
+                        <input id="commentbox" type="text" name="content"
+                               class="text validate ng-pristine ng-untouched ng-valid ng-empty"/>
+                        <label for="commentbox">这里写下评论</label>
+                        <th:if th:if="${session.userinfoLogins!=null}">
+                            <button type="button" class="waves-effect wave-light btn comment-submit"
+                                    onclick="addComments()">确认
+                            </button>
+                        </th:if>
+                        <th:if th:if="${session.userinfoLogins==null}">
+                            <button href="javacript:void(0);" data-toggle="tooltip" title="您需要先登录哦！" disabled="disabled"
+                                    class="waves-effect wave-light btn comment-submit">确认
+                            </button>
+                        </th:if>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    /* 评论 */
+    function addComments() {
+        $.ajax({
+            url: '/addComments',
+            type: 'POST',
+            data: $('#addCommentForm').serialize(),// 序列化表单值
+            dataType: 'json',
+            success: function (json) {
+                if (json == 1) {
+                    alert("您已评论成功~")
+                    window.location.reload();
+                } else {
+                    alert("评论失败~")
+                    window.location.reload();
+                }
+            },
+            error: function () {
+                alert('请求超时或系统出错!');
+            }
+        });
+    }
+</script>
+</html>

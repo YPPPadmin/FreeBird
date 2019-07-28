@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.BrowserMapper">
+    <!--添加浏览记录-->
+    <insert id="addBrowser" parameterType="com.hhsj.FreeBird.pojo.Browser">
+          INSERT INTO `browser`
+          VALUES(#{id},#{goodId},#{userId},#{bornDate})
+     </insert>
+
+    <!--查询登录用户的浏览记录-->
+    <select id="findBrowser" parameterType="map" resultMap="browserList">
+        SELECT b.*,g.`Name`,g.`Image`,g.`tradingValue` FROM `browser` b , `goodsinfo` g
+        WHERE  b.`goodId` = g.`Id` AND `userId` =#{uId} ORDER BY b.BornDate DESC
+        LIMIT #{pageIndex},#{pageSize}
+
+    </select>
+    <resultMap id="browserList" type="com.hhsj.FreeBird.pojo.BrowserCustom">
+        <id property="id" column="id"/>
+        <association property="goodInfo" javaType="com.hhsj.FreeBird.pojo.Goodsinfo">
+            <id property="id" column="id"/>
+        </association>
+    </resultMap>
+
+
+    <!--删除浏览记录-->
+    <delete id="delBrowser" parameterType="Map">
+        DELETE FROM `browser`
+        WHERE userId = #{userId}
+        <if test="id!=0 and id != null">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <select id="findCount" parameterType="int" resultType="int">
+        SELECT COUNT(0) FROM `browser`
+        WHERE `userId` = #{userId}
+    </select>
+</mapper>

@@ -1,0 +1,610 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>北大青鸟 鸿鹄狮鹫-注册</title>
+    <link href="css2/bootstrap.min.css" rel="stylesheet">
+    <link href="css2/gloab.css" rel="stylesheet">
+    <link href="css2/index.css" rel="stylesheet">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/register.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link href="css/top.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            /*异步进行QQ邮箱判断，如果有显示有如果没有显示没有*/
+            $(".qq").blur(function () {
+                var yzm = $(".qq").val();
+                var s = yzm.substr(6);//截取QQ邮箱进行判断邮箱是否输入正确。
+                if (yzm == "") {
+                    $(".qqyx").html("请输入QQ邮箱！");
+                    $('.yzmyzm').attr("disabled", "true");
+                } else if (s != "@qq.com" && yzm.length < 15) {
+                    $(".qqyx").html("QQ邮箱格式错误");
+                    $('.yzmyzm').attr("disabled", "true");
+                } else {
+                    $(".qqyx").html(null);
+                    var qq1 = $(".qq").val();
+                    $.ajax({
+                        type: "GET",//请求类型
+                        url: "findUserInfoqq",//请求的url
+                        data: {
+                            qq: qq1
+                        },//请求参数
+                        dataType: "json",//ajax接口（请求url）返回的数据类型·
+                        success: function (date) {//data：返回数据（json对象）
+                            if (date == 1) {
+                                $(".qqyx").html("QQ邮箱已被注册！");
+                                $('.yzmyzm').attr("disabled", "true");
+                            } else {
+                                $('.yzmyzm').removeAttr("disabled");
+                            }
+                        },
+                        error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                            alert("系统错误请联系相关管理员！");
+                        }
+                    });
+                }
+            });
+            /*获取邮箱验证码的相关功能*/
+            var html;
+            var $disableElement;
+            var timer;
+            var timeTick;
+            var timeLength = 60;
+            $(".yzmyzm").click(function () {
+                var qq1 = $(".qq").val();
+                $disableElement = $(this);
+                $disableElement.attr('disabled', true);
+                $.ajax({
+                    type: "GET",//请求类型
+                    url: "send",//请求的url
+                    data: {
+                        qq: qq1
+                    },//请求参数
+                    dataType: "json",//ajax接口（请求url）返回的数据类型·
+                    success: function (date) {//data：返回数据（json对象）
+                        if (date == "0") {
+                            alert("QQ邮箱输入错误，请重新输入!");
+                            $disableElement.attr('disabled', false);
+                        } else {
+                            html = $(".yxyzm").html(date);
+                            $disableElement.attr('disabled', true);
+                            timeTick = 0;
+                            timer = setInterval(function () {
+                                if (timeTick >= timeLength) {
+                                    $disableElement.val("获取验证码");
+                                    $disableElement.attr('disabled', false);
+                                    clearInterval(timer);
+                                    return;
+                                }
+                                $disableElement.val(((timeLength - timeTick) >= 10 ? (timeLength - timeTick) : "0" + (timeLength - timeTick)) + "秒后重试");
+                                timeTick++;
+                            }, 1000);
+                        }
+                    },
+                    error: function (date) {//当访问时候，404，500 等非200的错误状态码
+
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body class="bgf4">
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <div class="car">
+                        <a th:href="@{/login}"><img src="images/car.png"></a>
+                        <span>0</span>
+                    </div>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <div class="car">
+                        <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
+                                src="images/car.png"></a>
+                        <span th:text="${session.num}"></span>
+                    </div>
+                </th:if>
+            <div class="userlogo">
+                <img src="images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a th:href="@{/login}">我的订单</a>
+                        <a href="#">帮助与反馈</a>
+                        <a href="#">联系我们</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a th:href="@{/goToUserCenter}">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a th:href="@{/goToUserCenter}">我的资料</a>
+                            <a th:href="@{/order}">我的订单</a>
+                            <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">我的购物车</a>
+                            <a>发布商品</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a th:href="@{/login2}">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="myword">
+                    <input type="image" src="images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购商品</a>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goToUserCenter}">用户中心</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">用户中心</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="login-box f-mt10 f-pb50">
+    <div class="main bgf">
+        <div class="reg-box-pan display-inline">
+            <div class="step">
+                <ul>
+                    <li class="col-xs-4 on">
+                        <span class="num"><em class="f-r5"></em><i>1</i></span>
+                        <span class="line_bg lbg-r"></span>
+                        <p class="lbg-txt">填写账户信息</p>
+                    </li>
+                    <li class="col-xs-4">
+                        <span class="num"><em class="f-r5"></em><i>2</i></span>
+                        <span class="line_bg lbg-l"></span>
+                        <span class="line_bg lbg-r"></span>
+                        <p class="lbg-txt">验证账户信息</p>
+                    </li>
+                    <li class="col-xs-4">
+                        <span class="num"><em class="f-r5"></em><i>3</i></span>
+                        <span class="line_bg lbg-l"></span>
+                        <p class="lbg-txt">注册成功</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="reg-box" id="verifyCheck" style="margin-top:20px;">
+                <div class="part1">
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>用户名：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" maxlength="20" class="txt03 f-r3 required" tabindex="1"
+                                   data-valid="isNonEmpty||between:3-20||isUname"
+                                   data-error="用户名不能为空||用户名长度3-20位||只能输入中文、字母、数字、下划线，且以中文或字母开头"
+                                   id="username" name="username"/> <span
+                                class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus"><span>3-20位，中文、字母、数字、下划线的组合，以中文或字母开头</span></label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>手机号：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" class="txt03 f-r3 required" keycodes="tel" tabindex="2"
+                                   data-valid="isNonEmpty||isPhone" data-error="手机号码不能为空||手机号码格式不正确" maxlength="11"
+                                   id="phone" name="phone"/>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请填写11位有效的手机号码</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>密码：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="password" id="password" name="password" maxlength="20"
+                                   class="txt03 f-r3 required"
+                                   tabindex="3"
+                                   style="ime-mode:disabled;" onpaste="return  false" autocomplete="off"
+                                   data-valid="isNonEmpty||between:6-20||level:2"
+                                   data-error="密码不能为空||密码长度6-20位||该密码太简单，有被盗风险，建议字母+数字的组合"/>
+                            <span class="ie8 icon-close close hide" style="right:55px"></span>
+                            <span class="showpwd" data-eye="password"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">6-20位英文（区分大小写）、数字、字符的组合</label>
+                            <label class="focus valid"></label>
+                            <span class="clearfix"></span>
+                            <label class="strength">
+                                <span class="f-fl f-size12">安全程度：</span>
+                                <b><i>弱</i><i>中</i><i>强</i></b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>确认密码：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="password" maxlength="20" class="txt03 f-r3 required" tabindex="4"
+                                   style="ime-mode:disabled;" onpaste="return  false" autocomplete="off"
+                                   data-valid="isNonEmpty||between:6-16||isRepeat:password"
+                                   data-error="密码不能为空||密码长度6-16位||两次密码输入不一致" id="rePassword"/>
+                            <span class="ie8 icon-close close hide" style="right:55px"></span>
+                            <span class="showpwd" data-eye="rePassword"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请再输入一遍上面的密码</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12" style="height:auto">
+                        <span class="intelligent-label f-fl">&nbsp;</span>
+                        <p class="f-size14 required" data-valid="isChecked" data-error="请先同意条款">
+                            <input type="checkbox" checked/><a href="javascript:showoutc();"
+                                                               class="f-ml5">我已阅读并同意条款</a>
+                        </p>
+                        <label class="focus valid"></label>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl">&nbsp;</span>
+                        <div class="f-fl item-ifo">
+                            <a href="javascript:;" class="btn btn-blue f-r3" id="btn_part1">下一步</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="part2" style="display:none">
+                    <div class="alert alert-info" style="width:700px">验证码已发送至您手机，请输入邮箱中的验证码，确保您的QQ邮箱真实有效。</div>
+                    <div class="item col-xs-12 f-mb10" style="height:auto">
+                        <span class="intelligent-label f-fl">QQ邮箱：</span>
+                        <div class="f-fl item-ifo" style="position: relative;">
+                            <input type="text" name="qq" id="qq" class="txt03 f-r3 qq">
+                            <span class="qqyx"
+                                  style="color: red;font-size: 12px; position: absolute; top: 2px; right: -8.8em;"></span>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>验证码：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" maxlength="6" name="yzm" tabindex="4" id="yzm"
+                                   style="width: 190px;"
+                                   class="txt03 f-r3 required"
+                                   data-valid="isNonEmpty||maxLength||isInt"
+                                   data-error="验证码不能为空||验证码长度6位||只能输入数字"/>
+                            <input type="button" href="/send" class="yzmyzm" value="获取验证码"
+                                   style="border: none; background-color: #188dc8; color: #fff; font-size: 12px; padding: 0 7px;">
+                            <span class="yxyzm" style="display: none;"></span>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">6位，数字验证码</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl">&nbsp;</span>
+                        <div class="f-fl item-ifo">
+                            <a href="javascript:;" class="btn btn-blue f-r3" id="btn_part2">下一步</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="part3" style="display:none">
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>真实姓名：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" maxlength="10" class="txt03 f-r3 required" tabindex="1"
+                                   data-valid="isNonEmpty||between:2-10||isZh"
+                                   data-error="真实姓名不能为空||真实姓名长度2-10位||只能输入中文" id="realName" name="realName"/>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">2-10位，中文真实姓名</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>所在班级：</span>
+                        <div class="f-fl item-ifo">
+                            <select class="f-h39 txt03 f-r3 required" tabindex="6" data-valid="isNonEmpty"
+                                    data-error="所在班级不能为空||所在班级格式不正确" id="class1" name="class1">
+                                <option value="java30">java30</option>
+                                <option value="T45">T45</option>
+                                <option value="T47">T47</option>
+                                <option value="T48&T50">T48&T50</option>
+                                <option value="T49">T49</option>
+                                <option value="T51">T51</option>
+                                <option value="T52">T52</option>
+                                <option value="T53">T53</option>
+                                <option value="T54">T54</option>
+                                <option value="T55">T55</option>
+                                <option value="T56">T56</option>
+                                <option value="T57">T57</option>
+                                <option value="T58">T58</option>
+                                <option value="T59">T59</option>
+                                <option value="Q60">Q60</option>
+                            </select>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请填写有效的所在班级</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>学号：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" class="txt03 f-r3 required" tabindex="3" data-valid="isNonEmpty"
+                                   data-error="学号不能为空||学号格式不正确" maxlength="5" id="sno" name="sno"/>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请填写有效的学号</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>性别：</span>
+                        <div class="f-fl item-ifo">
+                            <select class="f-h39 txt03 f-r3 required" tabindex="5" data-valid="isNonEmpty"
+                                    data-error="性别不能为空||性别不正确" id="gender" name="gender">
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                            </select>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请填写有效的性别</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>宿舍号：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" class="txt03 f-r3 required" tabindex="5"
+                                   data-valid="isNonEmpty||isConsume"
+                                   reg="/^(6|7)-[1-6](0[1-9]|1[0-5])$/"
+                                   name="dormitory"
+                                   data-error="宿舍号不能为空||宿舍号格式不正确" maxlength="18" id="dormitory"/>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus ex"></label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl">&nbsp;</span>
+                        <div class="f-fl item-ifo">
+                            <a href="javascript:;" class="btn btn-blue f-r3" id="btn_part3">注册</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="part4 text-center" style="display:none">
+                    <h3><a th:href="@{/index}">恭喜您，您已注册成功，现在开始您的交易之旅吧！</a></h3>
+                    <p class="c-666 f-mt30 f-mb50">页面将在<strong id="times" class="f-size18">10</strong> 秒钟后，跳转到 <a
+                            th:href="@{/index}" class="c-blue">进入首页</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-sPopBg" style="z-index:998;"></div>
+<div class="m-sPopCon regcon">
+    <div class="m-sPopTitle"><strong>服务协议条款</strong><b id="sPopClose" class="m-sPopClose" onClick="closeClause()">×</b>
+    </div>
+    <div class="apply_up_content">
+    	<pre class="f-r0">
+		<strong>同意以下服务条款，提交注册信息</strong>
+        </pre>
+    </div>
+    <center><a class="btn btn-blue btn-lg f-size12 b-b0 b-l0 b-t0 b-r0 f-pl50 f-pr50 f-r3"
+               href="javascript:closeClause();">已阅读并同意此条款</a></center>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        $("#dormitory").blur(function () {
+            var dormitory = $("#dormitory").val();
+            if (/^(6|7)-[1-6](0[1-9]|1[0-5])$/.test(dormitory)) {
+                $(".ex").html(null);
+            } else {
+                $(".ex").html("宿舍号填写错误！");
+            }
+        });
+
+        //第一页的确定按钮
+        $("#btn_part1").click(function () {
+            if (!verifyCheck._click()) return;
+            var phone1 = $("#phone").val();
+            $.ajax({
+                type: "GET",//请求类型
+                url: "findUserInfoPhone",//请求的url
+                data: {
+                    phone: phone1
+                },//请求参数
+                dataType: "json",//ajax接口（请求url）返回的数据类型·
+                success: function (date) {//data：返回数据（json对象）
+                    if (date == 0) {
+                        $(".part1").hide();
+                        $(".part2").show();
+                        $(".step li").eq(1).addClass("on");
+                    } else {
+                        alert("您输入的手机号已被注册!");
+                    }
+                },
+                error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                    alert("系统错误请联系相关管理员！");
+                }
+            });
+        });
+        //第二页的确定按钮
+        $("#btn_part2").click(function () {
+            if (!verifyCheck._click()) return;
+            var yzm = $("#yzm").val();
+            var text = $(".yxyzm").text();
+            if (yzm != text) {
+                showAlert("验证码输入错误!");
+            }
+            else {
+                // alert("输入的验证码正确!");
+                $(".part2").hide();
+                $(".part3").show();
+            }
+        });
+        //第三页的确定按钮
+        $("#btn_part3").click(function () {
+            if (!verifyCheck._click()) return;
+            /*点击注册执行添加操作！*/
+            var username1 = $("#username").val();
+            var phone1 = $("#phone").val();
+            var password1 = $("#password").val();
+            var realName1 = $("#realName").val();
+            var class11 = $("#class1").val();
+            var sno1 = $("#sno").val();
+            var dormitory1 = $("#dormitory").val();
+            var gender1 = $("#gender").val();
+            var qq1 = $("#qq").val();
+            $.ajax({
+                type: "GET",//请求类型
+                url: "insertUserInfoAdd",//请求的url
+                data: {
+                    userName: username1,
+                    phone: phone1,
+                    password: password1,
+                    realName: realName1,
+                    class1: class11,
+                    sno: sno1,
+                    dormitory: dormitory1,
+                    gender: gender1,
+                    qq: qq1
+                },//请求参数
+                dataType: "json",//ajax接口（请求url）返回的数据类型·
+                success: function (date) {//data：返回数据（json对象）
+                    $(".part3").hide();
+                    $(".part4").show();
+                    $(".step li").eq(2).addClass("on");
+                    countdown({
+                        maxTime: 10,
+                        ing: function (c) {
+                            $("#times").text(c);
+                        },
+                        after: function () {
+                            window.location.href = "/index";
+                        }
+                    });
+                    alert("注册成功");
+                },
+                error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                    alert("系统错误请联系相关管理员！");
+                }
+            });
+        });
+    });
+    function showoutc() {
+        $(".m-sPopBg,.m-sPopCon").show();
+    }
+    function closeClause() {
+        $(".m-sPopBg,.m-sPopCon").hide();
+    }
+</script>
+<div style="text-align:center;">
+    <p>Copyright &copy; 2016 xxx.com All Rights Reserved　版权所有 北大青鸟||南昌德弘</p>
+</div>
+<script src="css/user.js"></script>
+<style type="text/css">
+    html, body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mask, .mask-mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 99;
+    }
+
+    .mask-mask {
+        z-index: 100 !important;
+    }
+
+    .mask-content {
+        position: relative;
+        z-index: 101 !important;
+    }
+
+    #alert, #alert-content {
+        display: none;
+    }
+
+    #alert-content {
+        min-width: 320px;
+        max-width: 540px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 5px 15px;
+        border-radius: 2px;
+        transform: translateY(130%);
+        word-break: break-all;
+    }
+
+    #alert-content > p {
+        margin: 6px 0;
+    }
+
+    #alert-content-text {
+        text-indent: 2em;
+        padding: 10px 4px;
+        font-size: 18px;
+    }
+
+    #alert-close {
+        display: block;
+        margin: 0 auto;
+        padding: 4px 20px;
+        font-size: 16px;
+        border-radius: 2px;
+        background-color: #ffbd39;
+        color: #fff;
+        cursor: pointer;
+        border: none;
+    }
+</style>
+<div id="alert" class="mask">
+    <div id="alert-content" class="mask-content">
+        <p id="alert-content-text">asd</p>
+        <p>
+            <input id="alert-close" onclick="closeAlert()" type="button" value="确定"/>
+        </p>
+    </div>
+    <div id="alert-mask" onclick="closeAlert()" class="mask-mask"></div>
+</div>
+<script type="text/javascript">
+    function showAlert(text = "", btn = "确定") {
+        $("#alert-content-text").html(text);
+        $("#alert-close").val(btn);
+        $("#alert").fadeIn(200);
+        $("#alert-content").slideDown(300);
+    }
+
+    function closeAlert() {
+        $("#alert-content-text").html("");
+        $("#alert-close").val("确定");
+        $("#alert").fadeOut(300);
+        $("#alert-content").slideUp(200);
+    }
+</script>
+</body>
+</html>

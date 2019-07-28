@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>发布商品</title>
+    <link rel="icon" href="../img/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/userhome.css"/>
+    <link rel="stylesheet" href="../css/user.css"/>
+    <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- 图片上传即使预览插件 -->
+    <link rel="stylesheet" href="../css/fileinput.min.css">
+    <script type="text/javascript" src="../js/fileinput.min.js"></script>
+    <script type="text/javascript" src="../js/zh.js"></script>
+    <link href="../css/userinfo.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/bottom.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .container {
+            margin-right: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="pre-2" id="big_img">
+    <img src="http://findfun.oss-cn-shanghai.aliyuncs.com/images/head_loading.gif"
+         class="jcrop-preview jcrop_preview_s">
+</div>
+<div id="cover" style="min-height: 639px;">
+    <div id="user_area">
+        <div class="nav">
+            <input type="hidden" th:value="${userinfoLogins}" id="userinfo"/>
+            <!--<a href="index.html"></a>-->
+            <div class="nav_content">
+                <div class="user">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <div class="car">
+                            <a th:href="@{/login}"><img src="../images/car.png"></a>
+                            <span>0</span>
+                        </div>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div class="car">
+                            <a th:href="@{'/findShopList?userId='+${session.userinfoLogins.id}}"><img
+                                    src="../images/car.png"></a>
+                            <span th:text="${session.num}"></span>
+                        </div>
+                    </th:if>
+
+                    <div class="userlogo">
+                        <img src="../images/icon-user_47dae1a.jpg">
+                        <div class="user_meua">
+                            <th:if th:if="${session.userinfoLogins==null}">
+                                <a th:href="@{/Regedit}">立刻注册</a>
+                                <a th:href="@{/login}">立刻登录</a>
+                                <a class="order" href="javaScripi:void(0)">我的订单</a>
+                            </th:if>
+                            <th:if th:if="${session.userinfoLogins!=null}">
+                                <div>
+                                    <a href="userinfo.html">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                                    <a href="userinfo.html">我的资料</a>
+                                    <a th:href="@{/order}" href="order.html">我的订单</a>
+                                    <a th:href="@{/Publishgoods}">我发布的商品</a>
+                                    <a href="cart.html">我的购物车</a>
+                                    <a href="#">退出登陆</a>
+                                </div>
+                            </th:if>
+                        </div>
+                    </div>
+                    <div class="search">
+                        <form method="post" th:action="@{/findGoodsInfoName}">
+                            <input placeholder="搜索商品" required="true" name="name" type="text" id="name"
+                                   style="position: relative;top: -22px;left: -15px;">
+                            <input type="image" src="../images/search.png"
+                                   style="width:20px;height:20px;position: relative;top: -22px;"></form>
+                    </div>
+                </div>
+                <ul class="nav_link">
+                    <li><img src="../images/web.gif"
+                             style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+                    </li>
+                    <li>
+                        <th:if th:if="${session.userinfoLogins==null}">
+                            <a th:href="@{/index}">首页</a>
+                        </th:if>
+                        <th:if th:if="${session.userinfoLogins!=null}">
+                            <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                        </th:if>
+                    </li>
+                    <li>
+                        <a th:href="@{/findWantGoodsAll}">求购信息广场</a>
+                    </li>
+                    <li><a th:href="@{/goToUserCenter}">用户中心</a>
+                    </li>
+                    <li>
+                        <th:if th:if="${session.userinfoLogins!=null}">
+                            <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                        </th:if>
+                        <th:if th:if="${session.userinfoLogins==null}">
+                            <a th:href="@{/login}">我的足迹</a>
+                        </th:if>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--
+
+         描述：左侧个人中心栏
+     -->
+    <div class="crumbs">
+        <a href="index.html">网站首页</a> &nbsp;&gt;&nbsp;
+        <span class="crumbs-level" id="crumbsLevel"><a href="userinfo.html">发布商品</a></span>
+    </div>
+    <div class="user_bottom_left" style="position: relative;left: 184px;background-color: #ffffff;">
+        <img th:src="@{/images/qq/{Avatar}(Avatar=${user.Avatar})}">
+        <p th:text="${user.UserName}"></p>
+        <ul>
+            <li><a th:href="@{/goToUserCenter}">个人资料</a></li>
+            <li><a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">购物车</a></li>
+            <li><a th:href="@{/order}">我的订单</a></li>
+            <li><a th:href="@{/findWantGoodsUser}">我的求购商品</a></li>
+            <li><a th:href="@{/pubGoods}" class="active">发布商品</a></li>
+            <li><a th:href="@{/goToUpdatePwd}">修改密码</a></li>
+            <li><a th:href="@{/login2}">退出登录</a></li>
+        </ul>
+        <div class="xian"></div>
+    </div>
+    <!--
+      描述：发布物品
+-->
+    <div id="user_content" style="position: relative;top: -147px;left: -50px;">
+        <div class="basic">
+            <form method="post" role="form" enctype="multipart/form-data" onsubmit="return su()"
+                  th:action="@{/publishGoodsSubmit}">
+                <h1>&nbsp;&nbsp;&nbsp;发布商品</h1>
+                <hr/>
+                <div class="changeinfo">
+                    <span>物品名：</span>
+                    <input class="in_info" type="text" name="name" id="name1" placeholder="请输入物品名"
+                           onkeyup="value=value.replace(/[^\u4E00-\u9FA5)]/g,'')"/>
+                    <span>(*必填)</span>
+                </div>
+                <div class="changeinfo">
+                    <span>物品成色：</span>
+                    <select class="in_info" name="level" id="level">
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                    <span>(请如实填写)</span>
+                </div>
+                <div class="changeinfo">
+                    <span>出售价格：</span>
+                    <input class="in_info" type="text" name="tradingValue" placeholder="请输入出售价格" id="tradingValue"
+                           onkeyup="value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3').replace(/[^\d.]/g,'').replace(/[^\d]/g,'')"/>
+                    <span>(*必填)</span>
+                </div>
+                <div class="changeinfo">
+                    <span>原价：</span>
+                    <input class="in_info" type="text" name="truePrice" placeholder="请输入商品原价" id="truePrice"
+                           onkeyup="value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3').replace(/[^\d.]/g,'').replace(/[^\d]/g,'')"/>
+                    <span>(请如实填写)</span>
+                </div>
+                <div class="changeinfo">
+                    <span>商品数量：</span>
+                    <input class="in_info" type="text" name="count" placeholder="请输入商品数量" id="count"
+                           onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                    <span>(*必填)</span>
+                </div>
+                <div class="changeinfo">
+                    <span>物品类别：</span>
+                    <select class="in_info" name="type" id="type">
+                        <option th:each=" goodType : ${goodTypeList}" th:value="${goodType.id}"><span
+                                th:text="${goodType.Name}"></span></option>
+                    </select>
+                </div>
+                <div class="changeinfo">
+                    <span>交易方式：</span>
+                    <select class="in_info" name="transaction" id="transaction">
+                        <option value="2">面交</option>
+                        <option value="0">微信</option>
+                        <option value="1">支付宝</option>
+                    </select>
+                </div>
+                <div class="changeinfo" id="dir">
+                    <span>商品描述：</span>
+                    <div class="sha">
+                        <div class="publ">
+                            <div class="pub_con">
+                                <div class="text_pu">
+                                    <textarea name="remark" class="emoji-wysiwyg-editor" id="remark"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <hr/>
+                <div class="changeinfo">
+                    <span>商品图片：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-1">
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <input type="file" name="myfile" data-ref="imgUrl" class="col-sm-10 myfile"
+                                               value="" multiple="multiple" id="myfile"/>
+                                        <input type="hidden" name="imgUrl" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="setting-save" value="发布物品"
+                       style="margin-top: 20px;background-color: blue;"/>
+                <form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!--=======================================================================-->
+<div class="footer">
+    <div class="footer_content">
+        <ul class="footer_item">
+            <li>联系方式：</li>
+            <li class="tit">15979675043</li>
+            <li class="tit">1730548276@qq.com</li>
+        </ul>
+
+        <ul class="footer_item">
+            <li>购物指南</li>
+
+            <li><a href="#">选择配送方式</a></li>
+
+            <li><a href="#">付款收货</a></li>
+
+            <li><a href="#">挑选商品</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>送货说明</li>
+
+            <li><a href="#">购物流程</a></li>
+
+            <li><a href="#">订购方式</a></li>
+
+            <li><a href="#">注意事项</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>支付方式</li>
+
+            <li><a href="javascript:void(0)">货到付款区域</a></li>
+
+            <li><a href="javascript:void(0)">支付方式说明</a></li>
+
+            <li><a href="javascript:void(0)">货到付款</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>服务政策</li>
+
+            <li><a href="javascript:void(0)">售后服务</a></li>
+
+            <li><a href="javascript:void(0)">退换货原则</a></li>
+
+            <li><a href="javascript:void(0)">其他服务协议</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>关于我们</li>
+
+            <li><a href="javascript:void(0)">关于我们</a></li>
+
+            <li><a href="javascript:void(0)">如何联系我们</a></li>
+
+            <li><a href="javascript:void(0)">合作加盟</a></li>
+        </ul>
+    </div>
+</div>
+<div class="Shop7z_kefu">
+    <div id="service">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="weixin_area">
+                    <img src="images/l02.png" width="47" height="49" class="shows"/>
+                    <img src="images/a.png" width="57" height="49" class="hides"/>
+                    <img src="images/qd.png" width="145" class="weixin"
+                         style="display:none;margin:-100px 57px 0 0"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" target="_blank">
+                    <div class="hides" style="width:161px;display:none;" id="qq">
+                        <div class="hides" id="p1">
+                            <img src="images/ll04.png"/>
+                        </div>
+                        <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">1599428958</span>
+                        </div>
+                    </div>
+                    <img src="images/l04.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <div class="hides" style="width:161px;display:none;">
+                        <div class="hides" id="p1">
+                            <img src="images/ll05.png"/>
+                        </div>
+                        <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">12345678991</span>
+                        </div>
+                    </div>
+                    <img src="images/l05.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a id="top_btn">
+                    <div class="hides" style="width:161px;display:none">
+                        <img src="images/ll06.png" width="161" height="49"/>
+                    </div>
+                    <img src="images/l06.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="../css/user.js"></script>
+<script>
+    function su() {
+        var name = $("#name1").val();//商品名称
+        var level = $("#level").val();//商品成色
+        var remark = $("#remark").val();//描述
+        var tradingValue = $("#tradingValue").val();//出售价格
+        var type = $("#type").val();//商品类型
+        var count = $("#count").val();//商品数量
+        var transaction = $("#transaction").val();//支付方式
+        var truePrice = $("#truePrice").val();//真实价格
+        var myfile = $("#myfile").val();//商品图片
+        if (name == '' || name == null) {
+            alert("请输入商品名称！");
+            return false;
+        } else if (tradingValue == 0 || transaction < 0) {
+            alert("出售价格不能小于或等于0!");
+            return false;
+        } else if (truePrice == 0 || truePrice < 0) {
+            alert("真实价格不能小于或等于0!");
+            return false;
+        } else if (count == 0 || transaction < 0) {
+            alert("商品数量不能小于或等于0");
+            return false;
+        } else if (remark == '' || remark == null) {
+            alert("请输入商品描述");
+            return false;
+        } else if (myfile == null || myfile == '') {
+            alert("请至少选择一张图片");
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+<script type="application/javascript">
+    $(".myfile").fileinput({
+        uploadUrl: "/UpLoadFile",//上传的地址
+        uploadAsync: true, //默认异步上传
+        showUpload: false, //是否显示上传按钮,跟随文本框的那个
+        showRemove: true, //显示移除按钮,跟随文本框的那个
+        showCaption: true,//是否显示标题,就是那个文本框
+        showPreview: true, //是否显示预览,不写默认为true
+        dropZoneEnabled: true,//是否显示拖拽区域，默认不写为true，但是会占用很大区域
+//        uploadExtraData:{"name": name,"level":level,"remake":remake,"tradingValue":tradingValue,"type":type,"count":count,"transaction":transaction},
+        //minImageWidth: 50, //图片的最小宽度
+        //minImageHeight: 50,//图片的最小高度
+        //maxImageWidth: 1000,//图片的最大宽度
+        //maxImageHeight: 1000,//图片的最大高度
+        //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+        //minFileCount: 0,
+        minFileCount: 1,
+        maxFileCount: 4, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount: true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        allowedFileTypes: ['image'],//配置允许文件上传的类型
+        allowedPreviewTypes: ['image'],//配置所有的被预览文件类型
+        allowedPreviewMimeTypes: ['jpg', 'png', 'gif'],//控制被预览的所有mime类型
+        language: 'zh',
+        layoutTemplates: {
+            actionUpload: "",
+        }, previewSettings: {
+            image: {width: "150px", height: "150px"}
+        }
+    })
+    //异步上传返回结果处理
+    $('.myfile').on('fileerror', function (event, data, msg) {
+        console.log("fileerror");
+        console.log(data);
+    });
+    //异步上传返回结果处理
+    $(".myfile").on("fileuploaded", function (event, data, previewId, index) {
+        console.log("fileuploaded");
+        var ref = $(this).attr("data-ref");
+        $("input[name='" + ref + "']").val(data.response.imgUrl);
+    });
+
+    //同步上传错误处理
+    $('.myfile').on('filebatchuploaderror', function (event, data, msg) {
+        console.log("filebatchuploaderror");
+        console.log(data);
+    });
+
+    //同步上传返回结果处理
+    $(".myfile").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+        console.log("filebatchuploadsuccess");
+        console.log(data);
+    });
+
+    //上传前
+    $('.myfile').on('filepreupload', function (event, data, previewId, index) {
+        console.log("filepreupload");
+    });
+</script>
+</body>
+</html>

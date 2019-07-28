@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.GoodsinfoMapper">
+    <!--按条件查询二手商品查看商品区间的价格并且进行分页-->
+    <select id="findGoodsInfoName" parameterType="com.hhsj.FreeBird.pojo.GoodsInfoCustom"
+            resultType="com.hhsj.FreeBird.pojo.GoodsInfoCustom">
+        SELECT i.*,t.name AS typeName FROM goodsinfo i,goodstype t WHERE i.Type = t.id AND i.`Display`= 0 AND i.`name`
+        LIKE CONCAT
+        ('%',#{name},'%')
+        <if test="csjg == 30 or csjg == 60 or csjg == 90 or csjg == 120 or csjg == 200 or csjg == 300 or csjg == 500 or csjg == 1000 or csjg == 2000">
+            AND tradingValue >= #{tradingValue} AND tradingValue &lt;= #{csjg} ORDER BY tradingValue ASC
+        </if>
+        <if test="tradingValue == 1">
+            ORDER BY tradingValue DESC
+        </if>
+        <if test="tradingValue == 5 ">
+            ORDER BY tradingValue ASC
+        </if>
+        <if test="tradingValue == 3">
+            ORDER BY `modify` DESC
+        </if>
+        <if test="tradingValue == 4">
+            ORDER BY `view` DESC
+        </if>
+    </select>
+
+    <!--搜索商品最下方的为你推荐-->
+    <select id="findGoodsInfoTradingValue"
+            resultType="com.hhsj.FreeBird.pojo.GoodsInfoCustom" parameterType="int">
+        SELECT * FROM goodsinfo WHERE `Display`=0 ORDER BY `view` DESC LIMIT #{fy},10
+    </select>
+
+    <!--以下是查询主页相关代码-->
+    <!--根据日期查询最新上架商品-->
+    <select id="findGoodsByModify" resultType="com.hhsj.FreeBird.pojo.Goodsinfo">
+        SELECT  i.* FROM `goodsinfo` i,`goodstype` t
+        WHERE i.`Type` = t.`Id` AND i.Display = 0
+        ORDER BY i.`Modify` DESC
+        LIMIT 8
+    </select>
+
+    <!--根据浏览次数查询热销商品-->
+    <select id="findGoodsByView" resultType="com.hhsj.FreeBird.pojo.Goodsinfo">
+        SELECT  i.* FROM `goodsinfo` i,`goodstype` t
+        WHERE i.`Type` = t.`Id` AND i.Display = 0
+        ORDER BY i.`view` DESC
+        LIMIT 8
+    </select>
+
+
+    <!--根据游戏设备查询商品-->
+    <select id="findGoodsByGameType" resultType="com.hhsj.FreeBird.pojo.Goodsinfo">
+        SELECT  i.* FROM `goodsinfo` i,`goodstype` t
+        WHERE i.`Type` = t.`Id` AND i.`Type`  = 7  AND i.Display = 0
+        LIMIT 4
+    </select>
+
+    <select id="findGoodsByType" resultType="com.hhsj.FreeBird.pojo.Goodsinfo">
+        SELECT  i.* FROM `goodsinfo` i,`goodstype` t
+        WHERE i.`Type` = t.`Id` AND i.`Type`  = 1 AND i.Display = 0
+         ORDER BY i.`Modify` DESC
+        LIMIT 12
+    </select>
+
+    <!--根据商品名称模糊查询-->
+    <select id="findGoodsByName" resultType="com.hhsj.FreeBird.pojo.Goodsinfo" parameterType="string">
+        SELECT * FROM `goodsinfo`
+        WHERE `Name` LIKE CONCAT('%',#{name},'%') AND  `Display`=0
+    </select>
+
+    <select id="findGoodInfo" resultType="com.hhsj.FreeBird.pojo.GoodsInfoCustom" parameterType="int">
+        SELECT g.*,t.name as typeName,u.username AS userName,u.qq as qq,u.phone as phone,u.Avatar as avatar FROM goodsinfo AS g,goodstype AS t,userinfo AS u
+        WHERE g.Type=t.id AND g.Uid=u.id AND g.id=#{id}
+    </select>
+
+    <!--修改浏览次数-->
+    <update id="updateView" parameterType="com.hhsj.FreeBird.pojo.GoodsInfoCustom">
+        UPDATE goodsinfo SET view=#{view} WHERE id=#{id}
+    </update>
+
+    <!--发布商品-->
+    <insert id="addGoodInfo" parameterType="com.hhsj.FreeBird.pojo.GoodsInfoCustom">
+        INSERT INTO goodsinfo VALUES (#{id},#{modify},#{shelfTime},#{name},#{level},#{remark},#{tradingValue},#{type},#{count},#{display},#{transaction},#{truePrice},#{uid},#{image},#{image1},#{image2},#{image3},#{view})
+    </insert>
+    <!--商品变成订单后改变状态，使之不能在商品列表显示-->
+    <update id="updateDisplay" parameterType="com.hhsj.FreeBird.pojo.Goodsinfo">
+UPDATE goodsinfo SET Display=#{display} WHERE id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.WantgoodsMapper">
+    <!--发布求购商品-->
+    <insert id="addWantGoods" parameterType="com.hhsj.FreeBird.pojo.Wantgoods">
+      INSERT INTO wantgoods (`modify`,Remark,Price,`type`,`count`,`Transaction`,`Uid`,`Image`,`status`)VALUES
+      (#{modify},#{remark},#{price},#{type},#{count},#{transaction},#{uid},#{image},#{status})
+    </insert>
+
+    <!--按条件查询所有用户发布的求购信息-->
+    <select id="findWantGoodsAll" parameterType="com.hhsj.FreeBird.pojo.WantGoodsCutom"
+            resultMap="goods1">
+        SELECT w.id AS w_id,w.`Modify`,w.Name,w.Remark,w.Price,w.Count,w.Transaction,w.Uid,w.Image,w.status,w.Type as
+        w_type,
+        i.id AS
+        u_id,i.UserName,i.Phone,i.RealName,i.Class1,i.Sno,i.Dormitory,i.Gender,i.CreatTime,i.Avatar,i.QQ,i.status
+        AS i_status
+        ,t.`Id` AS t_id,t.name as tname
+        FROM wantgoods w,userinfo i,goodstype t
+        WHERE
+        w.`Uid` = i.`Id`
+        AND w.`Type`=t.`Id`
+        <if test="type != null and type != 0">
+            AND `type` = #{type}
+        </if>
+        ORDER BY w.modify DESC
+    </select>
+
+    <resultMap id="goods1" type="com.hhsj.FreeBird.pojo.WantGoodsCutom">
+        <id column="w_id" property="id"/>
+        <association property="userinfo" javaType="com.hhsj.FreeBird.pojo.Userinfo">
+            <id column="u_id" property="id"/>
+        </association>
+        <association property="goodstype" javaType="com.hhsj.FreeBird.pojo.Goodstype">
+            <id column="t_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <!--查询用户发布求购信息的条数-->
+    <select id="findWantGoodsUid" resultType="int" parameterType="int">
+        SELECT COUNT(0) FROM wantgoods WHERE uid=#{uid}
+    </select>
+
+    <!--查询用户自己发布的求购信息-->
+    <select id="findWantGoodsUser" parameterType="com.hhsj.FreeBird.pojo.Wantgoods"
+            resultType="com.hhsj.FreeBird.pojo.Wantgoods">
+        SELECT w.*,i.name as tname FROM goodstype i,wantgoods w WHERE w.`type` = i.`Id` AND uid=#{uid} ORDER BY w.modify DESC
+    </select>
+    <!--以下是删除求购信息的代码总共三条SQL语句-->
+    <delete id="deleteWantgoodsMessage" parameterType="int">
+        DELETE FROM wantgoodsmessage WHERE wid=#{wid}
+    </delete>
+    <delete id="deleteMywantgood" parameterType="int">
+        DELETE FROM mywantgood WHERE wid=#{wid}
+    </delete>
+    <delete id="deleteWantGoods" parameterType="int">
+        DELETE FROM wantgoods WHERE Id=#{id}
+    </delete>
+
+    <!--查询出用户要留言的用户名-->
+    <select id="findWantGoodsId" parameterType="int" resultType="com.hhsj.FreeBird.pojo.WantGoodsCutom">
+         SELECT g.*,i.userName as userName FROM wantgoods g,userinfo i WHERE g.uid =i.id AND  g.id=#{id}
+    </select>
+    <!--给发布求购信息的用户留言-->
+    <insert id="AddWantGoodsMessage" parameterType="com.hhsj.FreeBird.pojo.Wantgoodsmessage">
+      INSERT INTO `wantgoodsmessage`(`modify`,wid,`Content`,uid)VALUES(#{modify},#{wid},#{content},#{uid})
+    </insert>
+    <!--查看用户的留言信息-->
+    <select id="findWantGoodsId2" parameterType="int" resultType="com.hhsj.FreeBird.pojo.WantGoodsCutom">
+        SELECT u.userName AS userName,u.Avatar AS avatar,u.qq,m.content,m.modify,g.name AS `name`,u.Id as id FROM wantgoods g,wantgoodsmessage m,userinfo u
+        WHERE g.id=m.`Wid` AND m.uid=u.id AND g.`Id`=#{id} ORDER BY m.modify DESC
+    </select>
+
+
+</mapper>

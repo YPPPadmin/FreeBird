@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.UserpwdMapper">
+
+    <select id="findPhone" parameterType="com.hhsj.FreeBird.pojo.Userinfo" resultType="com.hhsj.FreeBird.pojo.Userinfo">
+    select * from userinfo where Phone=#{phone}
+</select>
+    <select id="findqqName" parameterType="com.hhsj.FreeBird.pojo.Userinfo"
+            resultType="com.hhsj.FreeBird.pojo.Userinfo">
+        select * from userinfo where Phone=#{phone}
+    </select>
+    <update id="updatePwd" parameterType="com.hhsj.FreeBird.pojo.Userpwd">
+        UPDATE userpwd SET Password=#{password} where uid=#{uid}
+    </update>
+
+    <!--以下是修改密码和查看个人信息相关代码-->
+    <select id="selectPwdById" parameterType="int" resultType="String">
+        SELECT Password from userpwd where Id=#{value}
+    </select>
+    <update id="updatePwd1" parameterType="com.hhsj.FreeBird.pojo.Userpwd">
+        UPDATE userpwd set Password=#{password} where Id=#{id}
+    </update>
+</mapper>

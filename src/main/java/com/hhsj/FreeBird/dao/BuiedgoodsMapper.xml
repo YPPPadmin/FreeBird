@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.BuiedgoodsMapper">
+    <!--查询我的订根据用户id然后根据订单状态实现条件查询-->
+    <select id="findBuiedgoodsList" resultType="com.hhsj.FreeBird.pojo.BuiedgoodsCustom">
+        SELECT DISTINCT b.*,g.image,g.`Name`,g.`truePrice`,g.`Count`,g.`tradingValue`,g.type,g.level
+        FROM buiedgoods b,goodsinfo g
+        WHERE g.`Id`=b.`Gid` and  b.`Uid`=#{uid}
+        <if test="state != null  ">
+            and b.state=#{state}
+        </if>
+    </select>
+    <!--根据用户的id还有商品的id来查找订单的详情-->
+<select id="findBuiedgoods" resultType="com.hhsj.FreeBird.pojo.BuiedgoodsCustom">
+   SELECT  b.*,u.realName,u.phone,u.dormitory,g.id,g.image,g.`Name`,g.`truePrice`,g.`Count`,g.`tradingValue`,g.type,g.level,g.remark
+    FROM buiedgoods b,goodsinfo g,userinfo u
+    WHERE u.id=b.uid and g.`Id`=b.`Gid` and  b.`Uid`=#{uid} and g.id=#{gid}
+</select>
+</mapper>

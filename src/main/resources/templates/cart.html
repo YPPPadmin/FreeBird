@@ -1,0 +1,306 @@
+r
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>购物车</title>
+    <link href="css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="css/cart.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer.js"></script>
+</head>
+<body onload="jian()">
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <div class="car">
+                    <a th:href="@{/login}"><img src="images/car.png"></a>
+                    <span>0</span>
+                </div>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <div class="car">
+                    <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
+                            src="images/car.png"></a>
+                    <span th:text="${session.num}"></span>
+                </div>
+            </th:if>
+            <div class="userlogo">
+                <img src="images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a th:href="@{/login}">我的订单</a>
+                        <a href="#">帮助与反馈</a>
+                        <a href="#">联系我们</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a th:href="@{/goToUserCenter}">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a th:href="@{/goToUserCenter}">我的资料</a>
+                            <a th:href="@{/order}">我的订单</a>
+                            <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">我的购物车</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a th:href="@{/login2}">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="myword">
+                    <input type="image" src="images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购商品</a>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goToUserCenter}">用户中心</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">用户中心</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--=======================================================================-->
+<div class="main">
+    <div class="main_content">
+        <p class="main_content_title">我的购物车</p>
+        <th:if th:if="${pageUtil.totalCount}==0">
+            <div class="main_noproduct">
+                购物车是空的，去逛逛选心仪的商品去吧<a href="/index"><span>去购物>></span></a>
+            </div>
+        </th:if>
+        <th:if th:if="${pageUtil.totalCount}!=0">
+            <form action="#" method="post">
+                <div class="main_goods">
+                    <ul class="main_goods_title">
+                        <li style="text-align:left; text-indent:25px;">商品</li>
+                        <li>单价</li>
+                        <li>数量</li>
+                        <li>操作</li>
+                    </ul>
+                    <ul class="main_goods_desc" th:each="shop : ${shopList}">
+                        <li>
+                            <th:if th:if="${session.userinfoLogins!=null}">
+                                <a th:href="@{/goodInfo/{id}(id=${shop.gid},uId=${session.userinfoLogins.id})}"
+                                   target="_blank">
+                                    <img th:src="${shop.good.image}"
+                                                        style="width: 50px;float: left;margin-left: 20px;border: 1px solid #D2D1D0"></a>
+                            </th:if>
+                            <th:if th:if="${session.userinfoLogins==null}">
+                                <a th:href="@{/goodInfo/{id}(id=${shop.gid})}" target="_blank"><img
+                                        th:src="${shop.good.image}"
+                                        style="width: 50px;float: left;margin-left: 20px;border: 1px solid #D2D1D0"></a>
+                            </th:if>
+                            <div th:text="${shop.good.name}">奇迹女士香水30ml
+                                <p>粉色 其他</p></div>
+                        </li>
+                        <li>￥<span class="tradingValue" th:text="${shop.good.tradingValue}"></span></li>
+                        <li><span id="count">1</span></li>
+                        <li><span><a
+                                th:href="@{/delShop(id=${shop.id},userId=${session.userinfoLogins.id},pageNum=1)}">删除</a></span>
+                        </li>
+                    </ul>
+                    <div class="xian">
+                        <div class="page" style="display: block; width: 510px; margin: 12px auto;">
+                            共<span th:text="${pageUtil.totalCount}"></span>条记录&nbsp;每页<span
+                                th:text="${pageUtil.pageSize}"></span>条&nbsp;现在<span
+                                th:text="${pageUtil.pageNum}" id="pageNum"></span>/<span
+                                th:text="${pageUtil.totalPageCount}" id="totalPageCount"></span>页
+                            <a id="index"
+                               th:href="@{/findShopList(pageNum=1,userId=${session.userinfoLogins.id})}">首页</a>
+                            <th:if th:if="${pageUtil.pageNum>1}">
+                                <a th:href="@{/findShopList(pageNum=${pageUtil.pageNum-1},userId=${session.userinfoLogins.id})}">上一页</a>
+                            </th:if>
+                            <th:if th:if="${pageUtil.pageNum<=1}">
+                                <a th:href="@{/findShopList(pageNum=1,userId=${session.userinfoLogins.id})}">上一页</a>
+                            </th:if>
+                            <th:if th:if="${pageUtil.pageNum<pageUtil.totalPageCount}">
+                                <a th:href="@{/findShopList(pageNum=${pageUtil.pageNum+1},userId=${session.userinfoLogins.id})}">下一页</a>
+                            </th:if>
+                            <th:if th:if="${pageUtil.pageNum>=pageUtil.totalPageCount}">
+                                <a th:href="@{/findShopList(pageNum=${pageUtil.totalPageCount},userId=${session.userinfoLogins.id})}">下一页</a>
+                            </th:if>
+                            <a id="last"
+                               th:href="@{/findShopList(pageNum=${pageUtil.totalPageCount},userId=${session.userinfoLogins.id})}">尾页</a>
+                        </div>
+                        <style type="text/css">
+                            .xian .page a {
+                                background-color: #d9d9d9;
+                                padding: 4px 12px;
+                                border-radius: 2px;
+                            }
+
+                            .page a:hover {
+                                background-color: #c7c7c7;
+                            }
+                        </style>
+                    </div>
+                    <script type="text/javaScript">
+                        $(function () {
+                            var count = $("#count").html();
+                            var price = $(".tradingValue").html();
+                            var sumPrice = parseInt(count) * parseInt(price);
+                            $(".sumPrice").html(sumPrice);
+                        });
+                    </script>
+                    <div style="float:right;height:60px;border-top:1px dotted #cdcdcd;">
+                        <input type="hidden" th:value="${session.userinfoLogins.id}" id="userId"/>
+                        <input type="button" value="清空购物车" id="clean" name=delal>
+                    </div>
+                </div>
+            </form>
+        </th:if>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#clean").click(function () {
+            var userId = $("#userId").val();
+            window.location = "/delShop?userId=" + userId;
+        });
+    });
+</script>
+<!--===================================================================-->
+<div class="footer">
+    <div class="footer_content">
+        <ul class="footer_item">
+            <li>联系方式：</li>
+            <li class="tit">15979675043</li>
+            <li class="tit">1730548276@qq.com</li>
+        </ul>
+
+        <ul class="footer_item">
+            <li>购物指南</li>
+
+            <li><a href="#">选择配送方式</a></li>
+
+            <li><a href="#">付款收货</a></li>
+
+            <li><a href="#">挑选商品</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>送货说明</li>
+
+            <li><a href="#">购物流程</a></li>
+
+            <li><a href="#">订购方式</a></li>
+
+            <li><a href="#">注意事项</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>支付方式</li>
+
+            <li><a href="javascript:void(0)">货到付款区域</a></li>
+
+            <li><a href="javascript:void(0)">支付方式说明</a></li>
+
+            <li><a href="javascript:void(0)">货到付款</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>服务政策</li>
+
+            <li><a href="javascript:void(0)">售后服务</a></li>
+
+            <li><a href="javascript:void(0)">退换货原则</a></li>
+
+            <li><a href="javascript:void(0)">其他服务协议</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>关于我们</li>
+
+            <li><a href="javascript:void(0)">关于我们</a></li>
+
+            <li><a href="javascript:void(0)">如何联系我们</a></li>
+
+            <li><a href="javascript:void(0)">合作加盟</a></li>
+        </ul>
+    </div>
+</div>
+<div class="Shop7z_kefu">
+    <div id="service">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="weixin_area">
+                    <img src="images/l02.png" width="47" height="49" class="shows"/>
+                    <img src="images/a.png" width="57" height="49" class="hides"/>
+                    <img src="images/qd.png" width="145" class="weixin"
+                         style="display:none;margin:-100px 57px 0 0"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" target="_blank">
+                    <div class="hides" style="width:161px;display:none;" id="qq">
+                        <div class="hides" id="p1">
+                            <img src="images/ll04.png"/>
+                        </div>
+                        <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">1599428958</span>
+                        </div>
+                    </div>
+                    <img src="images/l04.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <div class="hides" style="width:161px;display:none;">
+                        <div class="hides" id="p1">
+                            <img src="images/ll05.png"/>
+                        </div>
+                        <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">12345678991</span>
+                        </div>
+                    </div>
+                    <img src="images/l05.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a id="top_btn">
+                    <div class="hides" style="width:161px;display:none">
+                        <img src="images/ll06.png" width="161" height="49"/>
+                    </div>
+                    <img src="images/l06.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="css/user.js"></script>
+</body>
+</html>
+

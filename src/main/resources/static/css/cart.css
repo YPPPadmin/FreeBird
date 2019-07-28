@@ -1,0 +1,258 @@
+@charset "gb2312";
+/* 购物车css文件
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+.main {
+    width: 1240px;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 1px dotted #e6e6e6;
+    background: #FFF;
+    font-size: 16px
+}
+
+.main_content {
+    width: 1200px;
+    margin: 20px auto;
+    border: 1px solid #e6e6e6
+}
+
+.main_content_title {
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    font-size: 25px;
+    text-indent: 20px;
+    color: #444
+}
+
+.main_content_title_total {
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    font-size: 18px;
+    text-indent: 600px
+}
+
+.main_goods_title {
+    width: 100%;
+    margin-bottom: 5px;
+    overflow: hidden;
+    background: #FAFAFA;
+    border-bottom: 1px solid #ccc
+}
+
+.main_goods_title > li {
+    float: left;
+    width: 11%;
+    text-align: center;
+    line-height: 35px;
+    height: 35px;
+    color: #444
+}
+
+.main_goods_title > li:nth-child(1) {
+    width: 55%
+}
+
+.main_goods_desc {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+    border-bottom: 1px dotted #ccc;
+    background: #fcfcff
+}
+
+.main_goods_desc > li {
+    float: left;
+    width: 11%;
+    line-height: 50px;
+    text-align: center
+}
+
+.main_goods_desc > li:nth-child(1) {
+    width: 55%
+}
+
+.main_goods_desc > li p {
+    color: #686868
+}
+
+.main_goods_desc li > img {
+    width: 50px;
+    float: left;
+    margin-left: 20px;
+    border: 1px solid #D2D1D0
+}
+
+.main_goods_desc li > div {
+    float: left;
+    margin-left: 20px;
+    line-height: 24px;
+    text-align: left
+}
+
+.main_goods_desc li > div > a {
+    color: #8065B3
+}
+
+.main_goods_desc li > input {
+    width: 30px;
+    text-align: center;
+    border: 1px solid #cdcdcd;
+    vertical-align: top;
+    margin-top: 11px
+}
+
+.main .money {
+    color: #D30000
+}
+
+.main_content_address {
+    width: 100%
+}
+
+.form_common {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+    border-bottom: 1px dashed #e6e6e6;
+    padding-bottom: 10px
+}
+
+.main_content_method .form_common:hover {
+    background: #FDF9F0
+}
+
+.main_content_address .form_common > label {
+    width: 120px;
+    height: 34px;
+    line-height: 34px;
+    float: left;
+    text-align: right;
+    font-weight: 700
+}
+
+.liuyan > input, .main_content_address .form_common > div > input, .main_content_address .form_common > input {
+    font-size: 14px;
+    width: 320px;
+    height: 32px;
+    border: 1px solid #e6e6e6;
+    float: left;
+    margin-left: 20px;
+    outline: 0;
+    text-indent: 10px
+}
+
+.main_noproduct {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    color: #444;
+    padding-top: 150px;
+    vertical-align: middle
+}
+
+.main_noproduct span {
+    color: #06C
+}
+
+.main_content_address .form_common > input:hover {
+    border: 1px solid #3498DB
+}
+
+.liuyan > input:hover {
+    border: 1px solid #3498DB
+}
+
+.main_content_method {
+    width: 100%;
+    margin-bottom: 20px
+}
+
+.main_content_method .form_common > label {
+    width: 400px;
+    height: 34px;
+    line-height: 34px;
+    float: left;
+    margin-left: 20px
+}
+
+.main_content_method .form_common > input[type=radio], .main_content_method .form_common > input[type=checkbox] {
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px
+}
+
+.liuyan > label {
+    width: 120px !important;
+    text-align: right;
+    margin-left: 0 !important
+}
+
+.main_content_method p {
+    line-height: 32px;
+    text-indent: 20px
+}
+
+.main_page {
+    width: 1000px;
+    margin: 20px auto;
+    border: 1px solid #e6e6e6;
+    background: #FAFAFA;
+    padding-bottom: 20px
+}
+
+.main_page_title {
+    text-align: right;
+    width: 800px;
+    margin: auto;
+    line-height: 36px;
+    height: 36px;
+    border-bottom: 1px solid #CCC
+}
+
+.main_page > div {
+    text-align: left;
+    width: 800px;
+    margin: auto;
+    line-height: 36px;
+    height: 36px
+}
+
+.main_page > div > span {
+    float: left
+}
+
+input[type=submit] {
+    float: left;
+    background: #F30;
+    outline: 0;
+    border: 1px solid #f30;
+    width: 100px;
+    height: 38px;
+    color: #FFF;
+    border-radius: 4px;
+    margin: 10px
+}
+
+input[type=button] {
+    float: left;
+    background: #F30;
+    outline: 0;
+    border: 1px solid #f30;
+    width: 100px;
+    height: 38px;
+    color: #FFF;
+    border-radius: 4px;
+    margin: 10px
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+    opacity: .7;
+    cursor: pointer
+}

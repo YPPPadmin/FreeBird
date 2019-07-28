@@ -1,0 +1,23 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+iframe, fieldset {
+    border: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.page {
+    width: 500px;
+    margin: 0 auto;
+    color: #333;
+    font-size: 1.6rem;
+    margin-bottom: 2px;
+    margin-top: 15px
+}

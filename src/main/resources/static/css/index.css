@@ -1,0 +1,534 @@
+@charset "gb2312";
+/* ÍøÕ¾Ê×Ò³Css
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+.banner {
+    min-width: 1240px;
+    margin:0 auto;
+    font-size: 1.6rem
+}
+
+.flash {
+    width: 100%;
+    position: relative
+}
+
+.flash_img {
+    width: 100%;
+    height: 500px
+}
+
+.flash_img li {
+    width: 100%;
+    position: absolute;
+    height: 500px;
+    overflow: hidden;
+    transition: all 1s linear
+}
+
+.flash_img li img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /*margin: 0;*/
+    display: block;
+    height: 500px;
+    left: 50%;
+    margin-left: -1050px
+}
+
+.flash_item {
+    position: absolute;
+    width: 250px;
+    height: 8px;
+    left: 50%;
+    margin-left: -120px;
+    bottom: 50px
+}
+
+.flash_item li {
+    width: 40px;
+    height: 15px;
+    float: left;
+    background: #fff;
+    margin-left: 8px;
+    cursor: pointer
+}
+
+.flash_item_active {
+    background: #fc0 !important
+}
+
+.banner_link {
+    width: 304px;
+    background-color: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 50%;
+    margin-left: -620px;
+    top: 0;
+    height: 500px
+}
+
+.banner_link > ul {
+    width: 100%;
+    margin-top: 10px
+}
+
+.banner_link > ul > li {
+    width: 100%;
+    height: 60px;
+    line-height: 60px
+}
+
+.banner_link > ul > li > a {
+    color: #fff;
+    display: block;
+    text-indent: 40px;
+    transition: color .1s linear
+}
+
+.banner_link > ul > li > a:hover {
+    color: #fff
+}
+
+.banner_link > ul > li:hover {
+    background: #ff6700;
+    color: #000
+}
+
+.banner_link > li > ul > li {
+    color: #fff;
+    padding: 5.3% 10%
+}
+
+.banner_link > li > ul > li:hover {
+    background: #ff6700;
+    cursor: pointer
+}
+
+.banner_link .content {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    z-index: 1;
+    display: none
+}
+
+li:hover .content {
+    display: block;
+    color: #000
+}
+
+.good-list {
+    height: 100%;
+    width: 270px;
+    display: inline-block;
+    float: left;
+    background: #fff;
+    border-top: solid #ccc 1px;
+    box-shadow: 5px 8px 6px rgba(0, 0, 0, .2);
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+.banner_link .content .good-list:nth-of-type(2) {
+    left: 100%
+}
+
+.banner_link .content .good-list:nth-of-type(3) {
+    left: 200%
+}
+
+.banner_link .good-list li:first-child {
+    margin-top: 10px
+}
+
+.banner_link .good-list li {
+    margin-bottom: 1px;
+    padding: 0 26px 0 30px
+}
+
+.banner_link .good-list li > a {
+    display: block
+}
+
+.banner_link .good-list li:hover {
+    background: #ff6700;
+}
+
+.banner_link .good-list li *:hover {
+    color: #fff !important;
+}
+
+.tuijian {
+    width: 1240px;
+    margin: 8px auto;
+    overflow: hidden
+}
+
+.tuijian > a {
+    width: 304px;
+    float: left;
+    margin-left: 8px;
+    transition: opacity .5s linear
+}
+
+.tuijian > a:nth-child(1) {
+    margin-left: 0
+}
+
+.tuijian > a:hover {
+    opacity: .7
+}
+
+.tuijian > a > img {
+    width: 100%
+}
+
+.common {
+    width: 1240px;
+    margin: auto;
+    overflow: hidden
+}
+
+.common > h3 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    font-style: normal
+}
+
+.subcate {
+    float: right
+}
+
+.subcate .colo {
+    color: #ddd
+}
+
+.subcate > li {
+    float: left;
+    text-align: center;
+    font-size: 14px;
+    padding-right: 10px
+}
+
+.common > .sorthead > h3 {
+    float: left;
+    font-size: 2.8rem;
+    font-weight: 400;
+    font-style: normal
+}
+
+.goods {
+    width: 100%;
+    margin-top: 8px
+}
+
+.goods > li {
+    width: 304px;
+    float: left;
+    margin-left: 8px;
+    background: #fff;
+    margin-bottom: 8px;
+    text-align: center;
+    height: 400px;
+    transition: all .3s linear 0s;
+    -moz-transition: all .3s linear 0s;
+    -webkit-transition: all .3s linear 0s;
+    -o-transition: all .3s linear 0s;
+    overflow: hidden
+}
+
+.goods > li:nth-child(4n+1) {
+    margin-left: 0
+}
+
+.goods > li:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2)
+}
+
+.goods img {
+    height: 230px;
+    margin-top: 30px
+}
+
+.goods_name {
+    color: #333;
+    font-size: 1.6rem;
+    margin-bottom: 2px;
+    margin-top: 30px
+}
+
+.goods_desc {
+    color: #999;
+    font-size: 1.3rem
+}
+
+.goods_price {
+    position: relative;
+    display: inline-block;
+    color: #c00;
+    font-size: 2.2rem;
+    padding-left: 14px;
+    margin-top: 4px
+}
+
+.goods_price i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 14px
+}
+
+.goods_price em {
+    font-size: 16px
+}
+
+.guanggao {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 8px
+}
+
+.guanggao_left {
+    float: left;
+    width: 615px;
+    height: 450px;
+    overflow: hidden
+}
+
+.guanggao_left > img {
+    height: 450px
+}
+
+.guanggao_right {
+    float: right;
+    width: 616px;
+    height: 450px;
+    overflow: hidden
+}
+
+.guanggao_right > a {
+    float: left;
+    margin-top: 10px
+}
+
+.guanggao_right > a:nth-child(1) {
+    margin-top: 0
+}
+
+.guanggao_right > a:nth-child(3) {
+    margin-left: 10px
+}
+
+.guanggao img {
+    transition: opacity .5s linear
+}
+
+.guanggao img:hover {
+    opacity: .7
+}
+
+.xian {
+    width: 100%;
+    height: 50px;
+    float: left
+}
+
+.news {
+    width: 100%;
+    margin-top: 8px
+}
+
+.news > li {
+    width: 302px;
+    float: left;
+    margin-left: 10px;
+    background: #fff;
+    margin-bottom: 8px;
+    text-align: center;
+    height: 300px;
+    transition: all .3s linear 0s;
+    -moz-transition: all .3s linear 0s;
+    -webkit-transition: all .3s linear 0s;
+    -o-transition: all .3s linear 0s;
+    text-align: left
+}
+
+.news > li:nth-child(4n+1) {
+    margin-left: 0
+}
+
+.news > li:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2)
+}
+
+.newlogo {
+    width: 100%;
+    overflow: hidden;
+    height: 160px
+}
+
+.news img {
+    width: 100%;
+    transition: all .3s linear 0s;
+    -moz-transition: all .3s linear 0s;
+    -webkit-transition: all .3s linear 0s;
+    -o-transition: all .3s linear 0s
+}
+
+.news img:hover {
+    transform: scale(1.1)
+}
+
+.summary {
+    color: #aaa;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 5px 0 0 0;
+    overflow: hidden;
+    padding: 0 12px
+}
+
+.datetime {
+    color: #aaa;
+    font-size: 12px;
+    text-align: right;
+    padding-right: 10px
+}
+
+.news_list {
+    width: 100%;
+    margin-top: 8px
+}
+
+.news_list > li {
+    width: 302px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 30px;
+    background: #fff;
+    margin-bottom: 8px;
+    text-align: center;
+    height: 300px;
+    transition: all .3s linear 0s;
+    -moz-transition: all .3s linear 0s;
+    -webkit-transition: all .3s linear 0s;
+    -o-transition: all .3s linear 0s;
+    text-align: left
+}
+
+.news_list > li:nth-child(4n+1) {
+    margin-left: 0
+}
+
+.news_list > li:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2)
+}
+
+.news_list img {
+    width: 100%;
+    transition: all .3s linear 0s;
+    -moz-transition: all .3s linear 0s;
+    -webkit-transition: all .3s linear 0s;
+    -o-transition: all .3s linear 0s
+}
+
+.news_list img:hover {
+    transform: scale(1.1)
+}
+
+.news_title {
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 24px;
+    overflow: hidden;
+    padding: 15px 12px 0 12px
+}
+
+.news_title a:hover {
+    color: #e60000
+}
+
+.xian_index {
+    width: 100%;
+    height: 40px;
+    float: left;
+    border-top: 1px solid #ccc
+}
+
+.links {
+    width: 100%;
+    margin-bottom: 30px;
+    border-top: 1px solid #ccc
+}
+
+.links > span {
+    font-size: 14px;
+    color: #666;
+    font-weight: 700;
+    padding-right: 10px
+}
+
+.links > a {
+    font-size: 14px;
+    padding-right: 15px;
+    color: #888
+}
+
+.links > a:hover {
+    color: #000
+}
+
+.selltop {
+    width: 1240px;
+    margin: auto;
+    overflow: hidden;
+    border-bottom: 1px solid #ccc
+}
+
+.scroll-txt-title {
+    float: left;
+    width: 200px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #c60000;
+    margin-top: 15px;
+    margin-bottom: 15px
+}
+
+.scroll-txt {
+    height: 40px;
+    color: #484848;
+    position: relative;
+    overflow: hidden
+}
+
+.scroll-txt .font-inner {
+    position: absolute;
+    margin-top: 4px;
+    left: 8px;
+    top: 0
+}
+
+.scroll-txt .font-inner li {
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px
+}
+
+.scroll-txt .font-inner li span {
+    font-weight: 700;
+    color: #2788bb
+}
+
+.scroll-txt a:hover {
+    color: #0c6796
+}

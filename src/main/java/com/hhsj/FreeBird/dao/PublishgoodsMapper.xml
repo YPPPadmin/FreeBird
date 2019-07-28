@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.PublishgoodsMapper">
+    <select id="findPublishgoodsList" resultType="com.hhsj.FreeBird.pojo.Goodsinfo">
+SELECT * FROM goodsinfo g
+WHERE g.`Uid`=#{uid}
+AND g.`Display` IN(0,2,3) ORDER BY g.Modify DESC
+</select>
+    <select id="findPublishList" resultType="com.hhsj.FreeBird.pojo.Goodsinfo" parameterType="int">
+        SELECT * FROM goodsinfo g
+        WHERE g.`Uid`=#{uid}
+        <if test=" display == 0 || display == 2 || display == 3 ">
+            AND g.`Display`=#{display}
+        </if>
+         ORDER BY g.Modify DESC
+    </select>
+    <select id="findPublishgoods" resultType="com.hhsj.FreeBird.pojo.PublishgoodsCustom">
+ SELECT u.realName,u.phone,u.dormitory,g.`Name`,g.`Image`,g.`Remark`,g.`Type`,g.`tradingValue`,g.level
+    FROM goodsinfo g,userinfo u
+    WHERE g.`Uid`=u.id AND g.`Uid`=#{uid} AND g.`Id`=#{gid}
+    </select>
+    <delete id="deletePublishgoods" parameterType="int">
+      DELETE FROM publishgoods WHERE Gid=#{gid}
+    </delete>
+    <delete id="deletegoodscollection" parameterType="int">
+        DELETE FROM goodscollection WHERE Gid=#{gid}
+    </delete>
+    <delete id="deletebuiedgoods" parameterType="int">
+        DELETE FROM buiedgoods WHERE Gid=#{gid}
+    </delete>
+    <delete id="deletegoodsmessage" parameterType="int">
+        DELETE FROM goodsmessage WHERE Gid=#{gid}
+    </delete>
+    <delete id="deleteshoppingcar" parameterType="int">
+        DELETE FROM shoppingcar WHERE Gid=#{gid}
+    </delete>
+    <delete id="deletegoodsinfo" parameterType="int">
+        DELETE FROM goodsinfo WHERE id=#{gid}
+    </delete>
+    <delete id="deleteBowser" parameterType="int">
+        DELETE FROM browser WHERE goodId=#{gid}
+    </delete>
+    <insert id="insertPublishgoods" parameterType="com.hhsj.FreeBird.pojo.Publishgoods">
+        INSERT INTO `publishgoods` (MODIFY,State,Uid,Gid,State2)VALUES(NOW(),#{state},#{uid},#{gid},#{state2})
+    </insert>
+
+    <!--我是买家查询-->
+    <select id="findSBCX" parameterType="int" resultMap="findPublishgoods"
+            resultType="com.hhsj.FreeBird.pojo.PublishgoodsCustoms">
+        SELECT g.`Image`,g.`Name`,g.`Level`,g.`tradingValue`,u.`Phone`,p.`State`,p.`State2`,p.`Modify`
+        ,g.`Id` AS g_id,u.`Id` AS u_id,p.`id` AS p_id
+        FROM `goodsinfo` g,`userinfo` u,`publishgoods` p
+        WHERE g.`Id`=p.`Gid` AND g.`Uid`=u.`Id` and p.Uid=#{values} ORDER by p.Modify desc
+    </select>
+    <!--我是卖家查询-->
+    <select id="findSBCX2" parameterType="int" resultMap="findPublishgoods"
+            resultType="com.hhsj.FreeBird.pojo.PublishgoodsCustoms">
+        SELECT g.`Image`,g.`Name`,g.`Level`,g.`tradingValue`,u.`Phone`,p.`State`,p.`State2`,p.`Modify`
+        ,g.`Id` AS g_id,u.`Id` AS u_id,p.`id` AS p_id
+        FROM `goodsinfo` g,`userinfo` u,`publishgoods` p
+        WHERE g.`Id`=p.`Gid` AND g.`Uid`=u.`Id` and u.id=#{values}  ORDER by p.Modify desc
+    </select>
+
+    <resultMap id="findPublishgoods" type="com.hhsj.FreeBird.pojo.PublishgoodsCustoms">
+        <id column="p_id" property="id"/>
+        <association property="userinfo" javaType="com.hhsj.FreeBird.pojo.Userinfo">
+            <id column="u_id" property="id"/>
+        </association>
+        <association property="goodsinfo" javaType="com.hhsj.FreeBird.pojo.Goodsinfo">
+            <id column="g_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <!--卖家修改状态-->
+    <update id="updateState2" parameterType="com.hhsj.FreeBird.pojo.Publishgoods">
+        UPDATE `publishgoods`  SET `State2`=#{state2} WHERE `id`=#{id}
+    </update>
+
+    <!--买家修改状态-->
+    <update id="updateState" parameterType="com.hhsj.FreeBird.pojo.Publishgoods">
+        UPDATE `publishgoods`  SET `State`=#{state} WHERE `id`=#{id}
+    </update>
+    <!--卖家取消交易-->
+    <select id="quxiaojiaoyi" parameterType="int" resultType="int">
+        SELECT Gid FROM `publishgoods` WHERE id=#{id}
+    </select>
+
+</mapper>

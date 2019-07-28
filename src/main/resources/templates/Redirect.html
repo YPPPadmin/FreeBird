@@ -1,0 +1,25 @@
+﻿<!--跳转页面-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div align="center" text-align="center">
+<p ><strong><span id="span_text">
+    您已成功获取商家信息，请尽快和商家联系进行线下交易。
+    如有欺诈行为，请联系管理员。将在
+    <span style="color: red" id="span_timer"></span>秒后，自动跳转到</span></strong><br/>
+    <a id="a_url" th:href="@{/order}" class="font_red">订单页面</a><br/>
+<div id="collocate" style="display:none"></div>
+</div>
+    <script type="text/javascript">
+        (function () {
+            var total = 10; // 倒计时
+            var span_timer = document.getElementById("span_timer");
+            span_timer.innerHTML = total;
+            var timer = setInterval(function () {
+                if (total <= 0) {
+                    location.href = document.getElementById("a_url").href; // 跳转
+                    clearInterval(timer);
+                    timer = 0;
+                } else span_timer.innerHTML = --total;
+            }, 1000);
+        })();
+    </script>
+</html>

@@ -1,0 +1,900 @@
+<script language="javascript">
+    var system = {
+        win: false,
+        mac: false,
+        xll: false
+    };
+    var p = navigator.platform;
+    system.win = p.indexOf("Win") == 0;
+    system.mac = p.indexOf("Mac") == 0;
+    system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+    if (system.win || system.mac || system.xll) {
+    } else {
+        window.location.href = "m/index.asp";
+    }
+</script>
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>闲鱼-首页</title>
+    <link href="../css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#addProvider-close").click(closeAdd);
+            $("#addProvider-submit").click(function () {
+                var remark1 = $("#remark").val();
+                var price1 = $("#price").val();
+                var type1 = $("#type").val();
+                var count1 = $("#count").val();
+                if (remark1 == '' || remark1 == null) {
+                    alert("请输入求购商品详情！");
+                } else if (price1 == 0) {
+                    alert("请输入求购商品价格");
+                } else if (type1 == "0") {
+                    alert("请选择求购商品的类型!");
+                } else if (count1 == "-1") {
+                    alert("商品数量不能为负数!");
+                } else if (count1 > 10) {
+                    alert("求购商品数量不能超过10个数量!");
+                } else if (count1 == 0) {
+                    alert("请输入求购商品数量");
+                } else if (remark1.length < 10) {
+                    alert("求购商品字数不能少于10个字!");
+                }
+                else {
+                    $.ajax({
+                        type: "GET",//请求类型
+                        url: "addWantGoods",//请求的url
+                        data: {
+                            remark: remark1, price: price1, type: type1, count: count1
+                        },//请求参数
+                        dataType: "json",//ajax接口（请求url）返回的数据类型·
+                        success: function (date) {//data：返回数据（json对象）
+                            if (date == 1) {
+                                alert("发布求购商品信息成功，跳转至求购信息广场！");
+                                window.location.href = "/findWantGoodsAll";
+                            } else if (date == 3) {
+                                alert("您发布的求购信息已经有5条，一个用户最多只能发布5条求购信息!");
+                            } else if (date != 1 || date != 3) {
+                                var da = date;
+                                da = new Date(da);
+                                var year = da.getFullYear() + '年';
+                                var month = da.getMonth() + 1 + '月';
+                                var date1 = da.getDate() + '日';
+                                alert("由于你在平台有一些违规操作管理员已将您的账号禁止操作一些功能(评论商品、发布商品、发布求购商品)," + year + month + date1 + "后解封");
+                            }
+                            else {
+                                alert("发布求购商品信息失败!");
+                            }
+                        },
+                        error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                            alert("出现异常请联系管理员!");
+                        }
+                    });
+                }
+            });
+            $("#fbsp").click(function () {
+                $.ajax({
+                    type: "GET",//请求类型
+                    url: "findUserInfoDateTime2",//请求的url
+                    dataType: "json",//ajax接口（请求url）返回的数据类型·
+                    success: function (date) {//data：返回数据（json对象）
+                        if (date == 1) {
+                            window.location.href = "/pubGoods";
+                        } else if (date != 1) {
+                            var da = date;
+                            da = new Date(da);
+                            var year = da.getFullYear() + '年';
+                            var month = da.getMonth() + 1 + '月';
+                            var date1 = da.getDate() + '日';
+                            alert("由于你在平台有一些违规操作管理员已将您的账号禁止操作一些功能(评论商品、发布商品、发布求购商品)," + year + month + date1 + "后解封");
+                        }
+                    },
+                    error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                        alert("出现异常请联系管理员!");
+                    }
+                });
+            });
+        });
+        function showAdd() {
+            $("#addProvider-content").slideDown(300);
+            $("#addProvider").fadeIn(200);
+        }
+
+        function closeAdd() {
+            $("#addProvider").slideUp(200);
+            $("#addProvider-content").fadeOut(300);
+        }
+    </script>
+</head>
+<body>
+<!--导航开始-->
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <div class="car">
+                    <a th:href="@{/login}"><img src="images/car.png"></a>
+                    <span>0</span>
+                </div>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <div class="car">
+                    <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
+                            src="images/car.png"></a>
+                    <span th:text="${session.num}"></span>
+                </div>
+            </th:if>
+            <div class="userlogo">
+                <img src="images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a th:href="@{/login}">我的订单</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a th:href="@{/goToUserCenter}">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a th:href="@{/goToUserCenter}">我的资料</a>
+                            <a th:href="@{/order}">我的订单</a>
+                            <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">我的购物车</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a th:href="@{/login2}">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="myword">
+                    <input type="image" src="images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a href="#" id="fbsp">发布商品</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">发布商品</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购商品</a>
+            </li>
+            <li>
+
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a onclick="showAdd()" href="javascript:void(0);">发布求购商品</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}" href="javascript:void(0)">发布求购商品</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goToUserCenter}">用户中心</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">用户中心</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--轮播图开始-->
+<div class="banner">
+    <div class="flash">
+        <ul class="flash_img">
+
+            <li><a href="#" target="_blank"><img src="../attached/Cgbj0Fr1Y3mAOUUqAAGURI5Znho893.jpg"></a></li>
+
+            <li><a href="#" target="_blank"><img src="../attached/Cgbj0FsPc-qAd-UAAAK5UN8bbuA145.jpg"></a></li>
+
+            <li><a href="#" target="_blank"><img src="../attached/Cgbj0FsQ-fuASM5VAAJCr-kvLu0604.jpg"></a></li>
+
+            <li><a href="#" target="_blank"><img src="../attached/Cgbj0VtICPSAcTxLAAGv_mL2XLw751.jpg"></a></li>
+
+            <li><a href="#" target="_blank"><img src="attached/Cgbj0VtICPSAcTxLAAGv_mL2shop7z.jpg"></a></li>
+
+        </ul>
+        <ul class="flash_item">
+            <li class="flash_item_active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <div class="banner_link">
+            <ul>
+
+                <li><a href="javascript:void(0)" target="_blank">闲置数码</a><img
+                        style="position:absolute; right:40px; top:33px; width:8px;" src="images/pr.png">
+                    <div class="content">
+
+                        <ul class="good-list">
+
+                            <li><a th:href="@{/findGoodByTypeList(name='机械鼠标',type=1,pageNum=1)}">机械鼠标</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='鼠标垫',type=1,pageNum=1)}">鼠标垫</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='心率监测运动手环',type=1,pageNum=1)}">心率监测运动手环</a>
+                            </li>
+                            <li><a th:href="@{/findGoodByTypeList(name='心率监测运动手环',type=1,pageNum=1)}">心率监测运动手环</a>
+                            </li>
+                            <li><a th:href="@{/findGoodByTypeList(name='蓝牙小音箱子',type=1,pageNum=1)}">蓝牙小音箱</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='点读机',type=1,pageNum=1)}">点读机</a></li>
+
+                        </ul>
+
+                    </div>
+                </li>
+
+                <li><a href="javascript:void(0)" target="_blank">日用电器</a><img
+                        style="position:absolute; right:40px; top:93px; width:8px;" src="images/pr.png">
+                    <div class="content">
+
+                        <ul class="good-list">
+
+                            <li><a th:href="@{/findGoodByTypeList(name='折叠椅',type=3,pageNum=1)}">折叠椅子</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='热水壶',type=3,pageNum=1)}">热水壶子</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='洗衣机',type=3,pageNum=1)}">全自动洗衣机子</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='空气净化器',type=3,pageNum=1)}">空气净化器子</a></li>
+                        </ul>
+
+                    </div>
+                </li>
+
+                <li><a href="List.asp?Kind=0003" target="_blank">图书教材</a><img
+                        style="position:absolute; right:40px; top:153px; width:8px;" src="images/pr.png">
+                    <div class="content">
+                        <ul class="good-list">
+                            <li><a href="javascript:void(0)">三国演义</a></li>
+
+                            <li><a href="javascript:void(0)">大数据入门到精通</a></li>
+
+                            <li><a href="javascript:void(0)">AR游戏枪</a></li>
+
+                            <li><a href="javascript:void(0)">游戏按键</a></li>
+
+                            <li><a href="javascript:void(0)">散热器</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li><a href="javascript:void(0)">游戏代练</a><img
+                        style="position:absolute; right:40px; top:213px; width:8px;" src="images/pr.png">
+                    <div class="content">
+                        <ul class="good-list">
+                            <li><a href="javascript:void(0)">游戏手柄</a></li>
+
+                            <li><a href="javascript:void(0)">游戏键鼠</a></li>
+
+                            <li><a href="javascript:void(0)">AR游戏枪</a></li>
+
+                            <li><a href="javascript:void(0)">游戏按键</a></li>
+
+                            <li><a href="javascript:void(0)">散热器</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li><a href="javascript:void(0)">运动棋牌</a><img
+                        style="position:absolute; right:40px; top:213px; width:8px;" src="images/pr.png">
+                    <div class="content">
+                        <ul class="good-list">
+                            <li><a th:href="@{/findGoodByTypeList(name='棋',type=6,pageNum=1)}">棋</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='球',type=6,pageNum=1)}">球</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='票',type=6,pageNum=1)}">票卷</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li><a href="javascript:void(0)" target="_blank">美妆衣物</a><img
+                        style="position:absolute; right:40px; top:273px; width:8px;" src="images/pr.png">
+                    <div class="content">
+                        <ul class="good-list">
+                            <li><a th:href="@{/findGoodByTypeList(name='连衣裙子',type=5,pageNum=1)}">连衣裙子</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='运动鞋子',type=5,pageNum=1)}">运动鞋子</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='鹿角帽子',type=5,pageNum=1)}">鹿晗鹿角帽子</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='白衬衫子',type=5,pageNum=1)}">白衬衫子</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="javascript:void(0)">游戏设备</a><img
+                        style="position:absolute; right:40px; top:333px; width:8px;"
+                        src="images/pr.png">
+                    <div class="content">
+                        <ul class="good-list">
+                            <li><a th:href="@{/findGoodByTypeList(name='游戏枪',type=7,pageNum=1)}">游戏枪</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='游戏鼠标',type=7,pageNum=1)}">游戏鼠标</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='游戏手柄',type=7,pageNum=1)}">游戏手柄</a></li>
+
+                            <li><a th:href="@{/findGoodByTypeList(name='3D眼镜',type=7,pageNum=1)}">3D眼镜</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div><!--商品销售播报-->
+<!--推荐开始-->
+<div class="tuijian">
+
+    <a href="#"><img src="attached/20188295143.jpg"></a>
+    <a href="#"><img src="attached/20188295147.jpg"></a>
+    <a href="#"><img src="attached/20188295150.jpg"></a>
+    <a href="#"><img src="attached/20188295154.jpg"></a>
+</div>
+<!--热卖商品开始-->
+<div class="common">
+    <h3>新品上架</h3>
+    <ul class="goods">
+        <li th:each="good : ${newGoods}">
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <center><a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}"
+                           target="_blank"><img th:src="${good.image}" alt=""></a></center>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins==null}">
+                <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
+                                                                                           alt=""></a></center>
+            </th:if>
+            <p class="goods_name">
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+            </p>
+            <p class="goods_desc" th:text="${good.Remark}"></p>
+            <p class="goods_price" th:text="'￥'+${good.tradingValue}+'元'"></p>
+        </li>
+    </ul>
+    <div class="xian">
+    </div>
+</div>
+<!--商品分类开始-->
+
+
+<div class="common">
+    <div class="sorthead">
+        <h3>热卖商品</h3>
+    </div>
+    <div class="guanggao">
+        <div class="guanggao_left">
+            <a href="#" target="_blank"><img src="attached/201881162418.jpg" width="615" height="450"></a>
+        </div>
+        <div class="guanggao_right">
+            <a href="#" target="_blank"><img src="attached/201881163628.jpg" width="616" height="220"></a>
+            <a href="#" target="_blank"><img src="attached/201881164110.jpg" width="303" height="220"></a>
+            <a href="#" target="_blank"><img src="attached/201881163632.jpg" width="303" height="220"></a>
+        </div>
+    </div>
+    <ul class="goods">
+        <li th:each="good : ${goods}">
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <center><a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}"
+                           target="_blank"><img th:src="${good.image}" alt=""></a></center>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins==null}">
+                <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
+                                                                                           alt=""></a></center>
+            </th:if>
+
+            <p class="goods_name">
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+            </p>
+            <p class="goods_desc" th:text="${good.Remark}"></p>
+            <p class="goods_price" th:text="'￥'+${good.tradingValue}+'元'"></p>
+        </li>
+    </ul>
+    <div class="xian">
+    </div>
+</div>
+
+
+<div class="common">
+    <div class="sorthead">
+        <h3>闲置数码</h3>
+
+        <ul class="subcate">
+
+            <li><a href="List.asp?kind=00020001">智能手环</a></li>
+            <li class="colo">|</li>
+
+            <li><a href="List.asp?kind=00020002">智能眼镜</a></li>
+            <li class="colo">|</li>
+
+            <li><a href="List.asp?kind=00020006">智能出行</a></li>
+            <li class="colo">|</li>
+        </ul>
+
+    </div>
+    <div class="guanggao">
+
+        <div class="guanggao_left">
+            <a href="#" target="_blank"><img src="attached/20188117744.jpg" width="615" height="450"></a>
+        </div>
+        <div class="guanggao_right">
+            <a href="#" target="_blank"><img src="attached/20188117746.jpg" width="616" height="220"></a>
+            <a href="#" target="_blank"><img src="attached/20188117747.jpg" width="303" height="220"></a>
+            <a href="#" target="_blank"><img src="attached/20188117749.jpg" width="303" height="220"></a>
+        </div>
+    </div>
+    <ul class="goods">
+        <li th:each="good:${goodList}">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
+                                                                                           alt=""></a></center>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <center><a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}"
+                           target="_blank"><img th:src="${good.image}" alt=""></a></center>
+            </th:if>
+            <p class="goods_name">
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+            </p>
+            <p class="goods_desc" th:text="${good.Remark}"></p>
+            <p class="goods_price" th:text="'￥'+${good.tradingValue}+'元'"></p>
+        </li>
+    </ul>
+    <div class="xian">
+    </div>
+</div>
+<div class="common">
+    <div class="sorthead">
+        <h3>游戏设备</h3>
+        <ul class="subcate">
+
+            <!-- <li><a href="List.asp?kind=00030008">游戏手柄</a>
+             </li>
+             <li class="colo">|</li>
+
+             <li><a href="List.asp?kind=00030009">游戏键鼠</a></li>
+             <li class="colo">|</li>
+
+             <li><a href="List.asp?kind=00030015">AR游戏枪</a></li>
+             <li class="colo">|</li>
+
+             <li><a href="List.asp?kind=00030016">游戏按键</a></li>
+             <li class="colo">|</li>
+
+             <li><a href="List.asp?kind=00030017">散热器</a></li>
+             <li class="colo">|</li>-->
+        </ul>
+    </div>
+    <div class="guanggao">
+
+    </div>
+    <ul class="goods">
+        <li th:each="good:${list}">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
+                                                                                           alt=""></a></center>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <center><a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}"
+                           target="_blank"><img th:src="${good.image}" alt=""></a></center>
+            </th:if>
+            <p class="goods_name">
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/goodInfo/{id}(id=${good.id})}" target="_blank"
+                       th:text="${good.name}"></a>
+                </th:if>
+            </p>
+            <p class="goods_desc" th:text="${good.Remark}"></p>
+            <p class="goods_price" th:text="'￥'+${good.tradingValue}+'元'"></p>
+        </li>
+    </ul>
+    <div class="xian">
+    </div>
+</div>
+<div class="footer">
+    <div class="footer_content">
+        <ul class="footer_item">
+            <li>联系方式：</li>
+            <li class="tit">0311- 85315152</li>
+            <li class="tit">shop7z@126.com</li>
+        </ul>
+
+        <ul class="footer_item">
+            <li>购物指南</li>
+
+            <li><a href="news.asp?id=295">选择配送方式</a></li>
+
+            <li><a href="news.asp?id=296">付款收货</a></li>
+
+            <li><a href="news.asp?id=301">挑选商品</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>送货说明</li>
+
+            <li><a href="news.asp?id=293">购物流程</a></li>
+
+            <li><a href="news.asp?id=303">订购方式</a></li>
+
+            <li><a href="news.asp?id=308">注意事项</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>支付方式</li>
+
+            <li><a href="news.asp?id=285">货到付款区域</a></li>
+
+            <li><a href="news.asp?id=290">支付方式说明</a></li>
+
+            <li><a href="news.asp?id=291">货到付款</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>服务政策</li>
+
+            <li><a href="news.asp?id=297">售后服务</a></li>
+
+            <li><a href="news.asp?id=299">退换货原则</a></li>
+
+            <li><a href="news.asp?id=283">其他服务协议</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>关于我们</li>
+
+            <li><a href="news.asp?id=282">关于我们</a></li>
+
+            <li><a href="news.asp?id=289">如何联系我们</a></li>
+
+            <li><a href="news.asp?id=315">合作加盟</a></li>
+
+        </ul>
+
+    </div>
+</div>
+<style type="text/css">
+    html {
+        height: 100%;
+        width: 100%;
+    }
+
+    .mask, .mask-mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+    }
+
+    .mask-mask {
+        z-index: 10000 !important;
+    }
+
+    .mask-content {
+        position: relative;
+        z-index: 10001 !important;
+    }
+
+    #addProvider {
+        display: none;
+    }
+
+    #addProvider-content {
+        width: 500px;
+        margin: 0 auto;
+        background-color: #fff;
+        transform: translateY(18%);
+    }
+
+    #addProvider-content > form {
+        padding: 15px 14px 20px 14px;
+    }
+
+    #addProvider-content > form > * {
+        position: relative;
+        margin: 18px 0;
+        text-align: center;
+    }
+
+    #addProvider-content > form label {
+        font-size: 16px;
+        width: 5em;
+        display: inline-block;
+        text-align: left;
+        color: #525252;
+    }
+
+    #addProvider-content > form .input {
+        font-size: 14px;
+        padding: 4px;
+        border: 1px solid #878787;
+        border-radius: 2px;
+        width: 280px;
+        outline: none;
+    }
+
+    #addProvider-content > form .input:focus {
+        border-color: #82acff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 0 3px 1px;
+    }
+
+    #addProvider-content > form textarea {
+        height: 90px;
+        resize: none;
+    }
+
+    #addProvider-title {
+        margin: 0 0 36px 0 !important;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #addProvider-title > h1 {
+        font-size: 30px;
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: 12px;
+        color: #313131;
+    }
+
+    #addProvider-close {
+        border: none;
+        position: absolute;
+        right: -14px;
+        top: -15px;
+        font-size: 36px;
+        font-weight: 400;
+        line-height: 3rem;
+        padding: 0 4px;
+        background-color: transparent;
+        color: #414141;
+        cursor: pointer;
+    }
+
+    #addProvider-submit {
+        border: none;
+        padding: 6px 24px;
+        background-color: #1b7fbd;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
+</style>
+<div id="addProvider" class="mask">
+    <div id="addProvider-content" class="mask-content">
+        <form>
+            <div id="addProvider-title">
+                <h1>发布求购信息</h1>
+                <input id="addProvider-close" type="button" value="×"/>
+            </div>
+            <div>
+                <label style="position: relative; top: -70px;">商品详情</label>
+                <textarea maxlength="150" class="input" name="remark" id="remark"></textarea>
+            </div>
+            <div>
+                <label>商品价格</label>
+                <input class="input" type="number" name="price" id="price"/>
+            </div>
+            <div>
+                <label>商品类型</label>
+                <select class="input" name="type" id="type">
+                    <option value="0">选择商品类型</option>
+                    <option value="1">闲置数码</option>
+                    <option value="2">虚拟物品</option>
+                    <option value="3">电器日用</option>
+                    <option value="4">图书教材</option>
+                    <option value="5">美妆衣物</option>
+                    <option value="6">运动棋牌</option>
+                    <option value="7">游戏设备</option>
+                    <option value="8">日常物品</option>
+                </select>
+            </div>
+            .
+            <div>
+                <label>商品数量</label>
+                <input type="number" class="input" name="count" id="count"/>
+            </div>
+            <div>
+                <input id="addProvider-submit" type="button" value="发布"/>
+            </div>
+        </form>
+    </div>
+    <div class="mask-mask"></div>
+</div>
+<div class="ft-copyright">
+    <ul class="ft-safety">
+        <li id="kx_verify" class="safety-1"><a href="#"></a></li>
+        <li class="safety-2">
+            <a href="#"></a>
+        </li>
+        <li class="safety-3">
+            <a href="#"></a>
+        </li>
+        <li class="safety-4">
+            <a href="#"></a>
+        </li>
+    </ul>
+    <div class="footer-info">
+        <p>北京市公安局XXX分局备案编号20183829382872|京ICP证备12345678号|营业执照号：112408016963882|食品流通许可证号：SP1101081510233233 </p>
+        <p>京海食药监械经营许20150358号 | 京海食药监械经营备20150220号</p>
+        <p>公司名称：北京某某网络科技有限公司|公司地址：司地址：北京市海淀区上地东路东广场西临区|联系方式：010-87654321</p>
+        <p><a href="http://www.shop7z.com/Images/CopyRightShop7z_zjb.Jpg" target="_blank">软件著作权证书登记号:2018SR956050
+            软著登字第3285145号</a></p>
+        <p>Copyright 2004-2019,版权所有Shop7z.COM</p>
+    </div>
+</div>
+
+<div class="Shop7z_kefu">
+    <div id="service">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="weixin_area">
+                    <img src="images/a.png" width="47" height="49" class="shows"/>
+                    <img src="images/a.png" width="57" height="49" class="hides"/>
+                    <img src="images/qd.png" width="145" class="weixin"
+                         style="display:none;margin:-100px 57px 0 0"/>
+                </a>
+            </li>
+            <li>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=275084681&site=qq&menu=yes" target="_blank">
+                    <div class="hides" style="width:161px;display:none;" id="qq">
+                        <div class="hides" id="p1">
+                            <img src="../images/ll04.png">
+                        </div>
+                        <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">275084681</span>
+                        </div>
+                    </div>
+                    <img src="images/l04.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <div class="hides" style="width:161px;display:none;">
+                        <div class="hides" id="p2">
+                            <img src="images/ll05.png">
+                        </div>
+                        <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">13102887321</span>
+                        </div>
+                    </div>
+                    <img src="images/l05.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a id="top_btn">
+                    <div class="hides" style="width:161px;display:none">
+                        <img src="images/ll06.png" width="161" height="49"/>
+                    </div>
+                    <img src="images/l06.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="css/user.js"></script>
+<div style="display:none;"></div>
+
+<script src="http://s22.cnzz.com/stat.php?id=4125111&web_id=4125111&show=pic" language="JavaScript"></script>
+
+<script>
+    //轮播图初始化
+    var flashItem = 0;
+    var flashTime = null;
+
+    $('.flash_img>li').css({"z-index": "-1", "opacity": 0});
+    $('.flash_img>li').eq(0).css({"z-index": "0", "opacity": 1});
+    auto();
+    //自动播放轮播图
+    function auto() {
+        flashTime = setInterval(function () {
+            if (flashItem < 4) {
+                flashItem++;
+            }
+            else {
+                flashItem = 0;
+            }
+            $('.flash_item>li').removeClass('flash_item_active');
+            $('.flash_item>li').eq(flashItem).addClass('flash_item_active');
+            $('.flash_img>li').css({"z-index": "-1", "opacity": 0});
+            $('.flash_img>li').eq(flashItem).css({"z-index": "0", "opacity": 1});
+        }, 3000)
+    }
+    ;
+    //鼠标上移效果
+    $('.banner').mouseover(function () {
+        clearInterval(flashTime);
+    })
+    //鼠标移出效果
+    $('.banner').mouseout(function () {
+        auto();
+    })
+    //轮播按钮效果
+    $('.flash_item>li').click(function () {
+        $('.flash_item>li').removeClass('flash_item_active');
+        $(this).addClass('flash_item_active');
+        $('.flash_img>li').css({"z-index": "-1", "opacity": 0});
+        $('.flash_img>li').eq($(this).index(".flash_item>li")).css({"z-index": "0", "opacity": 1});
+        flashItem = $(this).index(".flash_item>li");
+    })
+</script>
+<script> //商城订单最新播报
+eval(function (p, a, c, k, e, r) {
+    e = function (c) {
+        return c.toString(a)
+    };
+    if (!''.replace(/^/, String)) {
+        while (c--)r[e(c)] = k[c] || e(c);
+        k = [function (e) {
+            return r[e]
+        }];
+        e = function () {
+            return '\\w+'
+        };
+        c = 1
+    }
+    ;
+    while (c--)if (k[c])p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+    return p
+}('$(l).h(2(){1 a=0;1 b=0;1 c=6;1 d=$(".4-5");1 e=$(".4-5 o");e.t(0).u(6).v(d);1 f=$(".i-j").k();2 7(){d.m().n({8:-a*f},p,2(){c=6;q(a==e.r){d.s({8:0});a=0}})}2 3(){a++;7()}b=9(3,g);$(".4-5 a").w(2(){x(b)},2(){b=9(3,g)})});', 34, 34, '|var|function|next|font|inner|true|tab|top|setInterval|||||||3000|ready|scroll|txt|height|document|stop|animate|li|400|if|length|css|eq|clone|appendTo|hover|clearInterval'.split('|'), 0, {}))
+</script>
+</body>
+</html>

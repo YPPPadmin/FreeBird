@@ -1,0 +1,432 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>二手鱼系统</title>
+    <link href="css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="css/list.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.min.js"></script>
+</head>
+<script type="text/javascript">
+    $(function () {
+        var typeId = $("#typeId").val();
+        if (typeId == 0) {
+            $("#type").attr("class", "curr");
+            $("#type1").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 1) {
+            $("#type1").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 2) {
+            $("#type2").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type1").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 3) {
+            $("#type3").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type1").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 4) {
+            $("#type4").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type1").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 5) {
+            $("#type5").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type1").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 6) {
+            $("#type6").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type1").removeAttr("class");
+            $("#type7").removeAttr("class");
+        } else if (typeId == 7) {
+            $("#type7").attr("class", "curr");
+            $("#type").removeAttr("class");
+            $("#type2").removeAttr("class");
+            $("#type3").removeAttr("class");
+            $("#type4").removeAttr("class");
+            $("#type5").removeAttr("class");
+            $("#type6").removeAttr("class");
+            $("#type1").removeAttr("class");
+        }
+    });
+</script>
+<body>
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+            <th:if th:if="${session.userinfoLogins==null}">
+                <div class="car">
+                    <a th:href="@{/login}"><img src="images/car.png"></a>
+                    <span>0</span>
+                </div>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <div class="car">
+                    <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
+                            src="images/car.png"></a>
+                    <span th:text="${session.num}"></span>
+                </div>
+            </th:if>
+            <div class="userlogo">
+                <img src="images/icon-user_47dae1a.jpg">
+                <div class="user_meua">
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/Regedit}">立刻注册</a>
+                        <a th:href="@{/login}">立刻登录</a>
+                        <a th:href="@{/login}">我的订单</a>
+                        <a href="#">帮助与反馈</a>
+                        <a href="#">联系我们</a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <div>
+                            <a th:href="@{/goToUserCenter}">尊敬的 <b th:text="${session.userinfoLogins.userName}"></b></a>
+                            <a th:href="@{/goToUserCenter}">我的资料</a>
+                            <a th:href="@{/order}">我的订单</a>
+                            <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}">我的购物车</a>
+                            <a>发布商品</a>
+                            <a th:href="@{/Publishgoods}">我发布的商品</a>
+                            <a th:href="@{/login2}">退出登陆</a>
+                        </div>
+                    </th:if>
+                </div>
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="myword">
+                    <input type="image" src="images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="images/web.gif" style="width: 200px;height:80px;margin-left: -600px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/pubGoods}">发布商品</a>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购商品</a>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goToUserCenter}">用户中心</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">用户中心</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--1-->
+<div class="crumbs">
+    <a th:href="@{/index}">首页</a>
+    <span class="crumbs-level" id="crumbsLevel"> -&gt; 热卖商品</span>
+</div>
+<div class="selector">
+
+    <!--大分类开始-->
+    <ul>
+        <li>分类:</li>
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=0)}" id="type" class="curr">全部</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=1)}" id="type1">闲置数码</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=2)}" id="type2">虚拟物品</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=3)}" id="type3">电器日用</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=4)}" id="type4">图书教材</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=5)}" id="type5">美妆衣物</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=6)}" id="type6">运动棋牌</a></li>
+
+        <li><a th:href="@{/findGoodByTypeList(pageNum=1,type=7)}" id="type7">游戏设备</a></li>
+    </ul>
+</div>
+
+<div class="common">
+    <input type="hidden" th:value="${brand}" id="brand"/>
+    <input type="hidden" th:value="${type}" id="typeId"/>
+    <th:if th:if="${list!=null}">
+        <ul class="goods" th:each="goodsinfo:${list}">
+            <li>
+                <center>
+                    <th:if th:if="${session.userinfoLogins!=null}">
+                        <a th:href="@{/goodInfo/{id}(id=${goodsinfo.id},uId=${session.userinfoLogins.id})}"
+                           target="_blank"><img th:src="${goodsinfo.image}" style=" width: 230px;margin-top: 30px"></a>
+                    </th:if>
+                    <th:if th:if="${session.userinfoLogins==null}">
+                        <a th:href="@{/login}" target="_blank"><img
+                                th:src="${goodsinfo.image}" style=" width: 230px;margin-top: 30px"></a>
+                    </th:if>
+                </center>
+                <ul>
+                    <li class="goods_active"><img th:src="${goodsinfo.image}"></li>
+                    <li class="image1" th:if="${goodsinfo.image1!=null}"><img th:src="${goodsinfo.image1}" id="image1">
+                    </li>
+                    <li class="image2" th:if="${goodsinfo.image2!=null}"><img th:src="${goodsinfo.image2}" id="image2">
+                    </li>
+                    <li class="image3" th:if="${goodsinfo.image3!=null}"><img th:src="${goodsinfo.image3}" id="image3">
+                    </li>
+                </ul>
+                <p class="goods_name"><a target="_blank" th:text="${goodsinfo.name}">黑爵AJ110游戏鼠标</a></p>
+                <p class="goods_desc_title" th:text="'用户描述：'+${goodsinfo.remark}">DPI调节四档变速、宏编程6键自定义</p>
+                <p class="goods_price" th:text="'￥'+${goodsinfo.tradingValue}+'元'">￥50.00元</p>
+                <p class="goods_desc_title" style="display: none" id="rq"
+                   th:text="'发布时间'+${#dates.format(goodsinfo.modify,'yyyy-MM-dd')}">
+                    ￥50.00元</p>
+            </li>
+        </ul>
+    </th:if>
+    <th:if th:if="${pageUtil.totalCount==0}">
+        <div style="margin:0 2% 0 35% ;float:left; "><img src="images/404img.png"></div>
+        <div style="margin:0 0 0 45% ;  padding-top:20px;"><p style="line-height:30px;font-size:1.8rem;color:blue;">
+            抱歉没有找到相关商品</p>
+            <p style="line-height:30px;font-size:1.4rem;color:blue;">建议您：</p>
+            <p style="line-height:30px;font-size:1.4rem;color:blue;">1.适当减少筛选条件</p>
+            <p style="line-height:30px;font-size:1.4rem;color:blue;">2.尝试其他关键字</p></div>
+    </th:if>
+    <div class="xian">
+        <th:if th:if="${pageUtil!=null}">
+            <div class="page">
+                共<span th:text="${pageUtil.totalCount}"></span>条记录&nbsp;每页<span
+                    th:text="${pageUtil.pageSize}"></span>条&nbsp;现在<span
+                    th:text="${pageUtil.pageNum}" id="pageNum"></span>/<span
+                    th:text="${pageUtil.totalPageCount}" id="totalPageCount"></span>页
+                <th:if th:if="${pageUtil.totalCount>=pageUtil.pageSize}">
+                    <a id="index"
+                       th:href="@{/findGoodByTypeList(pageNum=1,type=${type})}">首页</a>
+                    <th:if th:if="${pageUtil.pageNum>1}">
+                        <a th:href="@{/findGoodByTypeList(pageNum=${pageUtil.pageNum-1},type=${type})}">上一页</a>
+                    </th:if>
+                    <th:if th:if="${pageUtil.pageNum<=1}">
+                        <a th:href="@{/findGoodByTypeList(pageNum=1,type=${type})}">上一页</a>
+                    </th:if>
+                    <th:if th:if="${pageUtil.pageNum>=pageUtil.totalPageCount}">
+                        <a id="bottom"
+                           th:href="@{/findGoodByTypeList(pageNum=${pageUtil.totalPageCount},type=${type})}">下一页</a>
+                    </th:if>
+                    <th:if th:if="${pageUtil.pageNum<pageUtil.totalPageCount}">
+                        <a id="bottom"
+                           th:href="@{/findGoodByTypeList(pageNum=${pageUtil.pageNum+1},type=${type})}">下一页</a>
+                    </th:if>
+                    <a id="last"
+                       th:href="@{/findGoodByTypeList(pageNum=${pageUtil.totalPageCount},type=${type})}">尾页</a>
+                </th:if>
+
+                <th:if th:if="${pageUtil.totalCount<pageUtil.pageSize}">
+                    <input type='button' name='Button4' value='首页'>
+                    <input type='button' name='Button4' value='上一页'>
+                    <input type='button' name='Button5' value='下一页'>
+                    <input type='button' name='Button5' value='尾页'>
+                </th:if>
+            </div>
+
+        </th:if>
+        <style type="text/css">
+            .xian .page a {
+                background-color: #d9d9d9;
+                padding: 4px 12px;
+                border-radius: 2px;
+            }
+
+            .page a:hover {
+                background-color: #c7c7c7;
+            }
+        </style>
+    </div>
+    <th:if th:if="${pageUtil==null}">
+        <div class="xian">
+            <div class="page">
+                共1条记录&nbsp;每页1条&nbsp;现在1/1页
+                <input type='button' name='Button4' value='首页'/>
+                <input type='button' name='Button4' value='上一页'/>
+                <input type='button' name='Button5' value='下一页'/>
+                <input type='button' name='Button5' value='尾页'/>
+            </div>
+        </div>
+    </th:if>
+</div>
+<!--===================================================================-->
+<div class="footer">
+    <div class="footer_content">
+        <ul class="footer_item">
+            <li>联系方式：</li>
+            <li class="tit">15979675043</li>
+            <li class="tit">1730548276@qq.com</li>
+        </ul>
+
+        <ul class="footer_item">
+            <li>购物指南</li>
+
+            <li><a href="#">选择配送方式</a></li>
+
+            <li><a href="#">付款收货</a></li>
+
+            <li><a href="#">挑选商品</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>送货说明</li>
+
+            <li><a href="#">购物流程</a></li>
+
+            <li><a href="#">订购方式</a></li>
+
+            <li><a href="#">注意事项</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>支付方式</li>
+
+            <li><a href="javascript:void(0)">货到付款区域</a></li>
+
+            <li><a href="javascript:void(0)">支付方式说明</a></li>
+
+            <li><a href="javascript:void(0)">货到付款</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>服务政策</li>
+
+            <li><a href="javascript:void(0)">售后服务</a></li>
+
+            <li><a href="javascript:void(0)">退换货原则</a></li>
+
+            <li><a href="javascript:void(0)">其他服务协议</a></li>
+
+        </ul>
+
+        <ul class="footer_item">
+            <li>关于我们</li>
+
+            <li><a href="javascript:void(0)">关于我们</a></li>
+
+            <li><a href="javascript:void(0)">如何联系我们</a></li>
+
+            <li><a href="javascript:void(0)">合作加盟</a></li>
+        </ul>
+    </div>
+</div>
+<div class="Shop7z_kefu">
+    <div id="service">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" class="weixin_area">
+                    <img src="images/l02.png" width="47" height="49" class="shows"/>
+                    <img src="images/a.png" width="57" height="49" class="hides"/>
+                    <img src="images/qd.png" width="145" class="weixin"
+                         style="display:none;margin:-100px 57px 0 0"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" target="_blank">
+                    <div class="hides" style="width:161px;display:none;" id="qq">
+                        <div class="hides" id="p1">
+                            <img src="images/ll04.png"/>
+                        </div>
+                        <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">1599428958</span>
+                        </div>
+                    </div>
+                    <img src="images/l04.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <div class="hides" style="width:161px;display:none;">
+                        <div class="hides" id="p1">
+                            <img src="images/ll05.png"/>
+                        </div>
+                        <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">12345678991</span>
+                        </div>
+                    </div>
+                    <img src="images/l05.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+            <li>
+                <a id="top_btn">
+                    <div class="hides" style="width:161px;display:none">
+                        <img src="images/ll06.png" width="161" height="49"/>
+                    </div>
+                    <img src="images/l06.png" width="47" height="49" class="shows"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="css/user.js"></script>
+<div style="display:none;">
+    <script src="http://s22.cnzz.com/stat.php?id=4125111&web_id=4125111&show=pic" language="JavaScript"></script>
+</div>
+<script>
+
+    $("\x2e\x67\x6f\x6f\x64\x73\x3e\x6c\x69\x3e\x75\x6c\x3e\x6c\x69")["\x63\x6c\x69\x63\x6b"](function () {
+        var mIJI1 = $(this)["\x66\x69\x6e\x64"]("\x69\x6d\x67")["\x61\x74\x74\x72"]("\x73\x72\x63");
+        $(this)["\x73\x69\x62\x6c\x69\x6e\x67\x73"]("\x6c\x69")["\x72\x65\x6d\x6f\x76\x65\x43\x6c\x61\x73\x73"]("\x67\x6f\x6f\x64\x73\x5f\x61\x63\x74\x69\x76\x65");
+        $(this)["\x61\x64\x64\x43\x6c\x61\x73\x73"]("\x67\x6f\x6f\x64\x73\x5f\x61\x63\x74\x69\x76\x65");
+        $(this)["\x70\x61\x72\x65\x6e\x74"]()["\x73\x69\x62\x6c\x69\x6e\x67\x73"]("\x63\x65\x6e\x74\x65\x72")["\x66\x69\x6e\x64"]("\x69\x6d\x67")["\x61\x74\x74\x72"]("\x73\x72\x63", mIJI1)
+    });
+    $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76")["\x63\x6c\x69\x63\x6b"](function () {
+        $(this)["\x69\x6e\x64\x65\x78"]() ? ($("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76")["\x65\x71"](1)["\x72\x65\x6d\x6f\x76\x65\x43\x6c\x61\x73\x73"]("\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x5f\x61\x63\x74\x69\x76\x65"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76\x3e\x69\x6d\x67")["\x65\x71"](1)["\x61\x74\x74\x72"]("\x73\x72\x63", "\x69\x6d\x61\x67\x65\x73\x2f\x72\x69\x67\x68\x74\x2e\x70\x6e\x67"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76\x3e\x69\x6d\x67")["\x65\x71"](0)["\x61\x74\x74\x72"]("\x73\x72\x63", "\x69\x6d\x61\x67\x65\x73\x2f\x6c\x65\x66\x74\x5f\x61\x63\x74\x69\x76\x65\x2e\x70\x6e\x67"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76")["\x65\x71"](0)["\x61\x64\x64\x43\x6c\x61\x73\x73"]("\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x5f\x61\x63\x74\x69\x76\x65"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x67\x6f\x6f\x64\x73")["\x63\x73\x73"]("\x6c\x65\x66\x74", "\x2d\x31\x30\x30\x25")) : ($("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76")["\x65\x71"](0)["\x72\x65\x6d\x6f\x76\x65\x43\x6c\x61\x73\x73"]("\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x5f\x61\x63\x74\x69\x76\x65"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76\x3e\x69\x6d\x67")["\x65\x71"](0)["\x61\x74\x74\x72"]("\x73\x72\x63", "\x69\x6d\x61\x67\x65\x73\x2f\x6c\x65\x66\x74\x2e\x70\x6e\x67"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76\x3e\x69\x6d\x67")["\x65\x71"](1)["\x61\x74\x74\x72"]("\x73\x72\x63", "\x69\x6d\x61\x67\x65\x73\x2f\x72\x69\x67\x68\x74\x5f\x61\x63\x74\x69\x76\x65\x2e\x70\x6e\x67"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x3e\x64\x69\x76")["\x65\x71"](1)["\x61\x64\x64\x43\x6c\x61\x73\x73"]("\x74\x75\x69\x6a\x69\x61\x6e\x5f\x62\x75\x74\x74\x6f\x6e\x5f\x61\x63\x74\x69\x76\x65"), $("\x2e\x74\x75\x69\x6a\x69\x61\x6e\x5f\x67\x6f\x6f\x64\x73")["\x63\x73\x73"]("\x6c\x65\x66\x74", "\x30\x70\x78"))
+    });
+</script>
+</body>
+</html>
+

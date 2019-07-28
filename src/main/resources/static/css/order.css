@@ -1,0 +1,231 @@
+@charset "gb2312";
+/* 下单表单页css文件
+* Author: Keyschl
+* Web:http://www.Shop7z.com/
+* Tel:0311-85315152 13102887321
+*/
+.main {
+    width: 1240px;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 1px dotted #e6e6e6;
+    background: #FFF;
+    font-size: 16px
+}
+
+.main_content {
+    width: 1000px;
+    margin: 20px auto;
+    border: 1px solid #e6e6e6
+}
+
+.main_content_title {
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    font-size: 18px;
+    text-indent: 20px
+}
+
+.main_content_title_total {
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    font-size: 18px;
+    text-indent: 600px
+}
+
+.main_goods_title {
+    width: 100%;
+    margin-bottom: 5px;
+    overflow: hidden;
+    background: #FAFAFA;
+    border-bottom: 1px solid #ccc
+}
+
+.main_goods_title > li {
+    float: left;
+    width: 14%;
+    text-align: center;
+    line-height: 35px;
+    height: 35px;
+    color: #424242
+}
+
+.main_goods_title > li:nth-child(1) {
+    width: 58%
+}
+
+.main_goods_desc {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+    border-bottom: 1px dotted #ccc
+}
+
+.main_goods_desc > li {
+    float: left;
+    width: 14%;
+    line-height: 50px;
+    text-align: center
+}
+
+.main_goods_desc > li:nth-child(1) {
+    width: 58%
+}
+
+.main_goods_desc > li p {
+    color: #686868
+}
+
+.main_goods_desc li > img {
+    width: 50px;
+    float: left;
+    margin-left: 20px
+}
+
+.main_goods_desc li > div {
+    float: left;
+    margin-left: 20px;
+    line-height: 24px;
+    text-align: left
+}
+
+.main_goods_desc li > div > a {
+    color: #8065B3
+}
+
+.main .money {
+    color: #D30000
+}
+
+.main_content_address {
+    width: 100%
+}
+
+.form_common {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+    border-bottom: 1px dashed #e6e6e6;
+    padding-bottom: 10px
+}
+
+.main_content_method .form_common:hover {
+    background: #FDF9F0
+}
+
+.main_content_address .form_common > label {
+    font-size: 14px;
+    color: #444;
+    width: 120px;
+    height: 34px;
+    line-height: 34px;
+    float: left;
+    text-align: right;
+    font-weight: 700
+}
+
+.liuyan > input, .main_content_address .form_common > div > input, .main_content_address .form_common > input {
+    font-size: 14px;
+    width: 320px;
+    height: 32px;
+    border: 1px solid #acacac;
+    float: left;
+    margin-left: 20px;
+    outline: 0;
+    text-indent: 10px;
+    background: #fcfcfc
+}
+
+#addr1 > input:hover, .liuyan > input:hover, .main_content_address .form_common > input:hover {
+    border-color: #66afe9;
+    background: #FCFCFC;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+}
+
+.main_content_method {
+    width: 100%;
+    margin-bottom: 20px
+}
+
+.main_content_method .form_common > label {
+    width: 400px;
+    height: 34px;
+    line-height: 34px;
+    float: left;
+    margin-left: 20px
+}
+
+.main_content_method .form_common > input[type=radio], .main_content_method .form_common > input[type=checkbox] {
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px
+}
+
+.liuyan > label {
+    width: 120px !important;
+    text-align: right;
+    margin-left: 0 !important
+}
+
+.main_content_method p {
+    line-height: 32px;
+    text-indent: 20px
+}
+
+.main_page {
+    width: 1000px;
+    margin: 20px auto;
+    border: 1px solid #e6e6e6;
+    background: #FAFAFA;
+    padding-bottom: 20px
+}
+
+.main_page_title {
+    text-align: right;
+    width: 800px;
+    margin: auto;
+    line-height: 36px;
+    height: 36px;
+    border-bottom: 1px solid #CCC
+}
+
+.main_page > div {
+    text-align: left;
+    width: 800px;
+    margin: auto;
+    line-height: 36px;
+    height: 36px
+}
+
+.main_page > div > span {
+    float: left
+}
+
+.main_page input[type=submit], .main_page input[type=button] {
+    font-size: 16px;
+    font-weight: 700;
+    float: left;
+    background: #F30;
+    outline: 0;
+    border: 1px solid #f30;
+    width: 120px;
+    height: 45px;
+    color: #FFF;
+    border-radius: 4px
+}
+
+.main_page input[type=submit]:hover {
+    opacity: .7;
+    cursor: pointer
+}
+
+.main_page input[type=button]:hover {
+    opacity: .7;
+    cursor: pointer
+}

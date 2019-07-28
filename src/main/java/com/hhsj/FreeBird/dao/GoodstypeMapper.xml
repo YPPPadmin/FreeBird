@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.FreeBird.dao.GoodstypeMapper">
+    <select id="findGoodByTypeList" parameterType="map" resultType="com.hhsj.FreeBird.pojo.Goodsinfo">
+        SELECT i.* FROM `goodsinfo` i,`goodstype` t
+        WHERE i.`Type` = t.`Id`  AND i.Display = 0
+        <if test="type!=0">
+            AND i.`Type` = #{type}
+        </if>
+        <if test="name!=''and name!=null">
+            AND i.Name LIKE concat('%',#{name},'%')
+        </if>
+        LIMIT #{pageIndex},#{pageSize}
+    </select>
+
+    <select id="findCountByType" parameterType="int" resultType="int">
+        SELECT COUNT(0) FROM `goodsinfo` i,`goodstype` t
+        WHERE i.`Type` = t.`Id` AND i.Display = 0
+        <if test="type!=0">
+            AND i.`Type` = #{type}
+        </if>
+        <if test="name!=''and name!=null">
+            AND i.Name LIKE concat('%',#{name},'%')
+        </if>
+    </select>
+
+    <select id="findGoodTypeList" resultType="com.hhsj.FreeBird.pojo.Goodstype">
+        SELECT * FROM Goodstype
+    </select>
+</mapper>
