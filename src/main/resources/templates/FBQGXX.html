@@ -99,7 +99,8 @@
             </div>
             <div class="search">
                 <form method="post" th:action="@{/findGoodsInfoName}">
-                    <input placeholder="搜索商品" required="true" name="name" type="text" id="name" style="position: relative;top: -22px;left: -15px;">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="name"
+                           style="position: relative;top: -22px;left: -15px;">
                     <input type="image" src="../images/search.png"
                            style="width:20px;height:20px;position: relative;top: -22px;"></form>
             </div>
@@ -228,8 +229,11 @@
                     style="color: blue;" th:text="${wantGoodsId.userName}+'留言:'">用户名称</span>
                 <span th:text="${wantGoodsId.content}">您发布的这些东西我刚好有我等下发果觉得可以的话可以拍下来哦！</span>
                 <br/>
-                <br/><span style="position: relative;left: 710px;font-size: 14px;color: #999;" class="rq"
-                           th:text="'留言时间:'+${#dates.format(wantGoodsId.modify,'yyyy-MM-dd')}">留言时间:2019-08-08  </span>
+                <br/>
+                <a href="javascript:void(0);" style="position: relative;left: 670px;font-size: 14px;color: #417c99;"
+                   onclick="showAdd()" class="hf" th:item-id2="${wantGoodsId.id}">回复</a>
+                <span style="position: relative;left: 670px;font-size: 14px;color: #999;" class="rq"
+                      th:text="'留言时间:'+${#dates.format(wantGoodsId.modify,'yyyy-MM-dd')}">留言时间:2019-08-08  </span>
             </li>
         </ul>
         <div class="page" style="position: relative;left: -314px;display: none;">
@@ -257,7 +261,139 @@
             }
         </style>
     </div>
+    <style type="text/css">
+        html {
+            height: 100%;
+            width: 100%;
+        }
 
+        .mask, .mask-mask {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        .mask-mask {
+            z-index: 10000 !important;
+        }
+
+        .mask-content {
+            position: relative;
+            z-index: 10001 !important;
+        }
+
+        #addProvider {
+            display: none;
+        }
+
+        #addProvider-content {
+            width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            transform: translateY(18%);
+        }
+
+        #addProvider-content > form {
+            padding: 15px 14px 20px 14px;
+        }
+
+        #addProvider-content > form > * {
+            position: relative;
+            margin: 18px 0;
+            text-align: center;
+        }
+
+        #addProvider-content > form label {
+            font-size: 16px;
+            width: 5em;
+            display: inline-block;
+            text-align: left;
+            color: #9ba09b;
+        }
+
+        #addProvider-content > form .input {
+            font-size: 14px;
+            padding: 4px;
+            border: 1px solid #878787;
+            border-radius: 2px;
+            width: 280px;
+            outline: none;
+        }
+
+        #addProvider-content > form .input:focus {
+            border-color: #82acff;
+            box-shadow: rgba(0, 0, 0, 0.1) 0 0 3px 1px;
+        }
+
+        #addProvider-content > form textarea {
+            height: 90px;
+            resize: none;
+        }
+
+        #addProvider-title {
+            margin: 0 0 36px 0 !important;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #addProvider-title > h1 {
+            font-size: 30px;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 12px;
+            color: #313131;
+        }
+
+        #addProvider-close {
+            border: none;
+            position: absolute;
+            right: -14px;
+            top: -15px;
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 3rem;
+            padding: 0 4px;
+            background-color: transparent;
+            color: #414141;
+            cursor: pointer;
+        }
+
+        #addProvider-submit {
+            border: none;
+            padding: 6px 24px;
+            background-color: #1b7fbd;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+    <div id="addProvider" class="mask">
+        <div id="addProvider-content" class="mask-content">
+            <form action="#" method="post">
+                <div id="addProvider-title">
+                    <h2 style="font-size: 30px;">给<span class="yhm"></span>回复留言</h2>
+                    <input id="addProvider-close" type="button" value="×"/>
+                    <br/>
+                </div>
+                <div>
+                    <label style="position: relative; top: -70px;">回复内容：</label>
+                    <textarea maxlength="150" class="input" name="content" id="content"></textarea>
+                    <input type="hidden" name="uid2" id="uid2"/>
+                </div>
+                <div></div>
+                <div style="position: relative;left: 310px;top: -10px;">
+                    <input id="addProvider-submit" type="button" value="留言"/>
+                </div>
+                <div>
+                    <label style="position: relative; left: -50px;top: 30px;color: #ffffff;">.</label>
+                </div>
+            </form>
+        </div>
+        <div class="mask-mask"></div>
+    </div>
     <div style="display: none;position: absolute;left: -210px;width: 80%; word-break : break-all;white-space:normal;"
          class="none">
         <br/>
@@ -402,7 +538,53 @@
             $(".xsly").css("display", "none");
             $(".none").css("display", "block");
         }
+        $(".hf").click(function () {
+            var id2 = $(this).attr("item-id2");
+            $.ajax({
+                type: "GET",//请求类型
+                url: "findWantGoodsId4",//请求的url
+                data: {id: id2},//请求参数
+                dataType: "json",//ajax接口（请求url）返回的数据类型·
+                success: function (date) {//data：返回数据（json对象）
+                    $(".yhm").html(date.userName);
+                    $("#uid2").val(date.id);
+                },
+                error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                    alert("系统出现异常请联系管理员!");
+                }
+            });
+        });
+        $("#addProvider-submit").click(function () {
+            var id2 = $("#uid2").val();
+            var content1 = $("#content").val();
+            $.ajax({
+                type: "GET",//请求类型
+                url: "addEmail",//请求的url
+                data: {uid2: id2, content: content1},//请求参数
+                dataType: "json",//ajax接口（请求url）返回的数据类型·
+                success: function (date) {//data：返回数据（json对象）
+                    if (date == 1) {
+                        alert("留言成功!");
+                    } else {
+                        alert("留言失败!");
+                    }
+                },
+                error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                    alert("系统出现异常请联系管理员!");
+                }
+            });
+        });
     });
+    $("#addProvider-close").click(closeAdd);
+    function showAdd() {
+        $("#addProvider-content").slideDown(300);
+        $("#addProvider").fadeIn(200);
+    }
+
+    function closeAdd() {
+        $("#addProvider-content").slideUp(200);
+        $("#addProvider").fadeOut(300);
+    }
 </script>
 </body>
 </html>

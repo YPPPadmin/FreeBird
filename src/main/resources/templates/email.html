@@ -1,0 +1,311 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>北大青鸟 鸿鹄狮鹫-登录</title>
+    <link rel="stylesheet" type="text/css" href="css/dmaku.css"/>
+    <link href="css/top.css" rel="stylesheet" type="text/css"/>
+    <link href="css/item.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bottom.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/_layout.js"></script>
+    <!--emial页面-->
+    <link rel="stylesheet" type="text/css" href="email/Inbox.css"/>
+    <script type="text/javascript" src="email/jquery-3.4.1.min.js">
+        $(".yx").click(function () {
+            window.location.href = "email";
+        });
+    </script>
+    <script type="text/javascript" src="email/Inbox.js"></script>
+    <script type="text/javascript">
+    </script>
+</head>
+
+<body>
+<div class="nav">
+    <div class="nav_content">
+        <div class="user">
+            <div class="car">
+            </div>
+            <div class="userlogo">
+
+            </div>
+            <div class="search">
+                <form method="post" th:action="@{/findGoodsInfoName}">
+                    <input placeholder="搜索商品" required="true" name="name" type="text" id="myword"/>
+                    <input type="image" src="images/search.png"
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"/>
+                    <img src="images/yx.jpg" class="yx"
+                         style="float:right;margin-top:2px; margin-right:-100px;width:42px;height:25px;"/></form>
+            </div>
+        </div>
+        <ul class="nav_link">
+            <li><img src="images/web.gif" style="width: 200px;height:80px;margin-left: -500px;margin-top: -10px"/>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/index}">首页</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{'/index?userId='+${session.userinfoLogins.id}}">首页</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a href="#" id="fbsp">发布商品</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">发布商品</a>
+                </th:if>
+            </li>
+            <li>
+                <a th:href="@{/findWantGoodsAll}">求购商品</a>
+            </li>
+            <li>
+
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a onclick="showAdd()" href="javascript:void(0);">发布求购商品</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}" href="javascript:void(0)">发布求购商品</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/goToUserCenter}">用户中心</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">用户中心</a>
+                </th:if>
+            </li>
+            <li>
+                <th:if th:if="${session.userinfoLogins!=null}">
+                    <a th:href="@{/findBrowser(userId=${session.userinfoLogins.id},pageNum=1)}">我的足迹</a>
+                </th:if>
+                <th:if th:if="${session.userinfoLogins==null}">
+                    <a th:href="@{/login}">我的足迹</a>
+                </th:if>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="mask">
+    <section class="mask-content" id="inbox">
+        <div id="inbox-funcs" style="border: 1px solid red;">
+            <p id="inbox-showSysEmails" class="list-item-active hover">系统邮件</p>
+            <p id="inbox-showEmails" class="list-item-active hover">我的留言</p>
+            <p id="inbox-showReplies" class="list-item-active hover">我的评论</p>
+        </div>
+        <div id="inbox-content">
+            <div id="inbox-emailList" class="inbox-msgList">
+                <div class="list">
+                    <div class="list-head"></div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                    <div class="list-item list-item-active hover">A型样本</div>
+                </div>
+                <div class="xian" style="position: relative;left: -300px;">
+                    <div class="page">
+                        <span style="margin-left: -50px;position: relative;left: -100px;"></span>共<span></span>条记录&nbsp;每页<span
+                    ></span>条&nbsp;现在<span></span>/<span
+                            t></span>页
+                        <a id="index"
+                           href="#">首页</a>
+                        <a href="#"
+                           id="top">上一页</a>
+                        <a href="#"
+                           id="bottom">下一页</a>
+                        <a id="last"
+                           href="#">尾页</a>
+                    </div>
+                    <style type="text/css">
+                        .page a {
+                            background-color: #d9d9d9;
+                            padding: 4px 12px;
+                            border-radius: 2px;
+                        }
+
+                        .page a:hover {
+                            background-color: #c7c7c7;
+                        }
+                    </style>
+                </div>
+            </div>
+            <div id="inbox-emailDetail" class="inbox-msgDetail">
+                <div class="inbox-msgDetail-header">
+                    <input class="inbox-msgDetail-close" type="button" value="返回"/>
+                    <h3>留言详情</h3>
+                </div>
+                <div class="inbox-msgDetail-content">
+                    <div class="inbox-msgTitle">
+                        <label>标题</label>
+                        <p></p>
+                    </div>
+                    <div class="inbox-msgContent">
+                        <label>内容</label>
+                        <p></p>
+                    </div>
+                    <div class="inbox-msgEnd">
+                        <input class="open" type="button" value="查看回复"/>
+                    </div>
+                </div>
+                <div class="inbox-msgReplyList">
+                    <p>
+                        <span>xx留言：</span>
+                        Test
+                    </p>
+                </div>
+            </div>
+            <div id="inbox-replyList" class="inbox-msgList">
+                <div class="list">
+                    <div class="list-head"></div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                    <div class="list-item list-item-active hover">B型样本</div>
+                </div>
+                <div class="xian" style="position: relative;left: -300px;">
+                    <div class="page">
+                        <span style="margin-left: -50px;position: relative;left: -100px;"></span>共<span></span>条记录&nbsp;每页<span
+                    ></span>条&nbsp;现在<span></span>/<span
+                            t></span>页
+                        <a id="index"
+                           href="#">首页</a>
+                        <a href="#"
+                           id="top">上一页</a>
+                        <a href="#"
+                           id="bottom">下一页</a>
+                        <a id="last"
+                           href="#">尾页</a>
+                    </div>
+                    <style type="text/css">
+                        .page a {
+                            background-color: #d9d9d9;
+                            padding: 4px 12px;
+                            border-radius: 2px;
+                        }
+
+                        .page a:hover {
+                            background-color: #c7c7c7;
+                        }
+                    </style>
+                </div>
+            </div>
+            <div id="inbox-replyDetail" class="inbox-msgDetail">
+                <div class="inbox-msgDetail-header">
+                    <input class="inbox-msgDetail-close" type="button" value="返回"/>
+                    <h3>评论详情</h3>
+                </div>
+                <div class="inbox-msgDetail-content">
+                    <div class="inbox-msgTitle">
+                        <label>标题</label>
+                        <p></p>
+                    </div>
+                    <div class="inbox-msgContent">
+                        <label>内容</label>
+                        <p></p>
+                    </div>
+                    <div class="inbox-msgEnd">
+                        <input class="open" type="button" value="查看回复"/>
+                    </div>
+                </div>
+                <div class="inbox-msgReplyList">
+                    <p>
+                        <span>xx留言：</span>
+                        Test
+                    </p>
+                </div>
+            </div>
+            <div id="inbox-sysEmailList" class="inbox-msgList">
+                <div class="list">
+                    <div class="list-head"></div>
+                    <div class="list-item list-item-active hover">C型样本</div>
+                    <div class="list-item list-item-active hover">C型样本</div>
+                    <div class="list-item list-item-active hover">C型样本</div>
+                    <div class="list-item list-item-active hover">C型样本</div>
+                    <div class="list-item list-item-active hover">C型样本</div>
+                    <div class="list-item list-item-active hover">C型样本</div>
+                </div>
+                <div class="xian" style="position: relative;left: -300px;">
+                    <div class="page">
+                        <span style="margin-left: -50px;position: relative;left: -100px;"></span>共<span></span>条记录&nbsp;每页<span
+                    ></span>条&nbsp;现在<span></span>/<span
+                            t></span>页
+                        <a id="index"
+                           href="#">首页</a>
+                        <a href="#"
+                           id="top">上一页</a>
+                        <a href="#"
+                           id="bottom">下一页</a>
+                        <a id="last"
+                           href="#">尾页</a>
+                    </div>
+                    <style type="text/css">
+                        .page a {
+                            background-color: #d9d9d9;
+                            padding: 4px 12px;
+                            border-radius: 2px;
+                        }
+
+                        .page a:hover {
+                            background-color: #c7c7c7;
+                        }
+                    </style>
+                </div>
+            </div>
+            <div id="inbox-emailDetail" class="inbox-msgDetail">
+                <div class="inbox-msgDetail-header">
+                    <input class="inbox-msgDetail-close" type="button" value="返回"/>
+                    <h3>信息详情</h3>
+                </div>
+                <div class="inbox-msgDetail-content">
+                    <div class="inbox-msgTitle">
+                        <label>标题</label>
+                        <p></p>
+                    </div>
+                    <div class="inbox-msgContent">
+                        <label>内容</label>
+                        <p></p>
+                    </div>
+                    <div class="inbox-msgEnd">
+                        <input class="inbox-msgDetail-close" type="button" value="确定"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="mask-mask"></div>
+</div>
+
+
+<div class="footer">
+    <p>@版权所有 北大青鸟 鸿鹄狮鹫</p>
+</div>
+<script language="javascript">
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+</script>
+<script src="css/user.js"></script>
+</body>
+</html>

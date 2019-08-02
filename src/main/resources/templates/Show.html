@@ -562,9 +562,9 @@
             $(".Shop7z_comment").css("display", "block");
         })
         $("#comment").click(function () {
-            $(".Shop7z_comment").css("display", "none")
-            $("#7z_comment").css("display", "block")
-        })
+            $(".Shop7z_comment").css("display", "none");
+            $("#7z_comment").css("display", "block");
+        });
     })
 </script>
 <script type="application/javascript">
@@ -584,7 +584,7 @@
                 dataType: "json",//ajax接口（请求url）返回的数据类型·
                 success: function (date) {//data：返回数据（json对象）
                     if (date == 1) {
-                        alert("发布求购商品信息成功，跳转至求购信息广场！");
+                        alert("加入购物车成功，正在跳转至购物车查看");
                         window.location.href = "/findShopList?userId=" + uid;
                     } else {
                         alert("发布求购商品信息失败!");

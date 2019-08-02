@@ -30,6 +30,16 @@ public class UserInfoService {
     }
 
     /**
+     * 判断用户的身份证是否唯一
+     *
+     * @param userinfo
+     * @return
+     */
+    public int findUserInfoIsNonEmpty(Userinfo userinfo) {
+        return userinfoMapper.findUserInfoIsNonEmpty(userinfo);
+    }
+
+    /**
      * 用户注册功能
      *
      * @param userinfoCutom
@@ -96,6 +106,7 @@ public class UserInfoService {
 
     /**
      * 判断用户是否被禁用
+     *
      * @param userinfo
      * @return
      */
@@ -103,7 +114,20 @@ public class UserInfoService {
         UserinfoCutom userInfoDateTime = userinfoMapper.findUserInfoDateTime(userinfo);
         return userInfoDateTime;
     }
-    public int update(Userinfo userinfoCutom){
-        return  userinfoMapper.updateTou(userinfoCutom);
+
+    public int update(Userinfo userinfoCutom) {
+        return userinfoMapper.updateTou(userinfoCutom);
+    }
+
+    /*追加功能*/
+
+    /**
+     * 点击回复查看用户的昵称
+     *
+     * @param id
+     * @return
+     */
+    public Userinfo findWantGoodsId3(int id) {
+        return userinfoMapper.findWantGoodsId4(id);
     }
 }

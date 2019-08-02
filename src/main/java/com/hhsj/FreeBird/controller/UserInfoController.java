@@ -86,6 +86,19 @@ public class UserInfoController {
     }
 
     /**
+     * 判断用户的身份证是否唯一
+     *
+     * @param userinfo
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/findUserInfoIsNonEmpty")
+    public int findUserInfoIsNonEmpty(Userinfo userinfo) {
+        int userInfoIsNonEmpty = userInfoService.findUserInfoIsNonEmpty(userinfo);
+        return userInfoIsNonEmpty;
+    }
+
+    /**
      * 判断用户输入的QQ邮箱是否注册过
      *
      * @param qq
@@ -98,6 +111,12 @@ public class UserInfoController {
         return count;
     }
 
+    /**
+     * 判断用户的手机号码是否一致。
+     *
+     * @param userinfo
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/findUserInfoPhone")
     public int findUserInfoPhone(Userinfo userinfo) {
@@ -196,6 +215,14 @@ public class UserInfoController {
         } else {
             return userInfoDateTime.getDateTime();
         }
+    }
+
+    /*追加功能*/
+    @ResponseBody
+    @RequestMapping(value = "/findWantGoodsId4")
+    public Userinfo findWantGoodsId3(int id) {
+        Userinfo wantGoodsId3 = userInfoService.findWantGoodsId3(id);
+        return wantGoodsId3;
     }
 
 }

@@ -58,7 +58,7 @@ public class controller {
 
     //退出登录
     @RequestMapping(value = "/login2")
-    public String show6(HttpSession session,Model model) {
+    public String show6(HttpSession session, Model model) {
         //退出登录然后清空session
         session.invalidate();
         int n = 4;
@@ -75,9 +75,14 @@ public class controller {
         model.addAttribute("yzm", result);
         return "login";
     }
+
     @RequestMapping(value = "/ListProvider")
-    public String show7(){
+    public String show7() {
         return "ListProvider";
     }
 
+    @RequestMapping(value = "/email")
+    public String email() {
+        return "email";
+    }
 }

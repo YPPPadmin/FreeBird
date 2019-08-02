@@ -98,19 +98,19 @@
 <div class="nav">
     <div class="nav_content">
         <div class="user">
-                <th:if th:if="${session.userinfoLogins==null}">
-                    <div class="car">
-                        <a th:href="@{/login}"><img src="images/car.png"></a>
-                        <span>0</span>
-                    </div>
-                </th:if>
-                <th:if th:if="${session.userinfoLogins!=null}">
-                    <div class="car">
-                        <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
-                                src="images/car.png"></a>
-                        <span th:text="${session.num}"></span>
-                    </div>
-                </th:if>
+            <th:if th:if="${session.userinfoLogins==null}">
+                <div class="car">
+                    <a th:href="@{/login}"><img src="images/car.png"></a>
+                    <span>0</span>
+                </div>
+            </th:if>
+            <th:if th:if="${session.userinfoLogins!=null}">
+                <div class="car">
+                    <a th:href="@{/findShopList(userId=${session.userinfoLogins.id},pageNum=1)}"><img
+                            src="images/car.png"></a>
+                    <span th:text="${session.num}"></span>
+                </div>
+            </th:if>
             <div class="userlogo">
                 <img src="images/icon-user_47dae1a.jpg">
                 <div class="user_meua">
@@ -267,7 +267,7 @@
                     </div>
                 </div>
                 <div class="part2" style="display:none">
-                    <div class="alert alert-info" style="width:700px">验证码已发送至您手机，请输入邮箱中的验证码，确保您的QQ邮箱真实有效。</div>
+                    <div class="alert alert-info" style="width:700px">请输入邮箱中的验证码，确保您的QQ邮箱真实有效。</div>
                     <div class="item col-xs-12 f-mb10" style="height:auto">
                         <span class="intelligent-label f-fl">QQ邮箱：</span>
                         <div class="f-fl item-ifo" style="position: relative;">
@@ -314,6 +314,17 @@
                         </div>
                     </div>
                     <div class="item col-xs-12">
+                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>身份证号：</span>
+                        <div class="f-fl item-ifo">
+                            <input type="text" class="txt03 f-r3 required " tabindex="2" data-valid="isNonEmpty||isCard"
+                                   data-error="身份证号不能为空||身份证号码格式不正确" maxlength="18" id="sfzhm"/>
+                            <span class="ie8 icon-close close hide"></span>
+                            <label class="icon-sucessfill blank hide"></label>
+                            <label class="focus">请填写18位有效的手机号码</label>
+                            <label class="focus valid"></label>
+                        </div>
+                    </div>
+                    <div class="item col-xs-12">
                         <span class="intelligent-label f-fl"><b class="ftx04">*</b>所在班级：</span>
                         <div class="f-fl item-ifo">
                             <select class="f-h39 txt03 f-r3 required" tabindex="6" data-valid="isNonEmpty"
@@ -356,8 +367,8 @@
                         <div class="f-fl item-ifo">
                             <select class="f-h39 txt03 f-r3 required" tabindex="5" data-valid="isNonEmpty"
                                     data-error="性别不能为空||性别不正确" id="gender" name="gender">
-                                <option value="1">男</option>
-                                <option value="0">女</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
                             </select>
                             <span class="ie8 icon-close close hide"></span>
                             <label class="icon-sucessfill blank hide"></label>
@@ -458,6 +469,7 @@
                 $(".part3").show();
             }
         });
+
         //第三页的确定按钮
         $("#btn_part3").click(function () {
             if (!verifyCheck._click()) return;
@@ -471,35 +483,54 @@
             var dormitory1 = $("#dormitory").val();
             var gender1 = $("#gender").val();
             var qq1 = $("#qq").val();
+            var idCarNo1 = $("#sfzhm").val();
             $.ajax({
                 type: "GET",//请求类型
-                url: "insertUserInfoAdd",//请求的url
+                url: "findUserInfoIsNonEmpty",//请求的url
                 data: {
-                    userName: username1,
-                    phone: phone1,
-                    password: password1,
-                    realName: realName1,
-                    class1: class11,
-                    sno: sno1,
-                    dormitory: dormitory1,
-                    gender: gender1,
-                    qq: qq1
+                    isNonEmpty: idCarNo1
                 },//请求参数
                 dataType: "json",//ajax接口（请求url）返回的数据类型·
                 success: function (date) {//data：返回数据（json对象）
-                    $(".part3").hide();
-                    $(".part4").show();
-                    $(".step li").eq(2).addClass("on");
-                    countdown({
-                        maxTime: 10,
-                        ing: function (c) {
-                            $("#times").text(c);
-                        },
-                        after: function () {
-                            window.location.href = "/index";
-                        }
-                    });
-                    alert("注册成功");
+                    if (date == 1) {
+                        alert("您的身份证已经被注册,请重新输入!");
+                    } else {
+                        $.ajax({
+                            type: "GET",//请求类型
+                            url: "insertUserInfoAdd",//请求的url
+                            data: {
+                                userName: username1,
+                                phone: phone1,
+                                password: password1,
+                                realName: realName1,
+                                class1: class11,
+                                sno: sno1,
+                                dormitory: dormitory1,
+                                gender: gender1,
+                                qq: qq1,
+                                isNonEmpty: idCarNo1
+                            },//请求参数
+                            dataType: "json",//ajax接口（请求url）返回的数据类型·
+                            success: function (date) {//data：返回数据（json对象）
+                                $(".part3").hide();
+                                $(".part4").show();
+                                $(".step li").eq(2).addClass("on");
+                                countdown({
+                                    maxTime: 10,
+                                    ing: function (c) {
+                                        $("#times").text(c);
+                                    },
+                                    after: function () {
+                                        window.location.href = "/index";
+                                    }
+                                });
+                                alert("注册成功");
+                            },
+                            error: function (date) {//当访问时候，404，500 等非200的错误状态码
+                                alert("系统错误请联系相关管理员！");
+                            }
+                        });
+                    }
                 },
                 error: function (date) {//当访问时候，404，500 等非200的错误状态码
                     alert("系统错误请联系相关管理员！");

@@ -25,6 +25,10 @@
     <script src="../js/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
+            $("#yx").click(function(){
+                window.location.href="email";
+            });
+
             $("#addProvider-close").click(closeAdd);
             $("#addProvider-submit").click(function () {
                 var remark1 = $("#remark").val();
@@ -154,7 +158,11 @@
                 <form method="post" th:action="@{/findGoodsInfoName}">
                     <input placeholder="搜索商品" required="true" name="name" type="text" id="myword">
                     <input type="image" src="images/search.png"
-                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;"></form>
+                           style="float:right;margin-top:6px; margin-right:6px;width:20px;height:20px;">
+                    <input type="image" src="images/yx.jpg" id="yx"
+                           style="float:right;margin-top:2px; margin-right:-195px;width:42px;height:25px;"/>
+                </form>
+
             </div>
         </div>
         <ul class="nav_link">
@@ -373,7 +381,7 @@
             </th:if>
             <th:if th:if="${session.userinfoLogins==null}">
                 <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
-                                                                                           alt=""></a></center>
+                                                                    alt=""></a></center>
             </th:if>
             <p class="goods_name">
                 <th:if th:if="${session.userinfoLogins!=null}">
@@ -417,7 +425,7 @@
             </th:if>
             <th:if th:if="${session.userinfoLogins==null}">
                 <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
-                                                                                           alt=""></a></center>
+                                                                    alt=""></a></center>
             </th:if>
 
             <p class="goods_name">
@@ -471,7 +479,7 @@
         <li th:each="good:${goodList}">
             <th:if th:if="${session.userinfoLogins==null}">
                 <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
-                                                                                           alt=""></a></center>
+                                                                    alt=""></a></center>
             </th:if>
             <th:if th:if="${session.userinfoLogins!=null}">
                 <center><a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}"
@@ -523,7 +531,7 @@
         <li th:each="good:${list}">
             <th:if th:if="${session.userinfoLogins==null}">
                 <center><a th:href="@{/login}" target="_blank"><img th:src="${good.image}"
-                                                                                           alt=""></a></center>
+                                                                    alt=""></a></center>
             </th:if>
             <th:if th:if="${session.userinfoLogins!=null}">
                 <center><a th:href="@{/goodInfo/{id}(id=${good.id},uId=${session.userinfoLogins.id})}"

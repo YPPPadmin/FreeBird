@@ -7,10 +7,15 @@
             resultType="com.hhsj.FreeBird.pojo.UserinfoCutom">
         SELECT * FROM userinfo u,userpwd p WHERE u.`Id`=p.`uId` AND  u.qq=#{qq} AND p.`Password` =#{password}
     </select>
+    <!--判断用户是否注册过这个身份证号码-->
+    <select id="findUserInfoIsNonEmpty" resultType="int" parameterType="com.hhsj.FreeBird.pojo.Userinfo">
+        SELECT COUNT(0) FROM userinfo WHERE isNonEmpty=#{isNonEmpty}
+    </select>
+
     <!--用户注册功能-->
     <insert id="insertUserInfoAdd" parameterType="com.hhsj.FreeBird.pojo.Userinfo">
-        INSERT INTO userinfo (`Modify`,UserName,Phone,RealName,Class1,Sno,Dormitory,Gender,CreatTime,Avatar,QQ,`status`,`dateTime`)
-        VALUES(#{modify},#{userName},#{phone},#{realName},#{class1},#{sno},#{dormitory},#{gender},#{creatTime},#{avatar},#{qq},#{status},#{dateTime})
+        INSERT INTO userinfo (`Modify`,UserName,Phone,RealName,Class1,Sno,Dormitory,Gender,CreatTime,Avatar,QQ,`status`,`dateTime`,`isNonEmpty`)
+        VALUES(#{modify},#{userName},#{phone},#{realName},#{class1},#{sno},#{dormitory},#{gender},#{creatTime},#{avatar},#{qq},#{status},#{dateTime},#{isNonEmpty})
     </insert>
     <!--用户注册密码功能（因为用户表和密码是分成两张表需要在写一个功能注册密码）-->
     <insert id="insertUserInfoPwd" parameterType="com.hhsj.FreeBird.pojo.Userpwd">
@@ -61,4 +66,10 @@
     <update id="updateTou" parameterType="com.hhsj.FreeBird.pojo.Userinfo">
         UPDATE userinfo SET userinfo.Avatar=#{avatar} where userinfo.Id=#{id}
     </update>
+
+    <!--追加功能-->
+    <!--查看用户的留言信息-->
+    <select id="findWantGoodsId4" parameterType="int" resultType="com.hhsj.FreeBird.pojo.Userinfo">
+        SELECT * FROM userinfo WHERE id=#{id}
+    </select>
 </mapper>

@@ -59,7 +59,7 @@
 
     <!--查询出用户要留言的用户名-->
     <select id="findWantGoodsId" parameterType="int" resultType="com.hhsj.FreeBird.pojo.WantGoodsCutom">
-         SELECT g.*,i.userName as userName FROM wantgoods g,userinfo i WHERE g.uid =i.id AND  g.id=#{id}
+         SELECT g.*,i.userName as userName,i.Id as id FROM wantgoods g,userinfo i WHERE g.uid =i.id AND  g.id=#{id}
     </select>
     <!--给发布求购信息的用户留言-->
     <insert id="AddWantGoodsMessage" parameterType="com.hhsj.FreeBird.pojo.Wantgoodsmessage">
@@ -70,6 +70,5 @@
         SELECT u.userName AS userName,u.Avatar AS avatar,u.qq,m.content,m.modify,g.name AS `name`,u.Id as id FROM wantgoods g,wantgoodsmessage m,userinfo u
         WHERE g.id=m.`Wid` AND m.uid=u.id AND g.`Id`=#{id} ORDER BY m.modify DESC
     </select>
-
 
 </mapper>

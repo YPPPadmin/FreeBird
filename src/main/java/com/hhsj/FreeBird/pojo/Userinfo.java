@@ -35,8 +35,18 @@ public class Userinfo implements Serializable {
 
     private Integer status;
 
+    private String isNonEmpty;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date dateTime;
+
+    public String getIsNonEmpty() {
+        return isNonEmpty;
+    }
+
+    public void setIsNonEmpty(String isNonEmpty) {
+        this.isNonEmpty = isNonEmpty;
+    }
 
     public Date getDateTime() {
         return dateTime;

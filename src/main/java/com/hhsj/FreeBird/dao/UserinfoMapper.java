@@ -17,6 +17,14 @@ public interface UserinfoMapper {
     UserinfoCutom findUserinfoLogin(UserinfoCutom userinfoCutom);
 
     /**
+     * 判断用户的身份证是否唯一
+     *
+     * @param userinfo
+     * @return
+     */
+    int findUserInfoIsNonEmpty(Userinfo userinfo);
+
+    /**
      * 用户注册功能
      *
      * @param userinfoCutom
@@ -66,5 +74,16 @@ public interface UserinfoMapper {
      * @return
      */
     UserinfoCutom findUserInfoDateTime(UserinfoCutom userinfoCutom);
+
     int updateTou(Userinfo userinfoCutom);
+
+    /*追加功能*/
+
+    /**
+     * 点击回复查看用户的昵称
+     *
+     * @param id
+     * @return
+     */
+    Userinfo findWantGoodsId4(int id);
 }
